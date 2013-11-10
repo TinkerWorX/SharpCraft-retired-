@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="EntryPoint.cs" />
     <Compile Include="IGamePlugin.cs" />
+    <Compile Include="Jass\JassCode.cs" />
     <Compile Include="Jass\JassHashtable.cs" />
     <Compile Include="Jass\JassUbersplat.cs" />
     <Compile Include="Jass\JassImage.cs" />
