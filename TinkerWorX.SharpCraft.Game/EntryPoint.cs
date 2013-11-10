@@ -13,10 +13,13 @@ namespace TinkerWorX.SharpCraft.Game
 {
     public class EntryPoint : IEntryPoint
     {
+        private PluginManager pluginManager;
+
         public EntryPoint(RemoteHooking.IContext context, String hackPath, String installPath)
         {
             try
             {
+                // Settings passed from the launcher.
                 WarcraftIII.HackPath = hackPath;
                 WarcraftIII.InstallPath = installPath;
 
@@ -29,8 +32,13 @@ namespace TinkerWorX.SharpCraft.Game
                 }
                 Trace.AutoFlush = true;
                 Debug.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
+                Debug.WriteLine("-------------------");
+                Debug.WriteLine(DateTime.Now);
 
-                Debug.WriteLine("Settings loaded!");
+                this.pluginManager = new PluginManager();
+                Debug.WriteLine("Loading plugins . . . ");
+                this.pluginManager.LoadPlugins(Path.Combine(WarcraftIII.HackPath, "plugins/"));
+                Debug.WriteLine(" - Done!");
             }
             catch (Exception exception)
             {
@@ -47,10 +55,13 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
+                Debug.WriteLine("Initializing WarcraftIII . . . ");
                 WarcraftIII.Initialize();
-                Debug.WriteLine("WarcraftIII intialized!");
+                Debug.WriteLine(" - Done!");
 
-                //TODO: Load plugins/addons.
+                Debug.WriteLine("Initializing plugins . . . ");
+                this.pluginManager.InitializePlugins();
+                Debug.WriteLine(" - Done!");
 
                 RemoteHooking.WakeUpProcess();
             }
