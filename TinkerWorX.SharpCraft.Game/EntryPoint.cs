@@ -26,9 +26,12 @@ namespace TinkerWorX.SharpCraft.Game
                 if (Settings.Current.IsDebugging)
                 {
                     Kernel32.AllocConsole();
+                    Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
                 }
+                Trace.AutoFlush = true;
+                Debug.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
 
-                Console.WriteLine("Settings loaded!");
+                Debug.WriteLine("Settings loaded!");
             }
             catch (Exception exception)
             {
@@ -46,7 +49,7 @@ namespace TinkerWorX.SharpCraft.Game
             try
             {
                 WarcraftIII.Initialize();
-                Console.WriteLine("WarcraftIII intialized!");
+                Debug.WriteLine("WarcraftIII intialized!");
 
                 //TODO: Load plugins/addons.
                 IGamePlugin experimentalPlugin = new Experimental();

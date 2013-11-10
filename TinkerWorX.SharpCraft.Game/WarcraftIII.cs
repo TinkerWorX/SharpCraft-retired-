@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Diagnostics;
 
 namespace TinkerWorX.SharpCraft.Game
 {
@@ -180,6 +181,7 @@ namespace TinkerWorX.SharpCraft.Game
         private static IntPtr CJassConstructorHook(IntPtr cJass)
         {
             var result = WarcraftIII.CJassConstructor(cJass);
+            Debug.WriteLine("WarcraftIII.CJassConstructor(cJass:{0})", new object[] { "0x" + cJass.ToString("X8") });
 
             WarcraftIII.Jass = result;
 
@@ -189,6 +191,7 @@ namespace TinkerWorX.SharpCraft.Game
         private static Int32 InitNativesHook()
         {
             var result = WarcraftIII.InitNatives();
+            Debug.WriteLine("WarcraftIII.InitNatives()");
 
             foreach (var native in customNatives)
             {
@@ -202,6 +205,7 @@ namespace TinkerWorX.SharpCraft.Game
         private static Boolean mapStarted = false;
         private static Int32 GameStateHook(IntPtr _this, Boolean endMap, Boolean endGame)
         {
+            Debug.WriteLine("WarcraftIII.GameStateHook(_this:{0}, endMap:{1}, endGame:{2})", new object[] { "0x" + _this.ToString("X8"), endMap, endGame });
             if (endGame)
             {
                 if (mapStarted)
