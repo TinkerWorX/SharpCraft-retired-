@@ -8,7 +8,6 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
-using TinkerWorX.SharpCraft.Game.Development;
 
 namespace TinkerWorX.SharpCraft.Game
 {
@@ -52,8 +51,6 @@ namespace TinkerWorX.SharpCraft.Game
                 Debug.WriteLine("WarcraftIII intialized!");
 
                 //TODO: Load plugins/addons.
-                IGamePlugin experimentalPlugin = new Experimental();
-                experimentalPlugin.Initialize();
 
                 RemoteHooking.WakeUpProcess();
             }
