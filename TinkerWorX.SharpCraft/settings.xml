@@ -1,0 +1,228 @@
+<!-- The instructions here are all for IDAPro versions 5.5 or 6.1 -->
+
+<!-- The version should be set to the version of the game the addresses works with -->
+<sharpcraft version="1.26.0.6401" debug="true">
+  <!-- 
+    First thing you need is to get the image base, and
+    note it down. This can be found by scrolling to the
+    top in an IDA View tab, usually the fifth line
+    looking like this:
+    .text:6F001000 ; Imagebase   : 6F000000
+    We need this, since all addresses must be rebased, which
+    basically means, we need the position relative to the
+    dll base, rather than the absolute memory position.
+  -->
+  <addresses>
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: "Deg2Rad". This should return one
+         result, looking similar to this:
+         .rdata:6F94B7DC  db 'Deg2Rad',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .rdata:6F94B7DC aDeg2rad        db 'Deg2Rad',0
+                         ^^^^^^^^
+      4. Press "x", to cross reference the string.
+         This should give you two results. Double-click the first.
+      5. You are now in a function that looks like this:
+      -> .text:6F3D4020 sub_6F3D4020    proc near               ; CODE XREF: .text:6F0085DAp
+         .text:6F3D4020                                         ; sub_6F3A2EC0+27Ep ...
+         .text:6F3D4020                 call    sub_6F453C00
+         .text:6F3D4025                 push    offset aRR      ; "(R)R"
+         .text:6F3D402A                 mov     edx, offset aDeg2rad ; "Deg2Rad"
+         .text:6F3D402F                 mov     ecx, offset loc_6F3B29D0
+      -> .text:6F3D4034                 call    sub_6F455110
+      6. sub_6F3D4020 is the init_natives function.
+      7. Using the image base, you rebase this address like this:
+         6F3D4020 - 6F000000 = 003D4020
+      8. sub_6F455110 is the bind_native function.
+      9. Using the image base, you rebase this address like this:
+         6F455110 - 6F000000 = 00455110
+    -->
+    <init_natives>003D4020</init_natives>
+    <bind_native>00455110</bind_native>
+    
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: "I2S". This should return one
+         result, looking similar to this:
+         .rdata:6F94B76C  db 'I2S',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .rdata:6F94B76C aI2s            db 'I2S',0
+                         ^^^^
+      4. Press "x", to cross reference the string.
+         This should give you two results. Double-click the first.
+      5. You are now in a function that looks like this:
+         .text:6F3D4129                 push    offset aIS      ; "(I)S"
+         .text:6F3D412E                 mov     edx, offset aI2s ; "I2S"
+      -> .text:6F3D4133                 mov     ecx, offset sub_6F3BAAA0
+         .text:6F3D4138                 call    sub_6F455110
+      6. sub_6F3BAAA0 is the I2S function, double-click it, and you'll
+         see something like the following:
+         .text:6F3BAAA0 sub_6F3BAAA0    proc near               ; DATA XREF: sub_6F3D4020+113o
+         .text:6F3BAAA0
+         .text:6F3BAAA0 var_104         = byte ptr -104h
+         .text:6F3BAAA0 var_4           = dword ptr -4
+         .text:6F3BAAA0 arg_0           = dword ptr  4
+         .text:6F3BAAA0
+         .text:6F3BAAA0                 sub     esp, 104h
+         .text:6F3BAAA6                 mov     eax, dword_6FAAE140
+         .text:6F3BAAAB                 xor     eax, esp
+         .text:6F3BAAAD                 mov     [esp+104h+var_4], eax
+         .text:6F3BAAB4                 mov     eax, [esp+104h+arg_0]
+         .text:6F3BAABB                 push    eax
+         .text:6F3BAABC                 push    offset aD_0     ; "%d"
+         .text:6F3BAAC1                 lea     ecx, [esp+10Ch+var_104]
+         .text:6F3BAAC5                 push    100h
+         .text:6F3BAACA                 push    ecx
+         .text:6F3BAACB                 call    Storm_578
+         .text:6F3BAAD0                 add     esp, 10h
+         .text:6F3BAAD3                 lea     ecx, [esp+104h+var_104]
+      -> .text:6F3BAAD6                 call    sub_6F3BAA20
+         .text:6F3BAADB                 mov     ecx, [esp+104h+var_4]
+         .text:6F3BAAE2                 xor     ecx, esp
+         .text:6F3BAAE4                 call    sub_6F7E1059
+         .text:6F3BAAE9                 add     esp, 104h
+         .text:6F3BAAEF                 retn
+         .text:6F3BAAEF sub_6F3BAAA0    endp
+      7. sub_6F3BAA20 is the string_to_jass_string_index function.
+      8. Using the image base, you rebase this address like this:
+         6F3BAA20 - 6F000000 = 003BAA20
+    -->
+    <string_to_jass_string_index>003BAA20</string_to_jass_string_index>
+    
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: "S2I". This should return one
+         result, looking similar to this:
+         .rdata:6F94B744  db 'S2I',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .rdata:6F94B744 aS2i            db 'S2I',0
+                         ^^^^
+      4. Press "x", to cross reference the string.
+         This should give you two results. Double-click the first.
+      5. You are now in a function that looks like this:
+         .text:6F3D4165                 push    offset aSI      ; "(S)I"
+         .text:6F3D416A                 mov     edx, offset aS2i ; "S2I"
+      -> .text:6F3D416F                 mov     ecx, offset sub_6F3B2D10
+         .text:6F3D4174                 call    sub_6F455110
+      6. sub_6F3B2D10 is the S2I function, double-click it, and you'll
+         see something like the following:
+         .text:6F3B2D10 sub_6F3B2D10    proc near               ; DATA XREF: sub_6F3D4020+14Fo
+         .text:6F3B2D10
+         .text:6F3B2D10 arg_0           = dword ptr  4
+         .text:6F3B2D10
+         .text:6F3B2D10                 mov     ecx, [esp+arg_0]
+      -> .text:6F3B2D14                 call    sub_6F4C4630
+         .text:6F3B2D19                 test    eax, eax
+         .text:6F3B2D1B                 jz      short loc_6F3B2D2C
+         .text:6F3B2D1D                 cmp     byte ptr [eax], 0
+         .text:6F3B2D20                 jz      short loc_6F3B2D2C
+         .text:6F3B2D22                 mov     [esp+arg_0], eax
+         .text:6F3B2D26                 jmp     ds:atoi
+         .text:6F3B2D2C
+         .text:6F3B2D2C loc_6F3B2D2C:                           ; CODE XREF: sub_6F3B2D10+Bj
+         .text:6F3B2D2C                                         ; sub_6F3B2D10+10j
+         .text:6F3B2D2C                 xor     eax, eax
+         .text:6F3B2D2E                 retn
+         .text:6F3B2D2E sub_6F3B2D10    endp
+      7. sub_6F4C4630 is the jass_string_handle_to_string function.
+      8. Using the image base, you rebase this address like this:
+         6F4C4630 - 6F000000 = 004C4630
+    -->
+    <jass_string_handle_to_string>004C4630</jass_string_handle_to_string>
+
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: ".\Jass.cpp". This should return one
+         result, looking similar to this:
+         .rdata:6F950EAC  db '.\Jass.cpp',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .rdata:6F950EAC a_Jass_cpp      db '.\Jass.cpp',0
+                         ^^^^^^^^^^
+      4. Press "x", to cross reference the string.
+         This should give you seven results. Double-click the first.
+      5. You are now in a function that looks like this:
+         .text:6F453C00 sub_6F453C00    proc near               ; CODE XREF: sub_6F3D4020p
+         .text:6F453C00                 mov     ecx, 5
+         .text:6F453C05                 call    sub_6F4C34D0
+         .text:6F453C0A                 test    eax, eax
+         .text:6F453C0C                 jnz     short locret_6F453C46
+         .text:6F453C0E                 push    eax
+         .text:6F453C0F                 push    29Ch
+         .text:6F453C14                 push    offset a_Jass_cpp ; ".\\Jass.cpp"
+         .text:6F453C19                 push    0B0h
+         .text:6F453C1E                 call    Storm_401
+         .text:6F453C23                 test    eax, eax
+         .text:6F453C25                 jz      short loc_6F453C3A
+         .text:6F453C27                 mov     ecx, eax
+      -> .text:6F453C29                 call    sub_6F453930
+         .text:6F453C2E                 mov     edx, eax
+         .text:6F453C30                 mov     ecx, 5
+         .text:6F453C35                 jmp     sub_6F4C34F0
+         .text:6F453C3A
+         .text:6F453C3A loc_6F453C3A:                           ; CODE XREF: sub_6F453C00+25j
+         .text:6F453C3A                 xor     eax, eax
+         .text:6F453C3C                 mov     edx, eax
+         .text:6F453C3E                 lea     ecx, [eax+5]
+         .text:6F453C41                 jmp     sub_6F4C34F0
+         .text:6F453C46
+         .text:6F453C46 locret_6F453C46:                        ; CODE XREF: sub_6F453C00+Cj
+         .text:6F453C46                 retn
+         .text:6F453C46 sub_6F453C00    endp
+      6. sub_6F453930 is the jass_constructor function.
+      7. Using the image base, you rebase this address like this:
+         6F453930 - 6F000000 = 00453930
+    -->
+    <jass_constructor>00453930</jass_constructor>
+    
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: ".?AUAgent2HandleReg@@". This should return one
+         result, looking similar to this:
+         .data:6FA7951C a_?auagent2hand db '.?AUAgent2HandleReg@@',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .data:6FA7951C a_?auagent2hand db '.?AUAgent2HandleReg@@',0
+                        ^^^^^^^^^^^^^^^
+      4. Press "x", to cross reference the string.
+         This should give you several results. Four of them are functions.
+      5. One of the functions will look like this:
+      -> .text:6F3A465F                 call    sub_6F3A3AD0
+         .text:6F3A4664                 push    1
+         .text:6F3A4666                 push    0FFFFFFFEh
+         .text:6F3A4668                 push    offset a_?auagent2hand ; ".?AUAgent2HandleReg@@"
+      6. Double click sub_6F3A3AD0.
+      7. You are now in a function that looks like this:
+         .text:6F3A3AD0 sub_6F3A3AD0    proc near
+         .text:6F3A3AD0
+         .text:6F3A3AD0
+         .text:6F3A3AD0 arg_0           = dword ptr  4
+         .text:6F3A3AD0 arg_4           = dword ptr  8
+         .text:6F3A3AD0
+         .text:6F3A3AD0                 push    ebx
+         .text:6F3A3AD1                 push    edi
+         .text:6F3A3AD2                 mov     edi, edx
+         .text:6F3A3AD4                 mov     ebx, ecx
+         .text:6F3A3AD6                 call    sub_6F442670
+         .text:6F3A3ADB                 mov     ecx, 0Dh
+         .text:6F3A3AE0                 call    sub_6F4C34D0
+         .text:6F3A3AE5                 mov     eax, [eax+10h]
+         .text:6F3A3AE8                 mov     ecx, [eax+18h]
+         .text:6F3A3AEB                 test    ecx, ecx
+         .text:6F3A3AED                 jz      short loc_6F3A3AFE
+         .text:6F3A3AEF                 mov     edx, [esp+8+arg_4]
+         .text:6F3A3AF3                 mov     eax, [esp+8+arg_0]
+         .text:6F3A3AF7                 push    edx
+         .text:6F3A3AF8                 push    eax
+      -> .text:6F3A3AF9                 call    sub_6F3A2EC0
+      8. sub_6F3A2EC0 is the game_state function.
+      7. Using the image base, you rebase this address like this:
+         6F3A2EC0 - 6F000000 = 003A2EC0
+    -->
+    <game_state>003A2EC0</game_state>
+  </addresses>
+</sharpcraft>
