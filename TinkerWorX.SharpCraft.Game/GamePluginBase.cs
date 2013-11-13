@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TinkerWorX.SharpCraft.Game
 {
-    public abstract class GamePluginBase
+    public abstract class GamePluginBase : MarshalByRefObject
     {
         public abstract String Name { get; }
 

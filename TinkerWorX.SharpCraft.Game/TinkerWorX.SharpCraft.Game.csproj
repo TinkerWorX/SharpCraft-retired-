@@ -29,6 +29,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>TinkerWorX.SharpCraft.Game.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="EasyHook">
       <HintPath>..\Assemblies\EasyHook.dll</HintPath>
@@ -155,6 +161,9 @@
       <Project>{156e24b3-3e07-4a94-973c-4f398ad70d4a}</Project>
       <Name>TinkerWorX.SharpCraft.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TinkerWorX.SharpCraft.Game.snk" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -10,7 +10,7 @@ namespace TinkerWorX.SharpCraft.Game.Jass
     {
         internal static readonly List<Native> AllNatives = new List<Native>();
 
-        public static Native FromString(String nativeName)
+        internal static Native FromString(String nativeName)
         {
             return Native.AllNatives.First(native => native.Name == nativeName);
         }

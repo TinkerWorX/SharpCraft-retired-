@@ -37,7 +37,7 @@ namespace TinkerWorX.SharpCraft.Game
 
                 this.pluginManager = new PluginManager();
                 Debug.WriteLine("Loading plugins . . . ");
-                this.pluginManager.LoadPlugins(Path.Combine(WarcraftIII.HackPath, "plugins/"));
+                this.pluginManager.LoadPlugins();
                 Debug.WriteLine(" - Done!");
             }
             catch (Exception exception)

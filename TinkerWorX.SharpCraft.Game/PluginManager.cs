@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Runtime.Remoting;
+using System.Security;
+using System.Security.Permissions;
+using System.Security.Policy;
 using System.Text;
 using Microsoft.CSharp;
 
@@ -11,7 +15,11 @@ namespace TinkerWorX.SharpCraft.Game
 {
     internal class PluginManager
     {
+        private String pluginsFolder;
+
         private List<GamePluginBase> plugins;
+
+        private List<String> pluginPaths;
 
         private CSharpCodeProvider provider;
 
@@ -20,6 +28,7 @@ namespace TinkerWorX.SharpCraft.Game
         public PluginManager()
         {
             this.plugins = new List<GamePluginBase>();
+            this.pluginPaths = new List<String>();
             this.provider = new CSharpCodeProvider();
             this.compilerParams = new CompilerParameters
             {
@@ -31,12 +40,14 @@ namespace TinkerWorX.SharpCraft.Game
             };
         }
 
-        public void LoadPlugins(String folder)
+        public void LoadPlugins()
         {
-            if (!Directory.Exists(folder))
+            this.pluginsFolder = Path.Combine(WarcraftIII.HackPath, "plugins");
+
+            if (!Directory.Exists(this.pluginsFolder))
                 return;
 
-            foreach (var file in Directory.GetFiles(folder))
+            foreach (var file in Directory.GetFiles(this.pluginsFolder))
             {
                 if (Path.GetExtension(file) == ".cs")
                     this.LoadPlugin(file);
@@ -53,14 +64,33 @@ namespace TinkerWorX.SharpCraft.Game
 
         private void LoadPlugin(String path)
         {
-            Debug.WriteLine(" . Compiling " + Path.GetFileName(path) + " . . .");
+            Debug.Write(" - - Compiling " + Path.GetFileNameWithoutExtension(path) + " . . . ");
             var results = this.CompilePlugin(path);
             if (results.Errors.HasErrors)
             {
-                Debug.WriteLine(" . - Failed!");
+                Debug.WriteLine("Failed! (script error)");
+                using (var stream = File.Open(Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".errors.log"), FileMode.Create, FileAccess.Write, FileShare.Write))
+                using (var writer = new StreamWriter(stream))
+                {
+                    foreach (var error in results.Errors)
+                    {
+                        writer.WriteLine(error.ToString());
+                    }
+                }
                 return;
             }
-            Debug.WriteLine(" . - Succes!");
+
+            // Convert the path URI to a normal path.
+            var localPath = new Uri(results.CompiledAssembly.CodeBase).LocalPath;
+            var pluginType = results.CompiledAssembly.GetTypes().FirstOrDefault(type => typeof(GamePluginBase).IsAssignableFrom(type));
+            if (pluginType == null)
+            {
+                Debug.WriteLine("Failed! (interface missing)");
+                return;
+            }
+            this.plugins.Add((GamePluginBase)AppDomain.CurrentDomain.CreateInstanceFrom(localPath, pluginType.FullName).Unwrap());
+
+            Debug.WriteLine("Success!");
         }
 
         public void InitializePlugins()

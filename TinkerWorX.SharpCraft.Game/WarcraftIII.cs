@@ -41,8 +41,8 @@ namespace TinkerWorX.SharpCraft.Game
         public static event MapStartEventHandler MapStart;
         public static event MapEndEventHandler MapEnd;
 
-        public static String HackPath { internal set; get; }
-        public static String InstallPath { internal set; get; }
+        internal static String HackPath;
+        internal static String InstallPath;
 
         internal static IntPtr Module;
 
@@ -313,6 +313,11 @@ namespace TinkerWorX.SharpCraft.Game
         public static void AddNative(Delegate function)
         {
             AddNative(function, function.Method.Name);
+        }
+
+        public static Native GetNative(String name)
+        {
+            return Native.FromString(name);
         }
     }
 }
