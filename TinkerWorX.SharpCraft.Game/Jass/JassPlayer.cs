@@ -8,28 +8,28 @@ namespace TinkerWorX.SharpCraft.Game.Jass
     {        
         // constant native GetLocalPlayer takes nothing returns player
         private delegate JassPlayer GetLocalPlayerPrototype();
-        private static GetLocalPlayerPrototype GetLocalPlayer = WarcraftIII.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerPrototype>();
+        private static GetLocalPlayerPrototype _GetLocalPlayer = WarcraftIII.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerPrototype>();
 
         // constant native Player takes integer number returns player
         private delegate JassPlayer PlayerPrototype(JassInteger number);
-        private static PlayerPrototype Player = WarcraftIII.GetNative("Player").ToDelegate<PlayerPrototype>();
+        private static PlayerPrototype _Player = WarcraftIII.GetNative("Player").ToDelegate<PlayerPrototype>();
 
         // native GetPlayerName takes player whichPlayer returns string
         private delegate JassStringRet GetPlayerNameDelegate(JassPlayer whichPlayer);
-        private static GetPlayerNameDelegate GetPlayerName = WarcraftIII.GetNative("GetPlayerName").ToDelegate<GetPlayerNameDelegate>();
+        private static GetPlayerNameDelegate _GetPlayerName = WarcraftIII.GetNative("GetPlayerName").ToDelegate<GetPlayerNameDelegate>();
 
         // native GetPlayerName takes player whichPlayer returns string
         private delegate void SetPlayerNameDelegate(JassPlayer whichPlayer, JassStringArg name);
-        private static SetPlayerNameDelegate SetPlayerName = WarcraftIII.GetNative("SetPlayerName").ToDelegate<SetPlayerNameDelegate>();
+        private static SetPlayerNameDelegate _SetPlayerName = WarcraftIII.GetNative("SetPlayerName").ToDelegate<SetPlayerNameDelegate>();
 
         public static JassPlayer FromLocal()
         {
-            return GetLocalPlayer();
+            return _GetLocalPlayer();
         }
 
         public static JassPlayer FromIndex(Int32 index)
         {
-            return Player(index);
+            return _Player(index);
         }
 
         private readonly IntPtr Handle;
@@ -39,10 +39,14 @@ namespace TinkerWorX.SharpCraft.Game.Jass
             this.Handle = handle;
         }
 
-        public String Name
+        public String GetName()
         {
-            get { return GetPlayerName(this); }
-            set { SetPlayerName(this, value); }
+            return _GetPlayerName(this);
+        }
+
+        public void SetName(String value)
+        {
+            _SetPlayerName(this, value);
         }
 
         public override String ToString()

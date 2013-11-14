@@ -103,40 +103,64 @@ namespace TinkerWorX.SharpCraft.Game.Jass
             this.Handle = handle;
         }
 
-        public Single X
+        public Single GetX()
         {
-            get { return _GetUnitX(this); }
-            set { _SetUnitX(this, value); }
+            return _GetUnitX(this);
         }
 
-        public Single Y
+        public void SetX(Single value)
         {
-            get { return _GetUnitY(this); }
-            set { _SetUnitY(this, value); }
+            _SetUnitX(this, value);
         }
 
-        public Single Life
+        public Single GetY()
         {
-            get { return _GetUnitState(this, JassUnitState.Life); }
-            set { _SetUnitState(this, JassUnitState.Life, value); }
+            return _GetUnitY(this);
         }
 
-        public Single MaxLife
+        public void SetY(Single value)
         {
-            get { return _GetUnitState(this, JassUnitState.MaxLife); }
-            set { _SetUnitState(this, JassUnitState.MaxLife, value); }
+            _SetUnitY(this, value);
         }
 
-        public Single Mana
+        public Single GetLife()
         {
-            get { return _GetUnitState(this, JassUnitState.Mana); }
-            set { _SetUnitState(this, JassUnitState.Mana, value); }
+            return _GetUnitState(this, JassUnitState.Life);
         }
 
-        public Single MaxMana
+        public void SetLife(Single value)
         {
-            get { return _GetUnitState(this, JassUnitState.MaxMana); }
-            set { _SetUnitState(this, JassUnitState.MaxMana, value); }
+            _SetUnitState(this, JassUnitState.Life, value);
+        }
+
+        public Single GetMaxLife()
+        {
+            return _GetUnitState(this, JassUnitState.MaxLife);
+        }
+
+        public void SetMaxLife(Single value)
+        {
+            _SetUnitState(this, JassUnitState.MaxLife, value);
+        }
+
+        public Single GetMana()
+        {
+            return _GetUnitState(this, JassUnitState.Mana);
+        }
+
+        public void SetMana(Single value)
+        {
+            _SetUnitState(this, JassUnitState.Mana, value);
+        }
+
+        public Single GetMaxMana()
+        {
+            return _GetUnitState(this, JassUnitState.MaxMana);
+        }
+
+        public void SetMaxMana(Single value)
+        {
+            _SetUnitState(this, JassUnitState.MaxMana, value);
         }
 
         public void Kill()
