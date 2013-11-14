@@ -64,11 +64,11 @@ namespace TinkerWorX.SharpCraft.Game
 
         private void LoadPlugin(String path)
         {
-            Debug.Write(" - - Compiling " + Path.GetFileNameWithoutExtension(path) + " . . . ");
+            Trace.Write(" - - Compiling " + Path.GetFileNameWithoutExtension(path) + " . . . ");
             var results = this.CompilePlugin(path);
             if (results.Errors.HasErrors)
             {
-                Debug.WriteLine("Failed! (script error)");
+                Trace.WriteLine("Failed! (script error)");
                 using (var stream = File.Open(Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + ".errors.log"), FileMode.Create, FileAccess.Write, FileShare.Write))
                 using (var writer = new StreamWriter(stream))
                 {
@@ -85,18 +85,22 @@ namespace TinkerWorX.SharpCraft.Game
             var pluginType = results.CompiledAssembly.GetTypes().FirstOrDefault(type => typeof(GamePluginBase).IsAssignableFrom(type));
             if (pluginType == null)
             {
-                Debug.WriteLine("Failed! (interface missing)");
+                Trace.WriteLine("Failed! (interface missing)");
                 return;
             }
             this.plugins.Add((GamePluginBase)AppDomain.CurrentDomain.CreateInstanceFrom(localPath, pluginType.FullName).Unwrap());
 
-            Debug.WriteLine("Success!");
+            Trace.WriteLine("Success!");
         }
 
         public void InitializePlugins()
         {
             foreach (var plugin in this.plugins)
+            {
+                Trace.Write(" - - Initializing \"" + plugin.Name + "\" . . . ");
                 plugin.Initialize();
+                Trace.WriteLine("Done!");
+            }
         }
     }
 }

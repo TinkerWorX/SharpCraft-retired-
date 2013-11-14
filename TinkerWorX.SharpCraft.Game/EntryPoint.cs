@@ -31,14 +31,14 @@ namespace TinkerWorX.SharpCraft.Game
                     Debug.Listeners.Add(new TextWriterTraceListener(Console.Out));
                 }
                 Trace.AutoFlush = true;
-                Debug.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
-                Debug.WriteLine("-------------------");
-                Debug.WriteLine(DateTime.Now);
+                Trace.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
+                Trace.WriteLine("-------------------");
+                Trace.WriteLine(DateTime.Now);
 
                 this.pluginManager = new PluginManager();
-                Debug.WriteLine("Loading plugins . . . ");
+                Trace.WriteLine("Loading plugins . . . ");
                 this.pluginManager.LoadPlugins();
-                Debug.WriteLine(" - Done!");
+                Trace.WriteLine(" - Done!");
             }
             catch (Exception exception)
             {
@@ -55,13 +55,13 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Debug.WriteLine("Initializing WarcraftIII . . . ");
+                Trace.WriteLine("Initializing WarcraftIII . . . ");
                 WarcraftIII.Initialize();
-                Debug.WriteLine(" - Done!");
+                Trace.WriteLine(" - Done!");
 
-                Debug.WriteLine("Initializing plugins . . . ");
+                Trace.WriteLine("Initializing plugins . . . ");
                 this.pluginManager.InitializePlugins();
-                Debug.WriteLine(" - Done!");
+                Trace.WriteLine(" - Done!");
 
                 RemoteHooking.WakeUpProcess();
             }
