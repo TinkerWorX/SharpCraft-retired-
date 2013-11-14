@@ -65,6 +65,8 @@ namespace TinkerWorX.SharpCraft.Game
         private static LocalHook cJassConstructorHook;
         private static LocalHook gameStateHook;
 
+        private static readonly List<Native> AllNatives = new List<Native>();
+
         private static readonly List<Native> customNatives = new List<Native>();
 
         internal static void Initialize()
@@ -95,29 +97,29 @@ namespace TinkerWorX.SharpCraft.Game
             var offset = 0x05u;
             while (Marshal.ReadByte(new IntPtr((UInt32)baseAddress + offset)) == 0x68)
             {
-                Native.AllNatives.Add(new Native(new IntPtr((UInt32)baseAddress + offset)));
+                WarcraftIII.AllNatives.Add(new Native(new IntPtr((UInt32)baseAddress + offset)));
                 offset += 0x14;
             }
         }
 
         // Wrappers
 
-        internal static IntPtr CJassConstructor(IntPtr cJass)
+        private static IntPtr CJassConstructor(IntPtr cJass)
         {
             return WarcraftIII.cJassConstructor(cJass);
         }
 
-        internal static Int32 InitNatives()
+        private static Int32 InitNatives()
         {
             return WarcraftIII.initNatives();
         }
 
-        internal static Int32 GameState(IntPtr _this, Boolean endMap, Boolean endGame)
+        private static Int32 GameState(IntPtr _this, Boolean endMap, Boolean endGame)
         {
             return WarcraftIII.gameState(_this, endMap, endGame);
         }
 
-        internal static void BindNative(IntPtr functionPtr, String name, String prototype)
+        private static void BindNative(IntPtr functionPtr, String name, String prototype)
         {
             /* 
              * Manual implementation of a __cdecl function calling a __fastcall function.
@@ -152,7 +154,7 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        internal static void BindNative(Delegate function, String name, String prototype)
+        private static void BindNative(Delegate function, String name, String prototype)
         {
             BindNative(Marshal.GetFunctionPointerForDelegate(function), name, prototype);
         }
@@ -251,31 +253,31 @@ namespace TinkerWorX.SharpCraft.Game
 
         // Functions
 
-        internal static void OnGameStart()
+        private static void OnGameStart()
         {
             if (WarcraftIII.GameStart != null)
                 WarcraftIII.GameStart();
         }
 
-        internal static void OnGameEnd()
+        private static void OnGameEnd()
         {
             if (WarcraftIII.GameEnd != null)
                 WarcraftIII.GameEnd();
         }
 
-        internal static void OnMapStart()
+        private static void OnMapStart()
         {
             if (WarcraftIII.MapStart != null)
                 WarcraftIII.MapStart();
         }
 
-        internal static void OnMapEnd()
+        private static void OnMapEnd()
         {
             if (WarcraftIII.MapEnd != null)
                 WarcraftIII.MapEnd();
         }
 
-        internal static void AddNative(Native native)
+        private static void AddNative(Native native)
         {
             customNatives.Add(native);
         }
@@ -317,7 +319,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         public static Native GetNative(String name)
         {
-            return Native.FromString(name);
+            return WarcraftIII.AllNatives.First(native => native.Name == name);
         }
     }
 }

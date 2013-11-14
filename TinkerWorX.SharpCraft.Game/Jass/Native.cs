@@ -8,20 +8,13 @@ namespace TinkerWorX.SharpCraft.Game.Jass
 {
     public class Native
     {
-        internal static readonly List<Native> AllNatives = new List<Native>();
+        private readonly IntPtr FunctionPtr;
 
-        internal static Native FromString(String nativeName)
-        {
-            return Native.AllNatives.First(native => native.Name == nativeName);
-        }
+        public readonly Delegate Function;
 
-        internal readonly Delegate Function;
+        public readonly String Name;
 
-        internal readonly IntPtr FunctionPtr;
-
-        internal readonly String Name;
-
-        internal readonly String Prototype;
+        public readonly String Prototype;
 
         internal Native(IntPtr address)
         {
