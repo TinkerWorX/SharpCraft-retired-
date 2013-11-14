@@ -9,10 +9,6 @@ namespace TinkerWorX.ExamplePlugin
 {
     public class ExamplePlugin : GamePluginBase
     {
-        public override String Name { get { return "The Example Plugin"; } }
-
-        public override Version Version { get { return new Version(0, 0); } }
-
         //native Cheat takes string cheatStr returns nothing
         private delegate void CheatPrototype(JassStringArg cheatStr);
         private static CheatPrototype Cheat = WarcraftIII.GetNative("Cheat").ToDelegate<CheatPrototype>();
@@ -21,21 +17,47 @@ namespace TinkerWorX.ExamplePlugin
         private delegate void DisplayTextToPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassStringArg message);
         private static DisplayTextToPlayerPrototype DisplayTextToPlayer = WarcraftIII.GetNative("DisplayTextToPlayer").ToDelegate<DisplayTextToPlayerPrototype>();
 
+        public override String Name { get { return "The Example Plugin"; } }
+
+        public override Version Version { get { return new Version(0, 0); } }
+
+        private List<JassUnit> units = new List<JassUnit>();
+
+        private Single DegreeToRadian(Single angle)
+        {
+            return (Single)Math.PI * angle / 180.00f;
+        }
+
+        private Single RadianToDegree(Single angle)
+        {
+            return angle * (180.00f / (Single)Math.PI);
+        }
+
         public void CheatHook(JassStringArg cheatStr)
         {
             switch (cheatStr)
             {
                 case "mapinit":
                     DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "You started a map!");
+                    DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "Hit |cffffcc00ESC|r to spawn some units!");
                     break;
 
                 case "tick":
-
+                    const Single dt = 0.01f; // this is how often the timer is updating.
+                    const Single speed = 128.00f; // this is how far we want the unit to move per second.
+                    foreach (var unit in this.units)
+                    {
+                        var facing = unit.GetFacing();
+                        unit.SetX(unit.GetX() + speed * dt * (Single)Math.Cos(DegreeToRadian(facing)));
+                        unit.SetY(unit.GetY() + speed * dt * (Single)Math.Sin(DegreeToRadian(facing)));
+                    }
                     break;
 
                 case "esc":
-                    var footman1 = JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", 0, 0, 0);
-                    var footman2 = JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", 0, 0, 0);
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", 0, 0, 0));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", 0, 0, 0));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(2), (JassUnitId)"hfoo", 0, 0, 0));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(3), (JassUnitId)"hfoo", 0, 0, 0));
                     DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "You hit |cffffcc00ESC|r!");
                     break;
 
@@ -47,13 +69,15 @@ namespace TinkerWorX.ExamplePlugin
 
         public override void Initialize()
         {
+            WarcraftIII.MapStart += this.MapStart;
+
             // Override the original cheat native, so we can intercept calls.
             WarcraftIII.AddNative(new CheatPrototype(this.CheatHook), "Cheat");
+        }
 
-            WarcraftIII.GameStart += delegate { Console.WriteLine("GameStart"); };
-            WarcraftIII.MapStart += delegate { Console.WriteLine("MapStart"); };
-            WarcraftIII.MapEnd += delegate { Console.WriteLine("MapEnd"); };
-            WarcraftIII.GameEnd += delegate { Console.WriteLine("GameEnd"); };
+        public void MapStart()
+        {
+            this.units.Clear();
         }
     }
 }
