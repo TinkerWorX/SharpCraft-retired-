@@ -38,6 +38,10 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         private delegate void SetUnitYPrototype(JassUnit whichUnit, JassRealArg newY);
         private static SetUnitYPrototype _SetUnitY = WarcraftIII.GetNative("SetUnitY").ToDelegate<SetUnitYPrototype>();
 
+        // native SetUnitFacing takes unit whichUnit, real facingAngle returns nothing
+        private delegate void SetUnitFacingPrototype(JassUnit whichUnit, JassRealArg facingAngle);
+        private static SetUnitFacingPrototype _SetUnitFacing = WarcraftIII.GetNative("SetUnitFacing").ToDelegate<SetUnitFacingPrototype>();
+
         // native SetUnitState takes unit whichUnit, unitstate whichUnitState, real newVal returns nothing
         private delegate void SetUnitStatePrototype(JassUnit whichUnit, JassUnitState whichUnitState, JassRealArg newVal);
         private static SetUnitStatePrototype _SetUnitState = WarcraftIII.GetNative("SetUnitState").ToDelegate<SetUnitStatePrototype>();
@@ -49,6 +53,10 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         // constant native GetUnitY takes unit whichUnit returns real
         private delegate JassRealRet GetUnitYPrototype(JassUnit whichUnit);
         private static GetUnitYPrototype _GetUnitY = WarcraftIII.GetNative("GetUnitY").ToDelegate<GetUnitYPrototype>();
+
+        // constant native GetUnitFacing takes unit whichUnit returns real
+        private delegate JassRealRet GetUnitFacingPrototype(JassUnit whichUnit);
+        private static GetUnitFacingPrototype _GetUnitFacing = WarcraftIII.GetNative("GetUnitFacing").ToDelegate<GetUnitFacingPrototype>();
 
         // constant native GetUnitState takes unit whichUnit, unitstate whichUnitState returns real
         private delegate JassRealRet GetUnitStatePrototype(JassUnit whichUnit, JassUnitState whichUnitState);
@@ -121,6 +129,16 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         public void SetY(Single value)
         {
             _SetUnitY(this, value);
+        }
+
+        public Single GetFacing()
+        {
+            return _GetUnitFacing(this);
+        }
+
+        public void SetFacing(Single value)
+        {
+            _SetUnitFacing(this, value);
         }
 
         public Single GetLife()
