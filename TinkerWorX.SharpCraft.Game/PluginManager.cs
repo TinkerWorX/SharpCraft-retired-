@@ -35,6 +35,7 @@ namespace TinkerWorX.SharpCraft.Game
                 ReferencedAssemblies = {
                     "System.dll",
                     "System.Core.dll",
+                    Path.Combine(WarcraftIII.HackPath, "EasyHook.dll"),
                     Path.Combine(WarcraftIII.HackPath, "SharpCraft.Game.dll")
                 }
             };
