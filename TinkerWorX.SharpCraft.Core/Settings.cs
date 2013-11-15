@@ -71,5 +71,9 @@ namespace TinkerWorX.SharpCraft.Core
         [XmlElement("game_state")]
         public String GameStateValue = "003A2EC0";
         public IntPtr GameState { get { return (IntPtr)Int32.Parse(this.GameStateValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("mouse")]
+        public String MouseValue = "00398EA0";
+        public IntPtr Mouse { get { return (IntPtr)Int32.Parse(this.MouseValue, NumberStyles.HexNumber); } }
     }
 }
