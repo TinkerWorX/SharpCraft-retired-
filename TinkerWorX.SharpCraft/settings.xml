@@ -224,5 +224,56 @@
          6F3A2EC0 - 6F000000 = 003A2EC0
     -->
     <game_state>003A2EC0</game_state>
+
+    <!--
+      1. Hit "Alt + B" to search for the following byte sequence, 
+         including the quotes: ".\CBuildFrame.cpp". This should return one
+         result, looking similar to this:
+         .rdata:6F9418A0 a_Cbuildframe_c db '.\CBuildFrame.cpp',0
+      2. Double click the result. (Only in IDAPro 5.5)
+      3. Place the cursor in the following part of the line:
+         .rdata:6F9418A0 a_Cbuildframe_c db '.\CBuildFrame.cpp',0
+                         ^^^^^^^^^^^^^^^
+      4. Press "x", to cross reference the string.
+         This should give you one result.
+      5. Now the next part can be a bit tricky, but first you head to the
+         start of the function. It'll look something like this:
+         .text:6F39D5E0 sub_6F39D5E0    proc near
+         .text:6F39D5E0
+         .text:6F39D5E0 var_58          = dword ptr -58h
+         .text:6F39D5E0 var_54          = dword ptr -54h
+         .text:6F39D5E0 var_50          = dword ptr -50h
+         .text:6F39D5E0 var_4C          = dword ptr -4Ch
+         .text:6F39D5E0 var_34          = dword ptr -34h
+         .text:6F39D5E0 var_30          = dword ptr -30h
+         .text:6F39D5E0 var_2C          = dword ptr -2Ch
+         .text:6F39D5E0 var_28          = dword ptr -28h
+         .text:6F39D5E0 var_24          = dword ptr -24h
+         .text:6F39D5E0 var_20          = dword ptr -20h
+         .text:6F39D5E0 var_1C          = dword ptr -1Ch
+         .text:6F39D5E0 var_18          = dword ptr -18h
+         .text:6F39D5E0 var_14          = dword ptr -14h
+         .text:6F39D5E0 var_10          = dword ptr -10h
+         .text:6F39D5E0 var_C           = dword ptr -0Ch
+         .text:6F39D5E0 var_4           = dword ptr -4
+         .text:6F39D5E0 arg_0           = dword ptr  4
+         .text:6F39D5E0 arg_4           = dword ptr  8
+         .text:6F39D5E0 arg_8           = dword ptr  0Ch
+         .text:6F39D5E0 arg_C           = dword ptr  10h
+      6. Next you scroll down until you find the first loc identifier.
+         It'll look something like this.
+       ->.text:6F39D6BD                 call    sub_6F398EA0
+         .text:6F39D6C2                 test    eax, eax
+         .text:6F39D6C4                 jz      loc_6F39D898
+         .text:6F39D6CA
+         .text:6F39D6CA loc_6F39D6CA:
+         .text:6F39D6CA                 mov     eax, [esp+48h+var_28]
+         .text:6F39D6CE                 mov     ecx, [esp+48h+var_24]
+         .text:6F39D6D2                 mov     edx, [esp+48h+var_20]
+      7. sub_6F3A2EC0 is the mouse function.
+      8. Using the image base, you rebase this address like this:
+         6F3A2EC0 - 6F000000 = 00398EA0
+    -->
+    <mouse>00398EA0</mouse>
   </addresses>
 </sharpcraft>
