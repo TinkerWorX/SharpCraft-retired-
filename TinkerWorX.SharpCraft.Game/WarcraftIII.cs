@@ -34,6 +34,9 @@ namespace TinkerWorX.SharpCraft.Game
     [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A normal __thiscall function.
     internal delegate Int32 GameStatePrototype(IntPtr _this, Boolean endMap, Boolean endGame);
 
+    [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A normal __thiscall function.
+    internal delegate Boolean MousePrototype(IntPtr _this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4);
+
     public static class WarcraftIII
     {
         public static event GameStartEventHandler GameStart;
@@ -41,10 +44,15 @@ namespace TinkerWorX.SharpCraft.Game
         public static event MapStartEventHandler MapStart;
         public static event MapEndEventHandler MapEnd;
 
-        internal static String HackPath;
-        internal static String InstallPath;
+        public static Vector2 Mouse { internal set; get; }
+        public static Vector2 MouseUI { internal set; get; }
+        public static Vector3 MouseTerrain { internal set; get; }
+        public static Boolean IsMouseOverUI { internal set; get; }
 
-        internal static IntPtr Module;
+        public static String HackPath { internal set; get; }
+        public static String InstallPath { internal set; get; }
+
+        public static IntPtr Module { internal set; get; }
 
         private static IntPtr Jass;
 
@@ -54,16 +62,19 @@ namespace TinkerWorX.SharpCraft.Game
         private static IntPtr stringToJassStringIndexPtr;
         private static IntPtr jassStringHandleToStringPtr;
         private static IntPtr bindNativePtr;
+        private static IntPtr mousePtr;
 
         private static InitNativesPrototype initNatives;
         private static CJassConstructorPrototype cJassConstructor;
         private static GameStatePrototype gameState;
         private static StringToJassStringIndexPrototype stringToJassStringIndex;
         private static JassStringHandleToStringPrototype jassStringHandleToString;
+        private static MousePrototype mouse;
 
         private static LocalHook initNativesHook;
         private static LocalHook cJassConstructorHook;
         private static LocalHook gameStateHook;
+        private static LocalHook mouseHook;
 
         private static readonly List<Native> AllNatives = new List<Native>();
 
@@ -79,19 +90,33 @@ namespace TinkerWorX.SharpCraft.Game
             WarcraftIII.jassStringHandleToStringPtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.JassStringHandleToString);
             WarcraftIII.cJassConstructorPtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.JassConstructor);
             WarcraftIII.gameStatePtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.GameState);
+            WarcraftIII.mousePtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.Mouse);
 
+            Trace.WriteLine(" - - Fetching function pointer for InitNatives");
             WarcraftIII.initNatives = (InitNativesPrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.initNativesPtr, typeof(InitNativesPrototype));
+            Trace.WriteLine(" - - Fetching function pointer for StringToJassStringIndex");
             WarcraftIII.stringToJassStringIndex = (StringToJassStringIndexPrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.stringToJassStringIndexPtr, typeof(StringToJassStringIndexPrototype));
+            Trace.WriteLine(" - - Fetching function pointer for JassStringHandleToString");
             WarcraftIII.jassStringHandleToString = (JassStringHandleToStringPrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.jassStringHandleToStringPtr, typeof(JassStringHandleToStringPrototype));
+            Trace.WriteLine(" - - Fetching function pointer for CJassConstructor");
             WarcraftIII.cJassConstructor = (CJassConstructorPrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.cJassConstructorPtr, typeof(CJassConstructorPrototype));
+            Trace.WriteLine(" - - Fetching function pointer for GameState");
             WarcraftIII.gameState = (GameStatePrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.gameStatePtr, typeof(GameStatePrototype));
+            Trace.WriteLine(" - - Fetching function pointer for Mouse");
+            WarcraftIII.mouse = (MousePrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.mousePtr, typeof(MousePrototype));
 
+            Trace.WriteLine(" - - Installing InitNatives hook to: 0x" + WarcraftIII.initNativesPtr.ToString("X8"));
             WarcraftIII.initNativesHook = LocalHook.Create(WarcraftIII.initNativesPtr, new InitNativesPrototype(WarcraftIII.InitNativesHook), null);
             WarcraftIII.initNativesHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+            Trace.WriteLine(" - - Installing CJassConstructor hook to: 0x" + WarcraftIII.cJassConstructorPtr.ToString("X8"));
             WarcraftIII.cJassConstructorHook = LocalHook.Create(WarcraftIII.cJassConstructorPtr, new CJassConstructorPrototype(WarcraftIII.CJassConstructorHook), null);
             WarcraftIII.cJassConstructorHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+            Trace.WriteLine(" - - Installing GameState hook to: 0x" + WarcraftIII.gameStatePtr.ToString("X8"));
             WarcraftIII.gameStateHook = LocalHook.Create(WarcraftIII.gameStatePtr, new GameStatePrototype(WarcraftIII.GameStateHook), null);
             WarcraftIII.gameStateHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+            Trace.WriteLine(" - - Installing MouseHook hook to: 0x" + WarcraftIII.mousePtr.ToString("X8"));
+            WarcraftIII.mouseHook = LocalHook.Create(WarcraftIII.mousePtr, new MousePrototype(WarcraftIII.MouseHook), null);
+            WarcraftIII.mouseHook.ThreadACL.SetExclusiveACL(new[] { 0 });
 
             var baseAddress = WarcraftIII.initNativesPtr;
             var offset = 0x05u;
@@ -249,6 +274,17 @@ namespace TinkerWorX.SharpCraft.Game
             }
 
             return WarcraftIII.GameState(_this, endMap, endGame);
+        }
+
+        private static Boolean MouseHook(IntPtr _this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4)
+        {
+            var result = mouse(_this, uiX, uiY, terrainPtr, a4);
+
+            WarcraftIII.IsMouseOverUI = result;
+            WarcraftIII.MouseUI = new Vector2(uiX, uiY);
+            WarcraftIII.MouseTerrain = (Vector3)Marshal.PtrToStructure(terrainPtr, typeof(Vector3));
+
+            return result;
         }
 
         // Functions
