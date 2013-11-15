@@ -39,7 +39,7 @@ namespace TinkerWorX.ExamplePlugin
             {
                 case "mapinit":
                     DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "You started a map!");
-                    DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "Hit |cffffcc00ESC|r to spawn some units!");
+                    DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "Hit |cffffcc00ESC|r to spawn some units under your cursor!");
                     break;
 
                 case "tick":
@@ -54,10 +54,11 @@ namespace TinkerWorX.ExamplePlugin
                     break;
 
                 case "esc":
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", 0, 0, 0));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", 0, 0, 0));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(2), (JassUnitId)"hfoo", 0, 0, 0));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(3), (JassUnitId)"hfoo", 0, 0, 0));
+                    var random = new Random();
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(2), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(3), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
                     DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "You hit |cffffcc00ESC|r!");
                     break;
 
