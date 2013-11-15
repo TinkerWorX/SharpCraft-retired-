@@ -32,6 +32,14 @@ event WarcraftIII.MapStarted;
 event WarcraftIII.MapEnded;
 ```
 
+The following structs can be used to fetch the UI coordinates and the ingame terrain coordinates.
+
+```csharp
+Vector2 WarcraftIII.MouseUI;
+Vector3 WarcraftIII.MouseTerrain;
+Boolean WarcraftIII.IsMouseOverUI;
+```
+
 Credits
 =======
  * MindWorX - for all initial development of SharpCraft
