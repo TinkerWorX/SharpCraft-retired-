@@ -10,7 +10,7 @@ namespace TinkerWorX.SharpCraft
 {
     internal static class Program
     {
-        private static Version version = new Version(1, 0, 0, 0);
+        private static Version version = new Version(1, 1, 0, 0);
 
         private static String installPath;
 
