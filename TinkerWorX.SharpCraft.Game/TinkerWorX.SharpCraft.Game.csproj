@@ -159,6 +159,10 @@
     <Compile Include="WarcraftIII.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Lidgren.Network\Lidgren.Network.csproj">
+      <Project>{49ba1c69-6104-41ac-a5d8-b54fa9f696e8}</Project>
+      <Name>Lidgren.Network</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TinkerWorX.SharpCraft.Core\TinkerWorX.SharpCraft.Core.csproj">
       <Project>{156e24b3-3e07-4a94-973c-4f398ad70d4a}</Project>
       <Name>TinkerWorX.SharpCraft.Core</Name>

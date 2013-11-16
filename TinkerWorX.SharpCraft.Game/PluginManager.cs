@@ -36,6 +36,7 @@ namespace TinkerWorX.SharpCraft.Game
                     "System.dll",
                     "System.Core.dll",
                     Path.Combine(WarcraftIII.HackPath, "EasyHook.dll"),
+                    Path.Combine(WarcraftIII.HackPath, "Lidgren.Network.dll"),
                     Path.Combine(WarcraftIII.HackPath, "SharpCraft.Game.dll")
                 }
             };
