@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Security;
 using System.Xml.Serialization;
 
 namespace TinkerWorX.SharpCraft.Core
@@ -41,6 +42,9 @@ namespace TinkerWorX.SharpCraft.Core
 
         [XmlAttribute("debug")]
         public Boolean IsDebugging = false;
+
+        [XmlAttribute("security_zone")]
+        public SecurityZone SecurityZone = SecurityZone.Untrusted;
 
         [XmlElement("addresses")]
         public SettingsAddresses Addresses = new SettingsAddresses();

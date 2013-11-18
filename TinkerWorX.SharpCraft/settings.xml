@@ -1,7 +1,7 @@
 <!-- The instructions here are all for IDAPro versions 5.5 or 6.1 -->
 
 <!-- The version should be set to the version of the game the addresses works with -->
-<sharpcraft version="1.26.0.6401" debug="true">
+<sharpcraft version="1.26.0.6401" debug="true" security_zone="Untrusted">
   <!-- 
     First thing you need is to get the image base, and
     note it down. This can be found by scrolling to the
