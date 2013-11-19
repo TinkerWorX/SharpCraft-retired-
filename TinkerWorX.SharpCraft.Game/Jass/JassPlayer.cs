@@ -3,9 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
+    [Serializable]
     [JassType("Hplayer;")]
     public struct JassPlayer
     {        
+        /*
+
         // constant native GetLocalPlayer takes nothing returns player
         private delegate JassPlayer GetLocalPlayerPrototype();
         private static GetLocalPlayerPrototype _GetLocalPlayer = WarcraftIII.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerPrototype>();
@@ -32,13 +35,17 @@ namespace TinkerWorX.SharpCraft.Game.Jass
             return _Player(index);
         }
 
-        private readonly IntPtr Handle;
+        */
+
+        public readonly IntPtr Handle;
 
         public JassPlayer(IntPtr handle)
         {
             this.Handle = handle;
         }
 
+        /*
+        
         public String GetName()
         {
             return _GetPlayerName(this);
@@ -48,6 +55,8 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         {
             _SetPlayerName(this, value);
         }
+        
+        */
 
         public override String ToString()
         {

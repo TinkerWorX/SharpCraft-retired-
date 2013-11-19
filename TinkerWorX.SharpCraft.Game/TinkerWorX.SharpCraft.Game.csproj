@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,9 +50,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameAPI.cs" />
+    <Compile Include="IGameAPI.cs" />
+    <Compile Include="GamePluginBase.cs" />
     <Compile Include="Vector3.cs" />
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="GamePluginBase.cs" />
     <Compile Include="Jass\JassCode.cs" />
     <Compile Include="Jass\JassHashtable.cs" />
     <Compile Include="Jass\JassUbersplat.cs" />

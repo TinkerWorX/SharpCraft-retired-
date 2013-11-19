@@ -11,6 +11,6 @@ namespace TinkerWorX.SharpCraft.Game
 
         public abstract Version Version { get; }
 
-        public virtual void Initialize() { }
+        public abstract void Initialize(IGameAPI api);
     }
 }

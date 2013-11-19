@@ -357,5 +357,21 @@ namespace TinkerWorX.SharpCraft.Game
         {
             return WarcraftIII.AllNatives.First(native => native.Name == name);
         }
+
+        public static Native GetNativeEx(String name)
+        {
+            var baseAddress = WarcraftIII.initNativesPtr;
+
+            var offset = 0x05u;
+            while (Marshal.ReadByte(new IntPtr((UInt32)baseAddress + offset)) == 0x68)
+            {
+                var native = new Native(new IntPtr((UInt32)baseAddress + offset));
+                if (native.Name == name)
+                    return native;
+                offset += 0x14;
+            }
+
+            return null;
+        }
     }
 }

@@ -34,11 +34,6 @@ namespace TinkerWorX.SharpCraft.Game
                 Trace.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
                 Trace.WriteLine("-------------------");
                 Trace.WriteLine(DateTime.Now);
-
-                this.pluginManager = new PluginManager();
-                Trace.WriteLine("Loading plugins . . . ");
-                this.pluginManager.LoadPlugins();
-                Trace.WriteLine(" - Done!");
             }
             catch (Exception exception)
             {
@@ -57,6 +52,11 @@ namespace TinkerWorX.SharpCraft.Game
             {
                 Trace.WriteLine("Initializing WarcraftIII . . . ");
                 WarcraftIII.Initialize();
+                Trace.WriteLine(" - Done!");
+
+                this.pluginManager = new PluginManager();
+                Trace.WriteLine("Loading plugins . . . ");
+                this.pluginManager.LoadPlugins();
                 Trace.WriteLine(" - Done!");
 
                 Trace.WriteLine("Initializing plugins . . . ");
