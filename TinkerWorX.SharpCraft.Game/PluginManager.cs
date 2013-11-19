@@ -60,13 +60,14 @@ namespace TinkerWorX.SharpCraft.Game
         {
             using (var reader = File.OpenText(path))
             {
+                this.compilerParams.OutputAssembly = Path.Combine(this.pluginsFolder, Path.GetFileNameWithoutExtension(path) + ".dll");
                 return this.provider.CompileAssemblyFromSource(this.compilerParams, reader.ReadToEnd());
             }
         }
 
         private void LoadPlugin(String path)
         {
-            Trace.Write(" - - Compiling " + Path.GetFileNameWithoutExtension(path) + " . . . ");
+            Trace.Write(" - - Compiling " + Path.GetFileName(path) + " . . . ");
             var results = this.CompilePlugin(path);
             if (results.Errors.HasErrors)
             {
