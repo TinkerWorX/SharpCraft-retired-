@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows.Forms;
+using Assembly = System.Reflection.Assembly;
 
 namespace TinkerWorX.SharpCraft.Game
 {
@@ -34,6 +35,9 @@ namespace TinkerWorX.SharpCraft.Game
                 Trace.Listeners.Add(new TextWriterTraceListener(Path.Combine(WarcraftIII.HackPath, "debug.log")));
                 Trace.WriteLine("-------------------");
                 Trace.WriteLine(DateTime.Now);
+
+                // temporary fix, to make it available for plugins.
+                AppDomain.CurrentDomain.Load("Lidgren.Network");
 
                 this.pluginManager = new PluginManager();
                 Trace.WriteLine("Loading plugins . . . ");
