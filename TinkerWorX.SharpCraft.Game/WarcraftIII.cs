@@ -341,7 +341,7 @@ namespace TinkerWorX.SharpCraft.Game
             }
             else
             {
-                attribute = (JassTypeAttribute)function.Method.ReturnType.GetType().GetCustomAttributes(typeof(JassTypeAttribute), true).Single();
+                attribute = (JassTypeAttribute)function.Method.ReturnType.GetCustomAttributes(typeof(JassTypeAttribute), true).Single();
                 prototype += attribute.TypeString;
             }
 
