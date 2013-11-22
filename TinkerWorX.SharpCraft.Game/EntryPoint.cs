@@ -36,8 +36,7 @@ namespace TinkerWorX.SharpCraft.Game
                 Trace.WriteLine("-------------------");
                 Trace.WriteLine(DateTime.Now);
 
-                // temporary fix, to make it available for plugins.
-                AppDomain.CurrentDomain.Load("Lidgren.Network");
+                AppDomain.CurrentDomain.AssemblyResolve += CurrentDomain_AssemblyResolve;
 
                 this.pluginManager = new PluginManager();
                 Trace.WriteLine("Loading plugins . . . ");
@@ -53,6 +52,22 @@ namespace TinkerWorX.SharpCraft.Game
                     this.GetType() + " (Constructor)", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Process.GetCurrentProcess().Kill();
             }
+        }
+
+        public Assembly CurrentDomain_AssemblyResolve(Object sender, ResolveEventArgs args)
+        {
+            // Convert name to filename
+            var file = args.Name.Split(',').First() + ".dll";
+
+            // Search root directory
+            if (File.Exists(Path.Combine(WarcraftIII.HackPath, file)))
+                return Assembly.LoadFrom(Path.Combine(WarcraftIII.HackPath, file));
+
+            // Search plugins directory
+            if (File.Exists(Path.Combine(Path.Combine(WarcraftIII.HackPath, "plugins"), file)))
+                return Assembly.LoadFrom(Path.Combine(Path.Combine(WarcraftIII.HackPath, "plugins"), file));
+
+            return null;
         }
 
         public void Run(RemoteHooking.IContext context, String hackPath, String installPath)
