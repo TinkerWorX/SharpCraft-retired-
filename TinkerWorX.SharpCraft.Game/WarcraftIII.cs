@@ -53,6 +53,7 @@ namespace TinkerWorX.SharpCraft.Game
         public static String InstallPath { internal set; get; }
 
         public static IntPtr Module { internal set; get; }
+        public static ProcessMemory Memory { internal set; get; }
 
         private static IntPtr Jass;
 
@@ -83,6 +84,7 @@ namespace TinkerWorX.SharpCraft.Game
         internal static void Initialize()
         {
             WarcraftIII.Module = Kernel32.GetModuleHandle("game.dll");
+            WarcraftIII.Memory = ProcessMemory.FromProcess(Process.GetCurrentProcess());
 
             WarcraftIII.initNativesPtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.InitNatives);
             WarcraftIII.bindNativePtr = new IntPtr((UInt32)WarcraftIII.Module + (UInt32)Settings.Current.Addresses.BindNative);
