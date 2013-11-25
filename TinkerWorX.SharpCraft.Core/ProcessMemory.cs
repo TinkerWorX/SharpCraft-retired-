@@ -42,13 +42,13 @@ namespace TinkerWorX.SharpCraft.Core
             this.buffer = Marshal.AllocHGlobal(8192);
         }
 
-        public T Read<T>(IntPtr address)
+        public T Read<T>(IntPtr address) where T : struct
         {
             Kernel32.ReadProcessMemory(this.ProcessHandle, address, this.buffer, Marshal.SizeOf(typeof(T)));
             return (T)Marshal.PtrToStructure(this.buffer, typeof(T));
         }
 
-        public void Write<T>(IntPtr address, T data)
+        public void Write<T>(IntPtr address, T data) where T : struct
         {
             Marshal.StructureToPtr(data, this.buffer, true);
             Kernel32.WriteProcessMemory(this.ProcessHandle, address, this.buffer, Marshal.SizeOf(typeof(T)));
