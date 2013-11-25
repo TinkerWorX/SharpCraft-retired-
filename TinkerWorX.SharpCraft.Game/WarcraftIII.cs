@@ -282,7 +282,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             var result = mouse(_this, uiX, uiY, terrainPtr, a4);
 
-            WarcraftIII.IsMouseOverUI = result;
+            WarcraftIII.IsMouseOverUI = !result;
             WarcraftIII.MouseUI = new Vector2(uiX, uiY);
             WarcraftIII.MouseTerrain = (Vector3)Marshal.PtrToStructure(terrainPtr, typeof(Vector3));
 
