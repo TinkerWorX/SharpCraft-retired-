@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using EasyHook;
 using TinkerWorX.SharpCraft.Core;
+using TinkerWorX.SharpCraft.Game.Jass;
 
 namespace TinkerWorX.SharpCraft.Game
 {
@@ -159,6 +160,30 @@ namespace TinkerWorX.SharpCraft.Game
         {
             if (WarcraftIII.MapEnd != null)
                 WarcraftIII.MapEnd();
+        }
+
+        [Obsolete("Warcraft.Jass.AddNative has been moved to WarcraftIII.Jass.AddNative. WarcraftIII.AddNative will be removed in version 2.")]
+        public static void AddNative(Delegate function, String name, String prototype)
+        {
+            WarcraftIII.Jass.AddNative(function, name, prototype);
+        }
+
+        [Obsolete("Warcraft.Jass.AddNative has been moved to WarcraftIII.Jass.AddNative. WarcraftIII.AddNative will be removed in version 2.")]
+        public static void AddNative(Delegate function, String name)
+        {
+            WarcraftIII.Jass.AddNative(function, name);
+        }
+
+        [Obsolete("Warcraft.Jass.AddNative has been moved to WarcraftIII.Jass.AddNative. WarcraftIII.AddNative will be removed in version 2.")]
+        public static void AddNative(Delegate function)
+        {
+            WarcraftIII.Jass.AddNative(function);
+        }
+
+        [Obsolete("Warcraft.Jass.AddNative has been moved to WarcraftIII.Jass.AddNative. WarcraftIII.AddNative will be removed in version 2.")]
+        public static Native GetNative(String name)
+        {
+            return WarcraftIII.Jass.GetNative(name);
         }
     }
 }
