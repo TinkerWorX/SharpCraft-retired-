@@ -13,14 +13,14 @@ Methods
 =======
 The following methods are for adding new natives.
 ```csharp
-void WarcraftIII.AddNative(Delegate native);
-void WarcraftIII.AddNative(Delegate native, String name);
-void WarcraftIII.AddNative(Delegate native, String name, String prototype);
+void WarcraftIII.Jass.AddNative(Delegate native);
+void WarcraftIII.Jass.AddNative(Delegate native, String name);
+void WarcraftIII.Jass.AddNative(Delegate native, String name, String prototype);
 ```
 The following method is used to get an existing native. The ```Native``` type provides a method to turn the native into a ```Delegate```. Please note that calling natives outside the JASS virtual-machines thread is unsafe.
 
 ```csharp
-Native WarcraftIII.GetNative(String name);
+Native WarcraftIII.Jass.GetNative(String name);
 ```
 
 The following methods can be used to perform initialization of systems and features in a plugin.
@@ -30,14 +30,22 @@ event WarcraftIII.GameStarted;
 event WarcraftIII.GameEnded;
 event WarcraftIII.MapStarted;
 event WarcraftIII.MapEnded;
+event WarcraftIII.Jass.OnPreConfig;
+event WarcraftIII.Jass.OnPostConfig;
+event WarcraftIII.Jass.OnPreMain;
+event WarcraftIII.Jass.OnPostMain;
 ```
 
-The following structs can be used to fetch the UI coordinates and the ingame terrain coordinates.
+The following can be used to detect and react to input.
 
 ```csharp
-Vector2 WarcraftIII.MouseUI;
-Vector3 WarcraftIII.MouseTerrain;
-Boolean WarcraftIII.IsMouseOverUI;
+Point2 WarcraftIII.Input.MouseWindow
+Vector2 WarcraftIII.Input.MouseUI;
+Vector3 WarcraftIII.Input.MouseTerrain;
+Boolean WarcraftIII.Input.IsMouseOverUI;
+event WarcraftIII.Input.MouseButton;;
+event WarcraftIII.Input.MouseWheel;
+event WarcraftIII.Input.KeyboardKey;
 ```
 
 Credits
