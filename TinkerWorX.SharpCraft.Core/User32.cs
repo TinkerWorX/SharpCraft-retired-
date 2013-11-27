@@ -22,6 +22,9 @@ namespace TinkerWorX.SharpCraft.Core
 
         [DllImport("user32.dll", SetLastError = true)]
         public static extern Boolean TranslateMessage(ref Message message);
+
+        [DllImport("user32.dll")]
+        public static extern Boolean SetCursorPos(Int32 X, Int32 Y);
     }
 
     public enum WindowsHookId

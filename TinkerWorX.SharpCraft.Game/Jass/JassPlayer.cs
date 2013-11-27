@@ -8,19 +8,19 @@ namespace TinkerWorX.SharpCraft.Game.Jass
     {        
         // constant native GetLocalPlayer takes nothing returns player
         private delegate JassPlayer GetLocalPlayerPrototype();
-        private static GetLocalPlayerPrototype _GetLocalPlayer = WarcraftIII.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerPrototype>();
+        private static GetLocalPlayerPrototype _GetLocalPlayer = WarcraftIII.Jass.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerPrototype>();
 
         // constant native Player takes integer number returns player
         private delegate JassPlayer PlayerPrototype(JassInteger number);
-        private static PlayerPrototype _Player = WarcraftIII.GetNative("Player").ToDelegate<PlayerPrototype>();
+        private static PlayerPrototype _Player = WarcraftIII.Jass.GetNative("Player").ToDelegate<PlayerPrototype>();
 
         // native GetPlayerName takes player whichPlayer returns string
         private delegate JassStringRet GetPlayerNameDelegate(JassPlayer whichPlayer);
-        private static GetPlayerNameDelegate _GetPlayerName = WarcraftIII.GetNative("GetPlayerName").ToDelegate<GetPlayerNameDelegate>();
+        private static GetPlayerNameDelegate _GetPlayerName = WarcraftIII.Jass.GetNative("GetPlayerName").ToDelegate<GetPlayerNameDelegate>();
 
         // native GetPlayerName takes player whichPlayer returns string
         private delegate void SetPlayerNameDelegate(JassPlayer whichPlayer, JassStringArg name);
-        private static SetPlayerNameDelegate _SetPlayerName = WarcraftIII.GetNative("SetPlayerName").ToDelegate<SetPlayerNameDelegate>();
+        private static SetPlayerNameDelegate _SetPlayerName = WarcraftIII.Jass.GetNative("SetPlayerName").ToDelegate<SetPlayerNameDelegate>();
 
         public static JassPlayer FromLocal()
         {

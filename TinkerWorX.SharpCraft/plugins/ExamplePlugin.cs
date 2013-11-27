@@ -55,10 +55,10 @@ namespace TinkerWorX.ExamplePlugin
 
                 case "esc":
                     var random = new Random();
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(2), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
-                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(3), (JassUnitId)"hfoo", WarcraftIII.MouseTerrain.X, WarcraftIII.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(0), (JassUnitId)"hfoo", WarcraftIII.Input.MouseTerrain.X, WarcraftIII.Input.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(1), (JassUnitId)"hfoo", WarcraftIII.Input.MouseTerrain.X, WarcraftIII.Input.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(2), (JassUnitId)"hfoo", WarcraftIII.Input.MouseTerrain.X, WarcraftIII.Input.MouseTerrain.Y, random.Next() * 360));
+                    this.units.Add(JassUnit.Create(JassPlayer.FromIndex(3), (JassUnitId)"hfoo", WarcraftIII.Input.MouseTerrain.X, WarcraftIII.Input.MouseTerrain.Y, random.Next() * 360));
                     DisplayTextToPlayer(JassPlayer.FromLocal(), 0, 0, "You hit |cffffcc00ESC|r!");
                     break;
 

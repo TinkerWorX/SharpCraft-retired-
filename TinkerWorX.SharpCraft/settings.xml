@@ -275,5 +275,40 @@
          6F3A2EC0 - 6F000000 = 00398EA0
     -->
     <mouse>00398EA0</mouse>
+    
+    <!--
+      1. Hit "Ctrl + L" and locate the function "SetWindowLongA", 
+      2. Double click the function.
+      3. Place the cursor in the following part of the line:
+        .idata:6F86D83C ; LONG __stdcall SetWindowLongA(HWND hWnd, int nIndex, LONG dwNewLong)
+                                         ^^^^^^^^^^^^^^
+      4. Press "x", to cross reference the function.
+         This should give you lots of results.
+      5. You need to check them one by one from the top until you find one with a push 0FFFFFFFCh right above.
+         In 1.26.0.6401 it was the third result from the top.
+         .text:6F52D08E                 call    ds:SetFocus
+         .text:6F52D094                 mov     eax, [esi+574h]
+         .text:6F52D09A                 push    0FFFFFFFCh      ; nIndex
+         .text:6F52D09C                 push    eax             ; hWnd
+         .text:6F52D09D                 call    ds:GetWindowLongA
+         .text:6F52D0A3                 mov     ecx, [esi+574h]
+       ->.text:6F52D0A9                 push    offset sub_6F52C9C0 ; dwNewLong
+         .text:6F52D0AE                 push    0FFFFFFFCh      ; nIndex
+         .text:6F52D0B0                 push    ecx             ; hWnd
+         .text:6F52D0B1                 mov     lpPrevWndFunc, eax
+         .text:6F52D0B6                 call    ds:SetWindowLongA
+         .text:6F52D0BC                 xor     ecx, ecx
+         .text:6F52D0BE                 call    sub_6F6CE230
+         .text:6F52D0C3                 pop     edi
+         .text:6F52D0C4                 mov     eax, 1
+         .text:6F52D0C9                 pop     esi
+         .text:6F52D0CA                 add     esp, 34h
+         .text:6F52D0CD                 retn    4
+         .text:6F52D0CD sub_6F52D000    endp
+      6. sub_6F52C9C0 is the wndproc function.
+      7. Using the image base, you rebase this address like this:
+         6F52C9C0 - 6F000000 = 0052C9C0
+    -->
+    <wndproc>0052C9C0</wndproc>
   </addresses>
 </sharpcraft>

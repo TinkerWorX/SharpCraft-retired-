@@ -67,7 +67,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         private void LoadPlugin(String path)
         {
-            Trace.Write(" - - Compiling " + Path.GetFileName(path) + " . . . ");
+            Trace.Write(" - - Compiling " + Path.GetFileName(path) + " . ");
             var results = this.CompilePlugin(path);
             if (results.Errors.HasErrors)
             {
@@ -88,21 +88,21 @@ namespace TinkerWorX.SharpCraft.Game
             var pluginType = results.CompiledAssembly.GetTypes().FirstOrDefault(type => typeof(GamePluginBase).IsAssignableFrom(type));
             if (pluginType == null)
             {
-                Trace.WriteLine("Failed! (interface missing)");
+                Trace.WriteLine("failed! (interface missing)");
                 return;
             }
             this.plugins.Add((GamePluginBase)AppDomain.CurrentDomain.CreateInstanceFrom(localPath, pluginType.FullName).Unwrap());
 
-            Trace.WriteLine("Success!");
+            Trace.WriteLine("success!");
         }
 
         public void InitializePlugins()
         {
             foreach (var plugin in this.plugins)
             {
-                Trace.Write(" - - Initializing \"" + plugin.Name + "\" . . . ");
+                Trace.Write(" - - Initializing \"" + plugin.Name + "\" . ");
                 plugin.Initialize();
-                Trace.WriteLine("Done!");
+                Trace.WriteLine("done!");
             }
         }
     }

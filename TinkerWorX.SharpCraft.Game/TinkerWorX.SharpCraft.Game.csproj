@@ -49,6 +49,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="JassSystem.cs" />
+    <Compile Include="Point2.cs" />
+    <Compile Include="InputSystem.cs" />
     <Compile Include="Vector3.cs" />
     <Compile Include="EntryPoint.cs" />
     <Compile Include="GamePluginBase.cs" />
