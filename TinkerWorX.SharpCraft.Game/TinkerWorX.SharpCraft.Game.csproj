@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\CColor.cs" />
+    <Compile Include="Core\CGameUI.cs" />
+    <Compile Include="Core\CWorldFrame.cs" />
     <Compile Include="JassSystem.cs" />
     <Compile Include="Point2.cs" />
     <Compile Include="InputSystem.cs" />
