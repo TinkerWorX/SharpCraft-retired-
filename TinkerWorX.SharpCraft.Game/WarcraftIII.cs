@@ -56,12 +56,10 @@ namespace TinkerWorX.SharpCraft.Game
 
             Trace.WriteLine(" - Initializing JASS system . . .");
             WarcraftIII.Jass = new JassSystem();
-            Trace.WriteLine("done!");
+            Trace.WriteLine(" - - Done!");
 
             Trace.WriteLine(" - Initializing state detection . . .");
             WarcraftIII.InstallGameStateHook(WarcraftIII.Module + Settings.Current.Addresses.GameState);
-            Trace.WriteLine(" - - Done!");
-
             Trace.WriteLine(" - - Done!");
         }
 

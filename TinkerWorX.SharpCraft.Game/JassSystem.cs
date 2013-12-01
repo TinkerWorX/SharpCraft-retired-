@@ -64,7 +64,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             this.InstallInitNativesHook(WarcraftIII.Module + Settings.Current.Addresses.InitNatives);
             this.InstallCJassConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
-            this.InstallCallFunctionHook(WarcraftIII.Module + 0x0045F8B0); // TODO: Add this address to settings.
+            this.InstallCallFunctionHook(WarcraftIII.Module + Settings.Current.Addresses.CallFunction);
             this.FetchStringToJassStringIndex(WarcraftIII.Module + Settings.Current.Addresses.StringToJassStringIndex);
             this.FetchJassStringHandleToString(WarcraftIII.Module + Settings.Current.Addresses.JassStringHandleToString);
             this.bindNativePtr = WarcraftIII.Module + Settings.Current.Addresses.BindNative;
@@ -77,7 +77,7 @@ namespace TinkerWorX.SharpCraft.Game
                 this.vanillaNatives.Add(new Native(baseAddress + offset));
                 offset += 0x14;
             }
-            Trace.Write("found " + this.vanillaNatives.Count + " . ");
+            Trace.WriteLine("found " + this.vanillaNatives.Count + "!");
         }
 
         internal void OnPreConfig()

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using EasyHook;
+using TinkerWorX.SharpCraft.Core;
 using TinkerWorX.SharpCraft.Game.Core;
 
 namespace TinkerWorX.SharpCraft.Game
@@ -40,14 +41,14 @@ namespace TinkerWorX.SharpCraft.Game
 
         public InterfaceSystem()
         {
-            this.InstallCGameUIConstructorHook(WarcraftIII.Module + 0x002FE9F0); // TODO: Add this address to settings.
-            this.InstallCGameUI__DisplayChatMessageHook(WarcraftIII.Module + 0x002FB480); // TODO: Add this address to settings.
-            this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + 0x006049B0); // TODO: Add this address to settings.
+            this.InstallCGameUIConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.CGameUI__Constructor);
+            this.InstallCGameUI__DisplayChatMessageHook(WarcraftIII.Module + Settings.Current.Addresses.CGameUI__DisplayChatMessage);
+            this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + Settings.Current.Addresses.CWorldFrame__WriteLine);
         }
 
         public CGameUI GameUI { get { return this.gameUI; } }
 
-        public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + 0x00A88BD0, typeof(Single)); } } // TODO: Add this address to settings.
+        public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + Settings.Current.Addresses.FPS, typeof(Single)); } }
 
         internal void OnPlayerChat(Int32 sender, String message, ChatRecipients recipients)
         {

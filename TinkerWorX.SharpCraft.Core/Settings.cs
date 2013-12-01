@@ -79,5 +79,25 @@ namespace TinkerWorX.SharpCraft.Core
         [XmlElement("wndproc")]
         public String WndProcValue = "0052C9C0";
         public Int32 WndProc { get { return Int32.Parse(this.WndProcValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("call_function")]
+        public String CallFunctionValue = "0045F8B0";
+        public Int32 CallFunction { get { return Int32.Parse(this.CallFunctionValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("c_world_frame__write_line")]
+        public String CWorldFrame__WriteLineValue = "006049B0";
+        public Int32 CWorldFrame__WriteLine { get { return Int32.Parse(this.CWorldFrame__WriteLineValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("c_game_ui__constructor")]
+        public String CGameUI__ConstructorValue = "002FE9F0";
+        public Int32 CGameUI__Constructor { get { return Int32.Parse(this.CGameUI__ConstructorValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("c_game_ui__display_chat_message")]
+        public String CGameUI__DisplayChatMessageValue = "002FB480";
+        public Int32 CGameUI__DisplayChatMessage { get { return Int32.Parse(this.CGameUI__DisplayChatMessageValue, NumberStyles.HexNumber); } }
+
+        [XmlElement("fps")]
+        public String FPSValue = "00A88BD0";
+        public Int32 FPS { get { return Int32.Parse(this.FPSValue, NumberStyles.HexNumber); } }
     }
 }
