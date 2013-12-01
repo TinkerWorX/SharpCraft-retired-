@@ -29,6 +29,7 @@ namespace TinkerWorX.SharpCraft.Game
         public static ProcessMemory Memory { get; private set; }
         public static InputSystem Input { get; private set; }
         public static JassSystem Jass { get; private set; }
+        public static InterfaceSystem Interface { get; private set; }
 
         private static GameStatePrototype gameState;
 
@@ -46,6 +47,10 @@ namespace TinkerWorX.SharpCraft.Game
             Trace.WriteLine("done!");
 
             Trace.WriteLine(" - Initializing input system . . .");
+            WarcraftIII.Input = new InputSystem();
+            Trace.WriteLine(" - - Done!");
+
+            Trace.WriteLine(" - Initializing interface system . . .");
             WarcraftIII.Input = new InputSystem();
             Trace.WriteLine(" - - Done!");
 

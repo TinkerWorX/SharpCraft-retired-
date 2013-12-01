@@ -53,6 +53,7 @@
     <Compile Include="Core\CColor.cs" />
     <Compile Include="Core\CGameUI.cs" />
     <Compile Include="Core\CWorldFrame.cs" />
+    <Compile Include="InterfaceSystem.cs" />
     <Compile Include="JassSystem.cs" />
     <Compile Include="Point2.cs" />
     <Compile Include="InputSystem.cs" />
