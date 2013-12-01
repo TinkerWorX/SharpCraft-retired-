@@ -8,7 +8,7 @@ namespace TinkerWorX.SharpCraft.Game.Core
     {
         private readonly IntPtr ptr;
 
-        public void WriteLine(String message, Color color, Single duration)
+        public void WriteLine(String message, CColor color, Single duration)
         {
             //sub_6F6049B0(this.ptr, message, ref color, duration, 0);
         }
