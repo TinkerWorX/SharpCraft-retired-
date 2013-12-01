@@ -39,7 +39,6 @@ void WarcraftIII.Jass.AddNative(Delegate native, String name, String prototype);
 // The following method is used to get an existing native.
 // The Native type provides a method to turn the native into a Delegate.
 // Please note that calling natives outside the JASS virtual-machines thread is unsafe.
-
 Native WarcraftIII.Jass.GetNative(String name);
 ```
 
@@ -52,7 +51,7 @@ Point2 WarcraftIII.Input.MouseWindow
 Vector2 WarcraftIII.Input.MouseUI;
 // Gets the mouse ingame terrain coordinates.
 Vector3 WarcraftIII.Input.MouseTerrain;
-// Checks whether the mouse is over the UI. This seems to be only the letterbox are from cinematic mode.
+// Checks whether the mouse is over the UI. This seems to be only the letterbox area from cinematic mode.
 Boolean WarcraftIII.Input.IsMouseOverUI;
 // Fires when a button is pressed.
 event WarcraftIII.Input.MouseButton;
