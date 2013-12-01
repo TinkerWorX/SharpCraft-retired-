@@ -51,7 +51,7 @@ namespace TinkerWorX.SharpCraft.Game
             Trace.WriteLine(" - - Done!");
 
             Trace.WriteLine(" - Initializing interface system . . .");
-            WarcraftIII.Input = new InputSystem();
+            WarcraftIII.Interface = new InterfaceSystem();
             Trace.WriteLine(" - - Done!");
 
             Trace.WriteLine(" - Initializing JASS system . . .");

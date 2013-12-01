@@ -10,7 +10,7 @@ namespace TinkerWorX.SharpCraft.Game.Core
 
         public void WriteLine(String message, CColor color, Single duration)
         {
-            //sub_6F6049B0(this.ptr, message, ref color, duration, 0);
+            WarcraftIII.Interface.CWorldFrame__WriteLine(this, message, ref color, duration, 0);
         }
     }
 }
