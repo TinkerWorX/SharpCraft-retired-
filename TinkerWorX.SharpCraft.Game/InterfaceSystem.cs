@@ -47,6 +47,8 @@ namespace TinkerWorX.SharpCraft.Game
 
         public CGameUI GameUI { get { return this.gameUI; } }
 
+        public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + 0x00A88BD0, typeof(Single)); } } // TODO: Add this address to settings.
+
         internal void OnPlayerChat(Int32 sender, String message, ChatRecipients recipients)
         {
             if (this.PlayerChat != null)
