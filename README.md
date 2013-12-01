@@ -68,6 +68,8 @@ Interface API
 Single WarcraftIII.Interface.FPS;
 // Fires when a player sends a chat message.
 event WarcraftIII.Interface.PlayerChat;
+// Blocks all chat, allowing for custom systems.
+Boolean WarcraftIII.Interface.BlockChat;
 
 // Emulates a player sending a message.
 void WarcraftIII.Interface.GameUI.WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration);
