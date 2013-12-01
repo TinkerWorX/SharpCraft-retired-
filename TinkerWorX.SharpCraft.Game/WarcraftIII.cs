@@ -190,5 +190,17 @@ namespace TinkerWorX.SharpCraft.Game
         {
             return WarcraftIII.Jass.GetNative(name);
         }
+
+        [Obsolete("Warcraft.Mouse has been moved to WarcraftIII.Input.MouseWindow. WarcraftIII.Mouse will be removed in version 2.")]
+        public static Vector2 Mouse { get { return new Vector2(WarcraftIII.Input.MouseWindow.X, WarcraftIII.Input.MouseWindow.Y); } }
+
+        [Obsolete("Warcraft.MouseUI has been moved to WarcraftIII.Input.MouseUI. WarcraftIII.MouseUI will be removed in version 2.")]
+        public static Vector2 MouseUI { get { return WarcraftIII.Input.MouseUI; } }
+
+        [Obsolete("Warcraft.MouseTerrain has been moved to WarcraftIII.Input.MouseTerrain. WarcraftIII.MouseTerrain will be removed in version 2.")]
+        public static Vector3 MouseTerrain { get { return WarcraftIII.Input.MouseTerrain; } }
+
+        [Obsolete("Warcraft.IsMouseOverUI has been moved to WarcraftIII.Input.IsMouseOverUI. WarcraftIII.IsMouseOverUI will be removed in version 2.")]
+        public static Boolean IsMouseOverUI { get { return WarcraftIII.Input.IsMouseOverUI; } }
     }
 }
