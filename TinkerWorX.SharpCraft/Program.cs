@@ -160,7 +160,7 @@ namespace TinkerWorX.SharpCraft
         private static void StartEditor(String[] args)
         {
             if (!File.Exists(editorPath))
-                throw new StartupException("Could not find war3.exe!" + Environment.NewLine + "You may need to verify your registry settings are correct.");
+                throw new StartupException("Could not find worldedit.exe!" + Environment.NewLine + "You may need to verify your registry settings are correct.");
 
             var kill = (args.Length > 0 && args[0] == "-kill");
             if (kill)
