@@ -10,7 +10,7 @@ namespace TinkerWorX.SharpCraft
 {
     internal static class Program
     {
-        private static Version version = new Version(1, 1, 3, 0);
+        private static Version version;
 
         private static String installPath;
 
@@ -23,6 +23,10 @@ namespace TinkerWorX.SharpCraft
             try
             {
                 Console.WriteLine("Sharpcraft by MindWorX");
+
+                var fvi = FileVersionInfo.GetVersionInfo(typeof(Program).Assembly.Location);
+                Program.version = new Version(fvi.FileMajorPart, fvi.FileMinorPart, fvi.FileBuildPart, fvi.FilePrivatePart);
+
 #if DEBUG
                 Console.WriteLine("Version: {0} (debug)", Program.version);
 #else
