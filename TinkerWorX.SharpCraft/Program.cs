@@ -22,16 +22,17 @@ namespace TinkerWorX.SharpCraft
         {
             try
             {
-                Console.WriteLine("Sharpcraft by MindWorX");
+                Console.Write("SharpCraft");
 
                 var fvi = FileVersionInfo.GetVersionInfo(typeof(Program).Assembly.Location);
                 Program.version = new Version(fvi.FileMajorPart, fvi.FileMinorPart, fvi.FileBuildPart, fvi.FilePrivatePart);
 
 #if DEBUG
-                Console.WriteLine("Version: {0} (debug)", Program.version);
+                Console.WriteLine(" v{0} (debug)", Program.version);
 #else
-                Console.WriteLine("Version: {0} (release)", Program.version);
+                Console.WriteLine(" v{0} (release)", Program.version);
 #endif
+                Console.WriteLine();
 
                 if (args.Length == 0)
                     throw new StartupException(@"Missing start argument, valid arguments are ""-game"" or ""-editor""");
@@ -43,7 +44,7 @@ namespace TinkerWorX.SharpCraft
                 Program.Start(args);
 
                 Console.WriteLine();
-                Console.WriteLine("Sharpcraft injected successfully!");
+                Console.WriteLine("SharpCraft injected successfully!");
             }
             catch (StartupException exception)
             {
@@ -107,11 +108,11 @@ namespace TinkerWorX.SharpCraft
         {
             Console.Write("Registerring assemblies . . . ");
             Config.Register(
-                "Sharpcraft by MindWorX",
-                "Sharpcraft.exe",
-                "Sharpcraft.Core.dll",
-                "Sharpcraft.Editor.dll",
-                "Sharpcraft.Game.dll");
+                "SharpCraft by MindWorX",
+                "SharpCraft.exe",
+                "SharpCraft.Core.dll",
+                "SharpCraft.Editor.dll",
+                "SharpCraft.Game.dll");
             Console.WriteLine("Done!");
         }
 
@@ -153,7 +154,7 @@ namespace TinkerWorX.SharpCraft
                 else
                     process.StartInfo.Arguments += arg + " ";
             process.Start();
-            RemoteHooking.Inject(process.Id, "Sharpcraft.Game.dll", "Sharpcraft.Game.dll", Environment.CurrentDirectory, installPath);
+            RemoteHooking.Inject(process.Id, "SharpCraft.Game.dll", "SharpCraft.Game.dll", Environment.CurrentDirectory, installPath);
             Console.WriteLine("Done!");
         }
 
@@ -185,7 +186,7 @@ namespace TinkerWorX.SharpCraft
                 else
                     process.StartInfo.Arguments += arg + " ";
             process.Start();
-            RemoteHooking.Inject(process.Id, "Sharpcraft.Editor.dll", "Sharpcraft.Editor.dll", Environment.CurrentDirectory, installPath);
+            RemoteHooking.Inject(process.Id, "SharpCraft.Editor.dll", "SharpCraft.Editor.dll", Environment.CurrentDirectory, installPath);
             Console.WriteLine("Done!");
         }
     }
