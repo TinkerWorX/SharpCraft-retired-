@@ -65,7 +65,7 @@ namespace Lidgren.Network
 				// no latency simulation
 				// LogVerbose("Sending packet " + numBytes + " bytes");
 				bool wasSent = ActuallySendPacket(m_sendBuffer, numBytes, target, out connectionReset);
-				// TODO: handle wasSent == false?
+				// handle wasSent == false?
 				return;
 			}
 
@@ -129,7 +129,7 @@ namespace Lidgren.Network
 			connectionReset = false;
 			try
 			{
-				// TODO: refactor this check outta here
+				// refactor this check outta here
 				if (target.Address == IPAddress.Broadcast)
 				{
 					// Some networks do not allow 

@@ -44,6 +44,22 @@ namespace TinkerWorX.SharpCraft.Game.Jass
             return new JassUnitId(from);
         }
 
+        // Implicit conversion from JassUnitId to Int32
+        public static implicit operator Int32(JassUnitId from)
+        {
+            return from.value;
+        }
+
+        // Explicit conversion from String to JassUnitId
+        public static explicit operator JassUnitId(Int32 from)
+        {
+            // This has to be explicit because general C# guidelines says the following about implicit:
+            // [...] implicit conversion operators should never throw exceptions and never lose information  [...]
+            // http://msdn.microsoft.com/en-us/library/z5z9kes2%28v=vs.110%29.aspx
+
+            return new JassUnitId(from);
+        }
+
         public override String ToString()
         {
             return ((String)this).ToString();

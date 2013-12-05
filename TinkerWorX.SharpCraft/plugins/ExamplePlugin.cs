@@ -84,7 +84,7 @@ namespace TinkerWorX.ExamplePlugin
             //Trace.WriteLine("Foo");
             //api.test("Bar");
             //(AppDomain.CurrentDomain.GetData("api") as IGameAPI).test("test");
-            
+
             // Override the original cheat native, so we can intercept calls.
             api.AddNative(new CheatPrototype(this.CheatHook), "Cheat");
         }

@@ -106,13 +106,14 @@ namespace TinkerWorX.SharpCraft.Game
         {
             using (var reader = File.OpenText(path))
             {
+                this.compilerParams.OutputAssembly = Path.Combine(this.pluginsFolder, Path.GetFileNameWithoutExtension(path) + ".dll");
                 return this.provider.CompileAssemblyFromSource(this.compilerParams, reader.ReadToEnd());
             }
         }
 
         private void LoadPlugin(String path)
         {
-            Trace.Write(" - - Compiling " + Path.GetFileNameWithoutExtension(path) + " . . . ");
+            Trace.Write(" - - Compiling " + Path.GetFileName(path) + " . ");
             var results = this.CompilePlugin(path);
             if (results.Errors.HasErrors)
             {
@@ -132,7 +133,7 @@ namespace TinkerWorX.SharpCraft.Game
 
             if (pluginType == null)
             {
-                Trace.WriteLine("Failed! (interface missing)");
+                Trace.WriteLine("failed! (interface missing)");
                 return;
             }
             // Convert the path URI to a normal path.
@@ -153,7 +154,7 @@ namespace TinkerWorX.SharpCraft.Game
             //Environment.CurrentDirectory = WarcraftIII.InstallPath;
             this.plugins.Add((GamePluginBase)sandbox.CreateInstanceFrom(localPath, pluginType.FullName).Unwrap());
 
-            Trace.WriteLine("Success!");
+            Trace.WriteLine("success!");
         }
 
         private Assembly CurrentDomain_AssemblyResolve(Object sender, ResolveEventArgs args)

@@ -263,7 +263,7 @@ namespace Lidgren.Network
 			SendDisconnect(reason, false);
 
 			// remove from handshakes
-			m_peer.m_handshakes.Remove(m_remoteEndPoint); // TODO: make this more thread safe? we're on user thread
+			m_peer.m_handshakes.Remove(m_remoteEndPoint); // make this more thread safe? we're on user thread
 		}
 
 		internal void ReceivedHandshake(double now, NetMessageType tp, int ptr, int payloadLength)

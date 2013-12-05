@@ -169,7 +169,7 @@ namespace Lidgren.Network
 				}
 			}
 
-			bool connectionReset; // TODO: handle connection reset
+			bool connectionReset; // handle connection reset
 
 			//
 			// Note: at this point m_sendBufferWritePtr and m_sendBufferNumMessages may be non-null; resends may already be queued up
@@ -280,7 +280,7 @@ namespace Lidgren.Network
 
 			if (m_sendBufferWritePtr + sz > m_currentMTU)
 			{
-				bool connReset; // TODO: handle connection reset
+				bool connReset; // handle connection reset
 				NetException.Assert(m_sendBufferWritePtr > 0 && m_sendBufferNumMessages > 0); // or else the message should have been fragmented earlier
 				m_peer.SendPacket(m_sendBufferWritePtr, m_remoteEndPoint, m_sendBufferNumMessages, out connReset);
 				m_statistics.PacketSent(m_sendBufferWritePtr, m_sendBufferNumMessages);
@@ -315,7 +315,7 @@ namespace Lidgren.Network
 			NetMessageType tp = (NetMessageType)((int)method + sequenceChannel);
 			msg.m_messageType = tp;
 
-			// TODO: do we need to make this more thread safe?
+			// do we need to make this more thread safe?
 			int channelSlot = (int)method - 1 + sequenceChannel;
 			NetSenderChannelBase chan = m_sendChannels[channelSlot];
 			if (chan == null)

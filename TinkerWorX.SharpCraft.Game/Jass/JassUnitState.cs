@@ -8,7 +8,7 @@ namespace TinkerWorX.SharpCraft.Game.Jass
     {
         // constant native ConvertUnitState takes integer i returns unitstate
         private delegate JassUnitState ConvertUnitStatePrototype(JassInteger i);
-        private static ConvertUnitStatePrototype _ConvertUnitState = WarcraftIII.GetNative("ConvertUnitState").ToDelegate<ConvertUnitStatePrototype>();
+        private static ConvertUnitStatePrototype _ConvertUnitState = WarcraftIII.Jass.GetNative("ConvertUnitState").ToDelegate<ConvertUnitStatePrototype>();
 
         // constant unitstate UNIT_STATE_LIFE = ConvertUnitState(0)
         public static readonly JassUnitState Life = ConvertUnitState(0);

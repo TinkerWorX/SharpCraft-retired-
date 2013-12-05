@@ -16,13 +16,13 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         // Implicit conversion from JassStringRet to String
         public static implicit operator String(JassStringRet from)
         {
-            return WarcraftIII.JassStringHandleToString(WarcraftIII.JassStringIndexToJassStringHandle(from.Index));
+            return WarcraftIII.Jass.JassStringHandleToString(WarcraftIII.Jass.JassStringIndexToJassStringHandle(from.Index));
         }
 
         // Implicit conversion from String to JassStringRet
         public static implicit operator JassStringRet(String from)
         {
-            return new JassStringRet(WarcraftIII.StringToJassStringIndex(from));
+            return new JassStringRet(WarcraftIII.Jass.StringToJassStringIndex(from));
         }
 
         public override String ToString()
@@ -49,13 +49,13 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         // Implicit conversion from JassStringArg to String
         public static implicit operator String(JassStringArg from)
         {
-            return WarcraftIII.JassStringHandleToString(from.Handle);
+            return WarcraftIII.Jass.JassStringHandleToString(from.Handle);
         }
 
         // Implicit conversion from String to JassStringArg
         public static implicit operator JassStringArg(String from)
         {
-            return new JassStringArg(WarcraftIII.JassStringIndexToJassStringHandle(WarcraftIII.StringToJassStringIndex(from)));
+            return new JassStringArg(WarcraftIII.Jass.JassStringIndexToJassStringHandle(WarcraftIII.Jass.StringToJassStringIndex(from)));
         }
 
         public override String ToString()

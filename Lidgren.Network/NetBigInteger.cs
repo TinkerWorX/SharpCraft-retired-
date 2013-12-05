@@ -131,7 +131,7 @@ namespace Lidgren.Network
 					rE = radix10E;
 					break;
 				case 16:
-					// TODO Should this be HexNumber?
+					// Should this be HexNumber?
 					style = NumberStyles.AllowHexSpecifier;
 					chunk = chunk16;
 					r = radix16;
