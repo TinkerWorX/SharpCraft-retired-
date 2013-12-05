@@ -53,8 +53,6 @@ namespace TinkerWorX.SharpCraft.Game.Jass
             return _Player(index);
         }
 
-        */
-
         public readonly IntPtr Handle;
 
         public JassPlayer(IntPtr handle)

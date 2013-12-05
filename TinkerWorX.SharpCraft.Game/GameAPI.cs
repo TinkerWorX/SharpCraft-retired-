@@ -12,17 +12,17 @@ namespace TinkerWorX.SharpCraft.Game
         
         public void AddNative(Delegate function, String name, String prototype)
         {
-            WarcraftIII.AddNative(function, name, prototype);
+            WarcraftIII.Jass.AddNative(function, name, prototype);
         }
 
         public void AddNative(Delegate function, String name)
         {
-            WarcraftIII.AddNative(function, name);
+            WarcraftIII.Jass.AddNative(function, name);
         }
 
         public void AddNative(Delegate function)
         {
-            WarcraftIII.AddNative(function);
+            WarcraftIII.Jass.AddNative(function);
         }
 
         public void test(String text)
@@ -36,7 +36,7 @@ namespace TinkerWorX.SharpCraft.Game
         public JassPlayer GetLocalPlayer()
         {
             if (this._GetLocalPlayer == null)
-                this._GetLocalPlayer = WarcraftIII.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerDelegate>();
+                this._GetLocalPlayer = WarcraftIII.Jass.GetNative("GetLocalPlayer").ToDelegate<GetLocalPlayerDelegate>();
             return this._GetLocalPlayer();
         }
 
@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft.Game
         public void DisplayTextToPlayer(JassPlayer player, Single x, Single y, String message)
         {
             if (this._DisplayTextToPlayer == null)
-                this._DisplayTextToPlayer = WarcraftIII.GetNative("DisplayTextToPlayer").ToDelegate<DisplayTextToPlayerPrototype>();
+                this._DisplayTextToPlayer = WarcraftIII.Jass.GetNative("DisplayTextToPlayer").ToDelegate<DisplayTextToPlayerPrototype>();
             this._DisplayTextToPlayer(player, x, y, message);
         }
     }
