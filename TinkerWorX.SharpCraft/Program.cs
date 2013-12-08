@@ -24,6 +24,8 @@ namespace TinkerWorX.SharpCraft
             {
                 Console.Write("SharpCraft");
 
+                Environment.CurrentDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+
                 var fvi = FileVersionInfo.GetVersionInfo(typeof(Program).Assembly.Location);
                 Program.version = new Version(fvi.FileMajorPart, fvi.FileMinorPart, fvi.FileBuildPart, fvi.FilePrivatePart);
 
