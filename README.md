@@ -26,10 +26,10 @@ Jass API
 
 ```csharp
 // These events are safe for doing things that require the Jass virtual-machine, like calling natives, creating units, etc.
-event WarcraftIII.Jass.OnPreConfig;
-event WarcraftIII.Jass.OnPostConfig;
-event WarcraftIII.Jass.OnPreMain;
-event WarcraftIII.Jass.OnPostMain;
+event WarcraftIII.Jass.PreConfig;
+event WarcraftIII.Jass.PostConfig;
+event WarcraftIII.Jass.PreMain;
+event WarcraftIII.Jass.PostMain;
 
 // Thses methods are for adding custom natives.
 void WarcraftIII.Jass.AddNative(Delegate native);
