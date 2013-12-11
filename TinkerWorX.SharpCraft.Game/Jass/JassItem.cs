@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using TinkerWorX.SharpCraft.Game.Core;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
@@ -11,6 +12,11 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         public JassItem(IntPtr handle)
         {
             this.Handle = handle;
+        }
+
+        public CItemPtr ToCItem()
+        {
+            return CItemPtr.FromHandle(this);
         }
 
         public override String ToString()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
+using TinkerWorX.SharpCraft.Game.Core;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
@@ -109,6 +110,11 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         public JassUnit(IntPtr handle)
         {
             this.Handle = handle;
+        }
+
+        public CUnitPtr ToCUnit()
+        {
+            return CUnitPtr.FromHandle(this);
         }
 
         public Single GetX()
