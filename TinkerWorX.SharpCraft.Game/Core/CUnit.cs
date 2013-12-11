@@ -4,9 +4,25 @@ using TinkerWorX.SharpCraft.Game.Jass;
 
 namespace TinkerWorX.SharpCraft.Game.Core
 {
-    [StructLayout(LayoutKind.Sequential, Size = 0x454)]
-    unsafe public struct CGameUI
+    [StructLayout(LayoutKind.Sequential, Size = 0x310)]
+    unsafe public struct CUnit
     {
+        // The first function in GetUnitX, GetUnitY.
+        // int __fastcall sub_6F3BDCB0(int a1)
+        // We use __thiscall as a cheat for doing a fastcall with only one argument.
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        [return: MarshalAs(UnmanagedType.LPStruct)]
+        private delegate CUnit sub_6F3BDCB0Prototype(JassUnit unit);
+
+        private static sub_6F3BDCB0Prototype sub_6F3BDCB0 = (sub_6F3BDCB0Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BDCB0, typeof(sub_6F3BDCB0Prototype));
+
+        public static CUnit FromHandle(JassUnit unit)
+        {
+            return sub_6F3BDCB0(unit);
+        }
+
+
+
         public IntPtr VTable;
         public IntPtr field0004;
         public IntPtr field0008;
@@ -115,7 +131,7 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public IntPtr field01A4;
         public IntPtr field01A8;
         public IntPtr field01AC;
-        public Boolean IsUserInterfaceEnabled; //field01B0
+        public IntPtr field01B0;
         public IntPtr field01B4;
         public IntPtr field01B8;
         public IntPtr field01BC;
@@ -203,126 +219,27 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public IntPtr field0304;
         public IntPtr field0308;
         public IntPtr field030C;
-        public IntPtr field0310;
-        public IntPtr field0314;
-        public IntPtr field0318;
-        public IntPtr field031C;
-        public IntPtr field0320;
-        public IntPtr field0324;
-        public IntPtr field0328;
-        public IntPtr field032C;
-        public IntPtr field0330;
-        public IntPtr field0334;
-        public IntPtr field0338;
-        public IntPtr field033C;
-        public IntPtr field0340;
-        public IntPtr field0344;
-        public IntPtr field0348;
-        public IntPtr field034C;
-        public IntPtr field0350;
-        public IntPtr field0354;
-        public IntPtr field0358;
-        public IntPtr field035C;
-        public IntPtr field0360;
-        public IntPtr field0364;
-        public IntPtr field0368;
-        public IntPtr field036C;
-        public IntPtr field0370;
-        public IntPtr field0374;
-        public IntPtr field0378;
-        public IntPtr field037C;
-        public IntPtr field0380;
-        public IntPtr field0384;
-        public IntPtr field0388;
-        public IntPtr field038C;
-        public IntPtr field0390;
-        public IntPtr field0394;
-        public IntPtr field0398;
-        public IntPtr field039C;
-        public IntPtr field03A0;
-        public IntPtr field03A4;
-        public IntPtr field03A8;
-        public IntPtr field03AC;
-        public IntPtr field03B0;
-        public IntPtr field03B4;
-        public IntPtr field03B8;
-        public IntPtr field03BC;
-        public IntPtr field03C0;
-        public IntPtr field03C4;
-        public IntPtr field03C8;
-        public IntPtr field03CC;
-        public IntPtr field03D0;
-        public IntPtr field03D4;
-        public IntPtr field03D8;
-        public IntPtr field03DC;
-        public IntPtr field03E0;
-        public CSimpleMessageFrame* Message;     //field03E4
-        public CSimpleMessageFrame* UnitMessage; //field03E8
-        public CSimpleMessageFrame* ChatMessage; //field03EC
-        public CSimpleMessageFrame* TopMessage;  //field03F0
-        public IntPtr field03F4;
-        public IntPtr field03F8;
-        public IntPtr field03FC;
-        public IntPtr field0400;
-        public IntPtr field0404;
-        public IntPtr field0408;
-        public IntPtr field040C;
-        public IntPtr field0410;
-        public IntPtr field0414;
-        public IntPtr field0418;
-        public IntPtr field041C;
-        public IntPtr field0420;
-        public IntPtr field0424;
-        public IntPtr field0428;
-        public IntPtr field042C;
-        public IntPtr field0430;
-        public IntPtr field0434;
-        public IntPtr field0438;
-        public IntPtr field043C;
-        public IntPtr field0440;
-        public IntPtr field0444;
-        public IntPtr field0448;
-        public IntPtr field044C;
-        public IntPtr field0450;
 
-        public CGameUIPtr AsSafe()
+        public CUnitPtr AsSafe()
         {
-            fixed (CGameUI* pointer = &this)
-                return new CGameUIPtr(new IntPtr(pointer));
-        }
-
-        public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
-        {
-            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this.AsSafe(), sender, message, recipients, duration);
-        }
-
-        public void WriteChatMessage(JassPlayer sender, String message, ChatRecipients recipients, Single duration)
-        {
-            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this.AsSafe(), sender.Index, message, recipients, duration);
+            fixed (CUnit* pointer = &this)
+                return new CUnitPtr(new IntPtr(pointer));
         }
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    public struct CGameUIPtr
+    public struct CUnitPtr
     {
         private IntPtr pointer;
 
-        public CGameUIPtr(IntPtr pointer)
+        public CUnitPtr(IntPtr pointer)
         {
             this.pointer = pointer;
         }
 
-        unsafe public CGameUI* AsUnsafe()
+        unsafe public CUnit* AsUnsafe()
         {
-            return (CGameUI*)this.pointer;
+            return (CUnit*)this.pointer;
         }
-    }
-
-    public enum ChatRecipients : int
-    {
-        All = 0,
-        Allies = 1,
-        ObserversReferees = 2,
-        Private = 3
     }
 }

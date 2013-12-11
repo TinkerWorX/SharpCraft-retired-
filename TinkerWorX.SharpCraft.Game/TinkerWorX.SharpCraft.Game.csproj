@@ -50,9 +50,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\CColor.cs" />
+    <Compile Include="Core\SColor.cs" />
+    <Compile Include="Core\CDestructable.cs" />
     <Compile Include="Core\CGameUI.cs" />
-    <Compile Include="Core\CWorldFrame.cs" />
+    <Compile Include="Core\CItem.cs" />
+    <Compile Include="Core\ClassPrototype.cs" />
+    <Compile Include="Core\COrderTarget.cs" />
+    <Compile Include="Core\CUnit.cs" />
+    <Compile Include="Core\CSimpleMessageFrame.cs" />
     <Compile Include="InterfaceSystem.cs" />
     <Compile Include="JassSystem.cs" />
     <Compile Include="Point2.cs" />

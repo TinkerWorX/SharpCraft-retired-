@@ -12,16 +12,16 @@ namespace TinkerWorX.SharpCraft.Game
 {
     public delegate void PlayerChatEventHandler(Int32 sender, String message, ChatRecipients recipients);
 
-    public class InterfaceSystem
+    unsafe public class InterfaceSystem
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        private delegate IntPtr CGameUIConstructorDelegate(CGameUI _this);
+        private delegate IntPtr CGameUIConstructorDelegate(CGameUIPtr _this);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        internal delegate IntPtr CGameUI__DisplayChatMessageDelegate(CGameUI _this, Int32 sender, String message, ChatRecipients recipients, Single duration);
+        internal delegate IntPtr CGameUI__DisplayChatMessageDelegate(CGameUIPtr _this, Int32 sender, String message, ChatRecipients recipients, Single duration);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        internal delegate IntPtr CWorldFrame__WriteLineDelegate(CWorldFrame _this, String message, ref CColor color, Single duration, Int32 a5);
+        internal delegate IntPtr CWorldFrame__WriteLineDelegate(CSimpleMessageFramePtr _this, String message, ref SColor color, Single duration, Int32 a5);
 
         private CGameUIConstructorDelegate CGameUIConstructor;
 
@@ -33,7 +33,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         private LocalHook CGameUI__DisplayChatMessageLocalHook;
 
-        private CGameUI gameUI;
+        private CGameUI* gameUI;
 
         public Boolean BlockChat;
 
@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft.Game
             this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + Settings.Current.Addresses.CWorldFrame__WriteLine);
         }
 
-        public CGameUI GameUI { get { return this.gameUI; } }
+        public CGameUI* GameUI { get { return this.gameUI; } }
 
         public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + Settings.Current.Addresses.FPS, typeof(Single)); } }
 
@@ -109,16 +109,16 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        private IntPtr CGameUIConstructorHook(CGameUI _this)
+        private IntPtr CGameUIConstructorHook(CGameUIPtr _this)
         {
             var result = CGameUIConstructor(_this);
 
-            this.gameUI = _this;
+            this.gameUI = _this.AsUnsafe();
 
             return result;
         }
 
-        private IntPtr CGameUI__DisplayChatMessageHook(CGameUI _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
+        private IntPtr CGameUI__DisplayChatMessageHook(CGameUIPtr _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
         {
             var result = IntPtr.Zero;
 
