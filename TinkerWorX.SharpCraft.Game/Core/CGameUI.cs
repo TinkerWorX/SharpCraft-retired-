@@ -316,6 +316,16 @@ namespace TinkerWorX.SharpCraft.Game.Core
         {
             return (CGameUI*)this.pointer;
         }
+
+        public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
+        {
+            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this, sender, message, recipients, duration);
+        }
+
+        public void WriteChatMessage(JassPlayer sender, String message, ChatRecipients recipients, Single duration)
+        {
+            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this, sender.Index, message, recipients, duration);
+        }
     }
 
     public enum ChatRecipients : int

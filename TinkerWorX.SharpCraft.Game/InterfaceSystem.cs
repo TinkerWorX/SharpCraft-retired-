@@ -33,7 +33,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         private LocalHook CGameUI__DisplayChatMessageLocalHook;
 
-        private CGameUI* gameUI;
+        private CGameUIPtr gameUI;
 
         public Boolean BlockChat;
 
@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft.Game
             this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + Settings.Current.Addresses.CWorldFrame__WriteLine);
         }
 
-        public CGameUI* GameUI { get { return this.gameUI; } }
+        public CGameUIPtr GameUI { get { return this.gameUI; } }
 
         public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + Settings.Current.Addresses.FPS, typeof(Single)); } }
 
@@ -113,7 +113,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             var result = CGameUIConstructor(_this);
 
-            this.gameUI = _this.AsUnsafe();
+            this.gameUI = _this;
 
             return result;
         }
