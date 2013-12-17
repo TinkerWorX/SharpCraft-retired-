@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EasyHook;
 using TinkerWorX.SharpCraft.Core;
+using TinkerWorX.SharpCraft.Game.Core;
 using TinkerWorX.SharpCraft.Game.Jass;
 
 namespace TinkerWorX.SharpCraft.Game
@@ -39,18 +40,24 @@ namespace TinkerWorX.SharpCraft.Game
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A cheat for __fastcall when there is only one argument.
         private delegate IntPtr JassStringHandleToStringPrototype(IntPtr jassStringHandle);
 
+        //int __thiscall sub_6F45E9D0(int this, int a2, int a3, int a4, int a5)
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate JassError sub_6F45E9D0Prototype(IntPtr cJass, IntPtr a2, IntPtr a3, UInt32 opLimit, IntPtr a5);
+
         private IntPtr cJassPtr;
         private IntPtr bindNativePtr;
 
         private InitNativesPrototype initNatives;
         private CJassConstructorPrototype cJassConstructor;
         private CallFunctionPrototype callFunction;
+        private sub_6F45E9D0Prototype sub_6F45E9D0;
         private StringToJassStringIndexPrototype stringToJassStringIndex;
         private JassStringHandleToStringPrototype jassStringHandleToString;
 
         private LocalHook initNativesHook;
         private LocalHook cJassConstructorHook;
         private LocalHook callFunctionHook;
+        private LocalHook sub_6F45E9D0Hook;
 
         private List<Native> vanillaNatives = new List<Native>();
         private List<Native> customNatives = new List<Native>();
@@ -64,7 +71,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             this.InstallInitNativesHook(WarcraftIII.Module + Settings.Current.Addresses.InitNatives);
             this.InstallCJassConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
-            this.InstallCallFunctionHook(WarcraftIII.Module + Settings.Current.Addresses.CallFunction);
+            this.Installsub_6F45E9D0Hook(WarcraftIII.Module + 0x0045E9D0);
             this.FetchStringToJassStringIndex(WarcraftIII.Module + Settings.Current.Addresses.StringToJassStringIndex);
             this.FetchJassStringHandleToString(WarcraftIII.Module + Settings.Current.Addresses.JassStringHandleToString);
             this.bindNativePtr = WarcraftIII.Module + Settings.Current.Addresses.BindNative;
@@ -161,6 +168,25 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
+        private void Installsub_6F45E9D0Hook(IntPtr address)
+        {
+            try
+            {
+                Trace.Write(" - - sub_6F45E9D0Hook: 0x" + address.ToString("X8") + " . ");
+
+                this.sub_6F45E9D0 = (sub_6F45E9D0Prototype)Marshal.GetDelegateForFunctionPointer(address, typeof(sub_6F45E9D0Prototype));
+                Trace.Write("fetched . ");
+
+                this.sub_6F45E9D0Hook = LocalHook.Create(address, new sub_6F45E9D0Prototype(this.Sub_6F45E9D0Prototype), null);
+                this.sub_6F45E9D0Hook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                Trace.WriteLine("installed!");
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine(e.Message);
+            }
+        }
+
         private Int32 InitNatives()
         {
             return this.initNatives();
@@ -244,7 +270,6 @@ namespace TinkerWorX.SharpCraft.Game
         private Int32 InitNativesHook()
         {
             var result = this.InitNatives();
-            //Debug.WriteLine("WarcraftIII.InitNatives()");
 
             foreach (var native in this.customNatives)
             {
@@ -257,7 +282,6 @@ namespace TinkerWorX.SharpCraft.Game
         private IntPtr CJassConstructorHook(IntPtr cJass)
         {
             var result = this.CJassConstructor(cJass);
-            //Debug.WriteLine("WarcraftIII.CJassConstructor(cJass:{0})", new object[] { "0x" + cJass.ToString("X8") });
 
             this.cJassPtr = result;
 
@@ -289,6 +313,34 @@ namespace TinkerWorX.SharpCraft.Game
 
             return result;
         }
+
+        private JassError Sub_6F45E9D0Prototype(IntPtr cJass, IntPtr a2, IntPtr a3, UInt32 opLimit, IntPtr a5)
+        {
+            var result = sub_6F45E9D0(cJass, a2, a3, opLimit, a5);
+
+            if (Settings.Current.IsDebugging)
+            {
+                switch (result)
+                {
+                    case JassError.Success: break;
+                    case JassError.OpLimit:
+                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Op limit exceeded!", SColor.White, 10.00f);
+                        break;
+                    case JassError.VariableUninitialized:
+                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Uninitialized variable read!", SColor.White, 10.00f);
+                        break;
+                    case JassError.DivideByZero:
+                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Divide by zero!", SColor.White, 10.00f);
+                        break;
+                    default:
+                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Unknown error: " + result, SColor.White, 10.00f);
+                        break;
+                }
+            }
+
+            return result;
+        }
+
 
         internal Int32 StringToJassStringIndex(String str)
         {
@@ -353,5 +405,13 @@ namespace TinkerWorX.SharpCraft.Game
         {
             return this.vanillaNatives.FirstOrDefault(native => native.Name == name);
         }
+    }
+
+    public enum JassError : int
+    {
+        Success = 1,
+        OpLimit = 2,
+        VariableUninitialized = 6,
+        DivideByZero = 7,
     }
 }
