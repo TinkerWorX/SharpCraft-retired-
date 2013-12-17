@@ -312,6 +312,26 @@ namespace TinkerWorX.SharpCraft.Game.Core
             this.pointer = pointer;
         }
 
+        public CSimpleMessageFramePtr Message
+        {
+            get { unsafe { return this.AsUnsafe()->Message->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr UnitMessage
+        {
+            get { unsafe { return this.AsUnsafe()->UnitMessage->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr ChatMessage
+        {
+            get { unsafe { return this.AsUnsafe()->ChatMessage->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr TopMessage
+        {
+            get { unsafe { return this.AsUnsafe()->TopMessage->AsSafe(); } }
+        }
+
         unsafe public CGameUI* AsUnsafe()
         {
             return (CGameUI*)this.pointer;

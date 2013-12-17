@@ -134,5 +134,10 @@ namespace TinkerWorX.SharpCraft.Game.Core
         {
             return (CSimpleMessageFrame*)this.pointer;
         }
+
+        public void WriteLine(String message, SColor color, Single duration)
+        {
+            WarcraftIII.Interface.CWorldFrame__WriteLine(this, message, ref color, duration, 0);
+        }
     }
 }

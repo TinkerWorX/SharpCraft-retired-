@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft.Game
             this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + Settings.Current.Addresses.CWorldFrame__WriteLine);
         }
 
-        public CGameUI* GameUI { get { return this.gameUI; } }
+        public CGameUIPtr GameUI { get { return this.gameUI->AsSafe(); } }
 
         public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + Settings.Current.Addresses.FPS, typeof(Single)); } }
 
