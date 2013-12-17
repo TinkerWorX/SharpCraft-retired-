@@ -293,12 +293,12 @@ namespace TinkerWorX.SharpCraft.Game.Core
 
         public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
         {
-            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this.AsSafe(), sender, message, recipients, duration);
+            this.AsSafe().WriteChatMessage(sender, message, recipients, duration);
         }
 
         public void WriteChatMessage(JassPlayer sender, String message, ChatRecipients recipients, Single duration)
         {
-            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this.AsSafe(), sender.Index, message, recipients, duration);
+            this.AsSafe().WriteChatMessage(sender.Index, message, recipients, duration);
         }
     }
 
@@ -315,6 +315,16 @@ namespace TinkerWorX.SharpCraft.Game.Core
         unsafe public CGameUI* AsUnsafe()
         {
             return (CGameUI*)this.pointer;
+        }
+
+        public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
+        {
+            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this, sender, message, recipients, duration);
+        }
+
+        public void WriteChatMessage(JassPlayer sender, String message, ChatRecipients recipients, Single duration)
+        {
+            WarcraftIII.Interface.CGameUI__DisplayChatMessage(this, sender.Index, message, recipients, duration);
         }
     }
 
