@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Jass.cs" />
     <Compile Include="Core\SColor.cs" />
     <Compile Include="Core\CDestructable.cs" />
     <Compile Include="Core\CGameUI.cs" />
@@ -58,6 +59,10 @@
     <Compile Include="Core\COrderTarget.cs" />
     <Compile Include="Core\CUnit.cs" />
     <Compile Include="Core\CSimpleMessageFrame.cs" />
+    <Compile Include="Core\StringNode.cs" />
+    <Compile Include="Core\StringPool.cs" />
+    <Compile Include="Core\SymbolTable.cs" />
+    <Compile Include="Core\VirtualMachine.cs" />
     <Compile Include="InterfaceSystem.cs" />
     <Compile Include="JassSystem.cs" />
     <Compile Include="Point2.cs" />
