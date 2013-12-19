@@ -7,22 +7,6 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential, Size = 0x310)]
     unsafe public struct CUnit
     {
-        // The first function in GetUnitX, GetUnitY.
-        // int __fastcall sub_6F3BDCB0(int a1)
-        // We use __thiscall as a cheat for doing a fastcall with only one argument.
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CUnit sub_6F3BDCB0Prototype(JassUnit unit);
-
-        private static sub_6F3BDCB0Prototype sub_6F3BDCB0 = (sub_6F3BDCB0Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BDCB0, typeof(sub_6F3BDCB0Prototype));
-
-        public static CUnit FromHandle(JassUnit unit)
-        {
-            return sub_6F3BDCB0(unit);
-        }
-
-
-
         public IntPtr VTable;
         public IntPtr field0004;
         public IntPtr field0008;
@@ -230,6 +214,22 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential)]
     public struct CUnitPtr
     {
+        // The first function in GetUnitX, GetUnitY.
+        // int __fastcall sub_6F3BDCB0(int a1)
+        // We use __thiscall as a cheat for doing a fastcall with only one argument.
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        [return: MarshalAs(UnmanagedType.LPStruct)]
+        private delegate CUnitPtr sub_6F3BDCB0Prototype(JassUnit unit);
+
+        private static sub_6F3BDCB0Prototype sub_6F3BDCB0 = (sub_6F3BDCB0Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BDCB0, typeof(sub_6F3BDCB0Prototype));
+
+        public static CUnitPtr FromHandle(JassUnit unit)
+        {
+            return sub_6F3BDCB0(unit);
+        }
+
+
+
         private IntPtr pointer;
 
         public CUnitPtr(IntPtr pointer)

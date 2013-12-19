@@ -7,22 +7,6 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential, Size = 0xF8)]
     unsafe public struct CItem
     {
-        // The first function in GetItemX, GetItemY.
-        // int __fastcall sub_6F3BEB50(int a1)
-        // We use __thiscall as a cheat for doing a fastcall with only one argument.
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CItem sub_6F3BEB50Prototype(JassItem item);
-
-        private static sub_6F3BEB50Prototype sub_6F3BEB50 = (sub_6F3BEB50Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BEB50, typeof(sub_6F3BEB50Prototype));
-
-        public static CItem FromHandle(JassItem item)
-        {
-            return sub_6F3BEB50(item);
-        }
-
-
-
         public IntPtr VTable;
         public IntPtr field0004;
         public IntPtr field0008;
@@ -96,6 +80,22 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential)]
     public struct CItemPtr
     {
+        // The first function in GetItemX, GetItemY.
+        // int __fastcall sub_6F3BEB50(int a1)
+        // We use __thiscall as a cheat for doing a fastcall with only one argument.
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        [return: MarshalAs(UnmanagedType.LPStruct)]
+        private delegate CItemPtr sub_6F3BEB50Prototype(JassItem item);
+
+        private static sub_6F3BEB50Prototype sub_6F3BEB50 = (sub_6F3BEB50Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BEB50, typeof(sub_6F3BEB50Prototype));
+
+        public static CItemPtr FromHandle(JassItem item)
+        {
+            return sub_6F3BEB50(item);
+        }
+
+
+
         private IntPtr pointer;
 
         public CItemPtr(IntPtr pointer)

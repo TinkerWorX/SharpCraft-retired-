@@ -7,22 +7,6 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential, Size = 0x88)]
     unsafe public struct CDestructable
     {
-        // The first function in GetDestructableX, GetDestructableY.
-        // int __fastcall sub_6F3BE010(int a1)
-        // We use __thiscall as a cheat for doing a fastcall with only one argument.
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CDestructable sub_6F3BE010Prototype(JassDestructable destructable);
-
-        private static sub_6F3BE010Prototype sub_6F3BE010 = (sub_6F3BE010Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BE010, typeof(sub_6F3BE010Prototype));
-
-        public static CDestructable FromHandle(JassDestructable destructable)
-        {
-            return sub_6F3BE010(destructable);
-        }
-
-
-
         public IntPtr VTable;
         public IntPtr field0004;
         public IntPtr field0008;
@@ -68,6 +52,22 @@ namespace TinkerWorX.SharpCraft.Game.Core
     [StructLayout(LayoutKind.Sequential)]
     public struct CDestructablePtr
     {
+        // The first function in GetDestructableX, GetDestructableY.
+        // int __fastcall sub_6F3BE010(int a1)
+        // We use __thiscall as a cheat for doing a fastcall with only one argument.
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        [return: MarshalAs(UnmanagedType.LPStruct)]
+        private delegate CDestructablePtr sub_6F3BE010Prototype(JassDestructable destructable);
+
+        private static sub_6F3BE010Prototype sub_6F3BE010 = (sub_6F3BE010Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BE010, typeof(sub_6F3BE010Prototype));
+
+        public static CDestructablePtr FromHandle(JassDestructable destructable)
+        {
+            return sub_6F3BE010(destructable);
+        }
+
+
+
         private IntPtr pointer;
 
         public CDestructablePtr(IntPtr pointer)
