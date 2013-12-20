@@ -207,7 +207,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public CUnitPtr AsSafe()
         {
             fixed (CUnit* pointer = &this)
-                return new CUnitPtr(new IntPtr(pointer));
+                return new CUnitPtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
@@ -218,28 +224,32 @@ namespace TinkerWorX.SharpCraft.Game.Core
         // int __fastcall sub_6F3BDCB0(int a1)
         // We use __thiscall as a cheat for doing a fastcall with only one argument.
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CUnitPtr sub_6F3BDCB0Prototype(JassUnit unit);
+        private delegate CUnitPtr GetUnitFromHandlePrototype(JassUnit unit);
 
-        private static sub_6F3BDCB0Prototype sub_6F3BDCB0 = (sub_6F3BDCB0Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BDCB0, typeof(sub_6F3BDCB0Prototype));
+        private static GetUnitFromHandlePrototype GetUnitFromHandle = (GetUnitFromHandlePrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BDCB0, typeof(GetUnitFromHandlePrototype));
 
         public static CUnitPtr FromHandle(JassUnit unit)
         {
-            return sub_6F3BDCB0(unit);
+            return GetUnitFromHandle(unit);
         }
 
 
 
         private IntPtr pointer;
 
-        public CUnitPtr(IntPtr pointer)
+        unsafe public CUnitPtr(CUnit* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public CUnit* AsUnsafe()
         {
             return (CUnit*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

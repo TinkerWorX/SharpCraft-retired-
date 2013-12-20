@@ -18,7 +18,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public ClassPrototypePtr AsSafe()
         {
             fixed (ClassPrototype* pointer = &this)
-                return new ClassPrototypePtr(new IntPtr(pointer));
+                return new ClassPrototypePtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
@@ -27,14 +33,19 @@ namespace TinkerWorX.SharpCraft.Game.Core
     {
         private IntPtr pointer;
 
-        public ClassPrototypePtr(IntPtr pointer)
+        unsafe public ClassPrototypePtr(ClassPrototype* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public ClassPrototype* AsUnsafe()
         {
             return (ClassPrototype*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

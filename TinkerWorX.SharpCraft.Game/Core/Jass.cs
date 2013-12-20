@@ -180,23 +180,34 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public JassPtr AsSafe()
         {
             fixed (Jass* pointer = &this)
-                return new JassPtr(new IntPtr(pointer));
+                return new JassPtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct JassPtr
     {
-        public IntPtr pointer;
+        private IntPtr pointer;
 
-        public JassPtr(IntPtr pointer)
+        unsafe public JassPtr(Jass* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public Jass* AsUnsafe()
         {
             return (Jass*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

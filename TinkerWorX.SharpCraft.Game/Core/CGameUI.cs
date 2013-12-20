@@ -288,7 +288,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public CGameUIPtr AsSafe()
         {
             fixed (CGameUI* pointer = &this)
-                return new CGameUIPtr(new IntPtr(pointer));
+                return new CGameUIPtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
 
         public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
@@ -307,9 +313,9 @@ namespace TinkerWorX.SharpCraft.Game.Core
     {
         private IntPtr pointer;
 
-        public CGameUIPtr(IntPtr pointer)
+        unsafe public CGameUIPtr(CGameUI* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         public CSimpleMessageFramePtr Message
@@ -335,6 +341,11 @@ namespace TinkerWorX.SharpCraft.Game.Core
         unsafe public CGameUI* AsUnsafe()
         {
             return (CGameUI*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
 
         public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)

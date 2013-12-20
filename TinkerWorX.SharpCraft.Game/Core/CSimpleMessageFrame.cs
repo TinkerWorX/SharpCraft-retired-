@@ -111,7 +111,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public CSimpleMessageFramePtr AsSafe()
         {
             fixed (CSimpleMessageFrame* pointer = &this)
-                return new CSimpleMessageFramePtr(new IntPtr(pointer));
+                return new CSimpleMessageFramePtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
 
         public void WriteLine(String message, SColor color, Single duration)
@@ -121,18 +127,23 @@ namespace TinkerWorX.SharpCraft.Game.Core
     }
 
     [StructLayout(LayoutKind.Sequential)]
-    unsafe public struct CSimpleMessageFramePtr
+    public struct CSimpleMessageFramePtr
     {
         private IntPtr pointer;
 
-        public CSimpleMessageFramePtr(IntPtr pointer)
+        unsafe public CSimpleMessageFramePtr(CSimpleMessageFrame* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public CSimpleMessageFrame* AsUnsafe()
         {
             return (CSimpleMessageFrame*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
 
         public void WriteLine(String message, SColor color, Single duration)

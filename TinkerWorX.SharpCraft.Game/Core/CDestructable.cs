@@ -45,7 +45,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public CDestructablePtr AsSafe()
         {
             fixed (CDestructable* pointer = &this)
-                return new CDestructablePtr(new IntPtr(pointer));
+                return new CDestructablePtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
@@ -56,28 +62,32 @@ namespace TinkerWorX.SharpCraft.Game.Core
         // int __fastcall sub_6F3BE010(int a1)
         // We use __thiscall as a cheat for doing a fastcall with only one argument.
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CDestructablePtr sub_6F3BE010Prototype(JassDestructable destructable);
+        private delegate CDestructablePtr GetDestructableFromHandlePrototype(JassDestructable destructable);
 
-        private static sub_6F3BE010Prototype sub_6F3BE010 = (sub_6F3BE010Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BE010, typeof(sub_6F3BE010Prototype));
+        private static GetDestructableFromHandlePrototype GetDestructableFromHandle = (GetDestructableFromHandlePrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BE010, typeof(GetDestructableFromHandlePrototype));
 
         public static CDestructablePtr FromHandle(JassDestructable destructable)
         {
-            return sub_6F3BE010(destructable);
+            return GetDestructableFromHandle(destructable);
         }
 
 
 
         private IntPtr pointer;
 
-        public CDestructablePtr(IntPtr pointer)
+        unsafe public CDestructablePtr(CDestructable* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public CDestructable* AsUnsafe()
         {
             return (CDestructable*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

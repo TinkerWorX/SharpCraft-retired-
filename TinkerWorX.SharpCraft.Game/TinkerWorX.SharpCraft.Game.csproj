@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\ECodeResult.cs" />
     <Compile Include="Core\Jass.cs" />
     <Compile Include="Core\SColor.cs" />
     <Compile Include="Core\CDestructable.cs" />

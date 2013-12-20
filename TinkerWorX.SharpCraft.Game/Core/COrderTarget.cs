@@ -56,7 +56,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public COrderTargetPtr AsSafe()
         {
             fixed (COrderTarget* pointer = &this)
-                return new COrderTargetPtr(new IntPtr(pointer));
+                return new COrderTargetPtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
@@ -65,14 +71,19 @@ namespace TinkerWorX.SharpCraft.Game.Core
     {
         private IntPtr pointer;
 
-        public COrderTargetPtr(IntPtr pointer)
+        unsafe public COrderTargetPtr(COrderTarget* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public COrderTarget* AsUnsafe()
         {
             return (COrderTarget*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

@@ -59,23 +59,34 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public VirtualMachinePtr AsSafe()
         {
             fixed (VirtualMachine* pointer = &this)
-                return new VirtualMachinePtr(new IntPtr(pointer));
+                return new VirtualMachinePtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
     [StructLayout(LayoutKind.Sequential)]
     public struct VirtualMachinePtr
     {
-        public IntPtr pointer;
+        private IntPtr pointer;
 
-        public VirtualMachinePtr(IntPtr pointer)
+        unsafe public VirtualMachinePtr(VirtualMachine* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public VirtualMachine* AsUnsafe()
         {
             return (VirtualMachine*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }

@@ -73,7 +73,13 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public CItemPtr AsSafe()
         {
             fixed (CItem* pointer = &this)
-                return new CItemPtr(new IntPtr(pointer));
+                return new CItemPtr(pointer);
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            fixed (void* pointer = &this)
+                return new IntPtr(pointer);
         }
     }
 
@@ -84,28 +90,32 @@ namespace TinkerWorX.SharpCraft.Game.Core
         // int __fastcall sub_6F3BEB50(int a1)
         // We use __thiscall as a cheat for doing a fastcall with only one argument.
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        [return: MarshalAs(UnmanagedType.LPStruct)]
-        private delegate CItemPtr sub_6F3BEB50Prototype(JassItem item);
+        private delegate CItemPtr GetItemFromHandlePrototype(JassItem item);
 
-        private static sub_6F3BEB50Prototype sub_6F3BEB50 = (sub_6F3BEB50Prototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BEB50, typeof(sub_6F3BEB50Prototype));
+        private static GetItemFromHandlePrototype GetItemFromHandle = (GetItemFromHandlePrototype)Marshal.GetDelegateForFunctionPointer(WarcraftIII.Module + 0x3BEB50, typeof(GetItemFromHandlePrototype));
 
         public static CItemPtr FromHandle(JassItem item)
         {
-            return sub_6F3BEB50(item);
+            return GetItemFromHandle(item);
         }
 
 
 
         private IntPtr pointer;
 
-        public CItemPtr(IntPtr pointer)
+        unsafe public CItemPtr(CItem* pointer)
         {
-            this.pointer = pointer;
+            this.pointer = new IntPtr(pointer);
         }
 
         unsafe public CItem* AsUnsafe()
         {
             return (CItem*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
         }
     }
 }
