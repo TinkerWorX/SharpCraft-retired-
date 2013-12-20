@@ -69,10 +69,10 @@ namespace TinkerWorX.SharpCraft.Game
 
         public JassSystem()
         {
-            this.InstallInitNativesHook(WarcraftIII.Module + Settings.Current.Addresses.InitNatives);
             this.InstallJass__ConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
             this.InstallVirtualMachine__RunFunctionHook(WarcraftIII.Module + Settings.Current.Addresses.CallFunction);
             this.InstallVirtualMachine__RunCodeHook(WarcraftIII.Module + 0x0045E9D0);
+            this.InstallInitNativesHook(WarcraftIII.Module + Settings.Current.Addresses.InitNatives);
             this.FetchStringToJassStringIndex(WarcraftIII.Module + Settings.Current.Addresses.StringToJassStringIndex);
             this.FetchJassStringHandleToString(WarcraftIII.Module + Settings.Current.Addresses.JassStringHandleToString);
             this.bindNativePtr = WarcraftIII.Module + Settings.Current.Addresses.BindNative;
@@ -116,7 +116,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - InitNativesHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - InitNatives: 0x" + address.ToString("X8") + " . ");
 
                 this.initNatives = (InitNativesPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(InitNativesPrototype));
                 Trace.Write("fetched . ");
@@ -135,7 +135,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - Jass__ConstructorHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - Jass__Constructor: 0x" + address.ToString("X8") + " . ");
 
                 this.Jass__Constructor = (Jass__ConstructorPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(Jass__ConstructorPrototype));
                 Trace.Write("fetched . ");
@@ -154,7 +154,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - VirtualMachine__RunFunctionHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - VirtualMachine__RunFunction: 0x" + address.ToString("X8") + " . ");
 
                 this.VirtualMachine__RunFunction = (VirtualMachine__RunFunctionPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(VirtualMachine__RunFunctionPrototype));
                 Trace.Write("fetched . ");
@@ -173,7 +173,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - VirtualMachine__RunCodeHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - VirtualMachine__RunCode: 0x" + address.ToString("X8") + " . ");
 
                 this.VirtualMachine__RunCode = (VirtualMachine__RunCodePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(VirtualMachine__RunCodePrototype));
                 Trace.Write("fetched . ");

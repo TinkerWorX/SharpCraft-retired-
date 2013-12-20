@@ -102,7 +102,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - MouseHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - Mouse: 0x" + address.ToString("X8") + " . ");
 
                 this.mouse = (MouseDelegate)Marshal.GetDelegateForFunctionPointer(address, typeof(MouseDelegate));
                 Trace.Write("fetched . ");
@@ -121,7 +121,7 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - WndProcHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - WndProc: 0x" + address.ToString("X8") + " . ");
 
                 this.wndProc = (WndProcDelegate)Marshal.GetDelegateForFunctionPointer(address, typeof(WndProcDelegate));
                 Trace.Write("fetched . ");

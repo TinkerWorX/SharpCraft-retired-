@@ -31,7 +31,7 @@ namespace TinkerWorX.SharpCraft.Game
         public static JassSystem Jass { get; private set; }
         public static InterfaceSystem Interface { get; private set; }
 
-        private static GameStatePrototype gameState;
+        private static GameStatePrototype GameState;
 
         private static LocalHook gameStateHook;
 
@@ -67,9 +67,9 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - GameStateHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - GameState: 0x" + address.ToString("X8") + " . ");
 
-                WarcraftIII.gameState = (GameStatePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(GameStatePrototype));
+                WarcraftIII.GameState = (GameStatePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(GameStatePrototype));
                 Trace.Write("fetched . ");
 
                 WarcraftIII.gameStateHook = LocalHook.Create(address, new GameStatePrototype(WarcraftIII.GameStateHook), null);
@@ -80,13 +80,6 @@ namespace TinkerWorX.SharpCraft.Game
             {
                 Trace.WriteLine(e.Message);
             }
-        }
-
-        // Wrappers
-
-        private static Int32 GameState(IntPtr _this, Boolean endMap, Boolean endGame)
-        {
-            return WarcraftIII.gameState(_this, endMap, endGame);
         }
 
         // Hooks
