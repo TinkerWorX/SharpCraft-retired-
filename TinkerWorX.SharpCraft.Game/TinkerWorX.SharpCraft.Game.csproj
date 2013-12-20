@@ -62,6 +62,7 @@
     <Compile Include="Core\StringNode.cs" />
     <Compile Include="Core\StringPool.cs" />
     <Compile Include="Core\SymbolTable.cs" />
+    <Compile Include="Core\Variable.cs" />
     <Compile Include="Core\VirtualMachine.cs" />
     <Compile Include="InterfaceSystem.cs" />
     <Compile Include="JassSystem.cs" />

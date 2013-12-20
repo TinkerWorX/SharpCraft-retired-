@@ -52,8 +52,30 @@ namespace TinkerWorX.SharpCraft.Game.Core
         public IntPtr field289C;
         public IntPtr DecrementHandleFunction;
         public IntPtr HandleTable;
-        public IntPtr field28A8_Table;
-        public IntPtr field28AC_Table;
-        public IntPtr field28B0_Table;
+        public IntPtr table28A8;
+        public IntPtr table28AC;
+        public IntPtr table28B0;
+
+        public VirtualMachinePtr AsSafe()
+        {
+            fixed (VirtualMachine* pointer = &this)
+                return new VirtualMachinePtr(new IntPtr(pointer));
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    public struct VirtualMachinePtr
+    {
+        public IntPtr pointer;
+
+        public VirtualMachinePtr(IntPtr pointer)
+        {
+            this.pointer = pointer;
+        }
+
+        unsafe public VirtualMachine* AsUnsafe()
+        {
+            return (VirtualMachine*)this.pointer;
+        }
     }
 }
