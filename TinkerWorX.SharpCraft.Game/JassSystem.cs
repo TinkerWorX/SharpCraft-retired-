@@ -42,7 +42,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         //int __thiscall sub_6F45E9D0(int this, int a2, int a3, int a4, int a5)
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        private delegate JassError sub_6F45E9D0Prototype(IntPtr cJass, IntPtr a2, IntPtr a3, UInt32 opLimit, IntPtr a5);
+        private delegate JassError sub_6F45E9D0Prototype(VirtualMachinePtr virtualMachine, IntPtr opcode, IntPtr a3, UInt32 opLimit, IntPtr a5);
 
         private IntPtr cJassPtr;
         private IntPtr bindNativePtr;
@@ -314,27 +314,36 @@ namespace TinkerWorX.SharpCraft.Game
             return result;
         }
 
-        private JassError Sub_6F45E9D0Prototype(IntPtr cJass, IntPtr a2, IntPtr a3, UInt32 opLimit, IntPtr a5)
+        private JassError Sub_6F45E9D0Prototype(VirtualMachinePtr virtualMachine, IntPtr opcode, IntPtr a3, UInt32 opLimit, IntPtr a5)
         {
-            var result = sub_6F45E9D0(cJass, a2, a3, opLimit, a5);
+            var result = sub_6F45E9D0(virtualMachine, opcode, a3, opLimit, a5);
 
             if (Settings.Current.IsDebugging)
             {
-                switch (result)
+                unsafe
                 {
-                    case JassError.Success: break;
-                    case JassError.OpLimit:
-                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Op limit exceeded!", SColor.White, 10.00f);
-                        break;
-                    case JassError.VariableUninitialized:
-                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Uninitialized variable read!", SColor.White, 10.00f);
-                        break;
-                    case JassError.DivideByZero:
-                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Divide by zero!", SColor.White, 10.00f);
-                        break;
-                    default:
-                        WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Unknown error: " + result, SColor.White, 10.00f);
-                        break;
+                    // -8 is the start of the function declaration op.
+                    // -4 is the function id.
+                    // -0 is the first instruction in the function.
+                    var functionId = WarcraftIII.Memory.Read<Int32>(opcode - 0x04);
+                    var functionName = virtualMachine.AsUnsafe()->SymbolTable->StringPool->Nodes[functionId]->Value;
+                    switch (result)
+                    {
+                        case JassError.Success: break;
+                        case JassError.OpLimit:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Op limit exceeded in " + functionName, SColor.White, 10.00f);
+                            break;
+                        case JassError.ThreadPaused: break;
+                        case JassError.VariableUninitialized:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Uninitialized variable read in " + functionName, SColor.White, 10.00f);
+                            break;
+                        case JassError.DivideByZero:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Divide by zero in " + functionName, SColor.White, 10.00f);
+                            break;
+                        default:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Unknown error(" + result + ") in " + functionName, SColor.White, 10.00f);
+                            break;
+                    }
                 }
             }
 
@@ -411,6 +420,7 @@ namespace TinkerWorX.SharpCraft.Game
     {
         Success = 1,
         OpLimit = 2,
+        ThreadPaused = 3,
         VariableUninitialized = 6,
         DivideByZero = 7,
     }
