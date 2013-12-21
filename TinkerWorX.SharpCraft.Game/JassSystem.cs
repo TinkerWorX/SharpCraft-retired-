@@ -67,6 +67,8 @@ namespace TinkerWorX.SharpCraft.Game
         public event JassPreMainEventHandler PreMain;
         public event JassPostMainEventHandler PostMain;
 
+        public INatives Natives = new Natives();
+
         public JassSystem()
         {
             this.InstallJass__ConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
