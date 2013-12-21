@@ -67,7 +67,7 @@ namespace TinkerWorX.SharpCraft.Game
         public event JassPreMainEventHandler PreMain;
         public event JassPostMainEventHandler PostMain;
 
-        public INatives Natives = new Natives();
+        public INatives Natives { get; internal set; }
 
         public JassSystem()
         {

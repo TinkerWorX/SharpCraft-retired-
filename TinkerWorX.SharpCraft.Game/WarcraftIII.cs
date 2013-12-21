@@ -56,6 +56,7 @@ namespace TinkerWorX.SharpCraft.Game
 
             Trace.WriteLine(" - Initializing JASS system . . .");
             WarcraftIII.Jass = new JassSystem();
+            WarcraftIII.Jass.Natives = new Natives();
             Trace.WriteLine(" - - Done!");
 
             Trace.WriteLine(" - Initializing state detection . . .");
