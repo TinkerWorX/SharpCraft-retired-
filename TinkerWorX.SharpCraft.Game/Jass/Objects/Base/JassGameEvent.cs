@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Hgameevent;")]
+    [Serializable]
     public partial struct JassGameEvent
     {
         public readonly IntPtr Handle;

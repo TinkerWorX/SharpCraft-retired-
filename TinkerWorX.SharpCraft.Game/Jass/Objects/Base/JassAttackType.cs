@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Hattacktype;")]
+    [Serializable]
     public partial struct JassAttackType
     {
         public readonly IntPtr Handle;

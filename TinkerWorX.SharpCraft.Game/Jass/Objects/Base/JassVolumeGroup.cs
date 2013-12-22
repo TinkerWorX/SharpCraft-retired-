@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Hvolumegroup;")]
+    [Serializable]
     public partial struct JassVolumeGroup
     {
         public readonly IntPtr Handle;

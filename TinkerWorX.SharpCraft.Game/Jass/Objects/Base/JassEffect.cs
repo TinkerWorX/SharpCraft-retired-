@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Heffect;")]
+    [Serializable]
     public partial struct JassEffect
     {
         public readonly IntPtr Handle;

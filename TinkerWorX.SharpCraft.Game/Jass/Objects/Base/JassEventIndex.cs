@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Heventid;")]
+    [Serializable]
     public partial struct JassEventIndex
     {
         public readonly IntPtr Handle;

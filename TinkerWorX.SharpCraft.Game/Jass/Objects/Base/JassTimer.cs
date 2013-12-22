@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Htimer;")]
+    [Serializable]
     public partial struct JassTimer
     {
         public readonly IntPtr Handle;

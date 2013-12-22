@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Hplayerslotstate;")]
+    [Serializable]
     public partial struct JassPlayerSlotState
     {
         public readonly IntPtr Handle;

@@ -3,6 +3,7 @@ using System;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("Hdialog;")]
+    [Serializable]
     public partial struct JassDialog
     {
         public readonly IntPtr Handle;
