@@ -291,7 +291,7 @@ namespace TinkerWorX.SharpCraft.Game
                     this.OnPreConfig();
                     // TODO: Load up internal war3map.cs file.
                     // var code = Storm.FileReadToEnd(Storm.FileOpenFileEx(IntPtr.Zero, "war3map.cs", 0x00));
-                    result = this.callFunction(_this, functionName, a3, a4, a5, a6);
+                    result = this.VirtualMachine__RunFunction(vm, functionName, a3, a4, a5, a6);
                     this.OnPostConfig();
                     break;
 
