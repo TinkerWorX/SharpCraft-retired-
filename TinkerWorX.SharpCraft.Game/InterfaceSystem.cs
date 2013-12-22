@@ -12,28 +12,28 @@ namespace TinkerWorX.SharpCraft.Game
 {
     public delegate void PlayerChatEventHandler(Int32 sender, String message, ChatRecipients recipients);
 
-    public class InterfaceSystem
+    unsafe public class InterfaceSystem
     {
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        private delegate IntPtr CGameUIConstructorDelegate(CGameUI _this);
+        private delegate IntPtr CGameUI__ConstructorDelegate(CGameUIPtr _this);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        internal delegate IntPtr CGameUI__DisplayChatMessageDelegate(CGameUI _this, Int32 sender, String message, ChatRecipients recipients, Single duration);
+        internal delegate IntPtr CGameUI__DisplayChatMessageDelegate(CGameUIPtr _this, Int32 sender, String message, ChatRecipients recipients, Single duration);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        internal delegate IntPtr CWorldFrame__WriteLineDelegate(CWorldFrame _this, String message, ref CColor color, Single duration, Int32 a5);
+        internal delegate IntPtr CWorldFrame__WriteLineDelegate(CSimpleMessageFramePtr _this, String message, ref SColor color, Single duration, Int32 a5);
 
-        private CGameUIConstructorDelegate CGameUIConstructor;
+        private CGameUI__ConstructorDelegate CGameUI__Constructor;
 
         internal CGameUI__DisplayChatMessageDelegate CGameUI__DisplayChatMessage;
 
         internal CWorldFrame__WriteLineDelegate CWorldFrame__WriteLine;
 
-        private LocalHook CGameUIConstructorLocalHook;
+        private LocalHook CGameUI__ConstructorLocalHook;
 
         private LocalHook CGameUI__DisplayChatMessageLocalHook;
 
-        private CGameUI gameUI;
+        private CGameUIPtr gameUI;
 
         public Boolean BlockChat;
 
@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft.Game
             this.FetchCWorldFrame__WriteLine(WarcraftIII.Module + Settings.Current.Addresses.CWorldFrame__WriteLine);
         }
 
-        public CGameUI GameUI { get { return this.gameUI; } }
+        public CGameUIPtr GameUI { get { return this.gameUI; } }
 
         public Single FPS { get { return (Single)Marshal.PtrToStructure(WarcraftIII.Module + Settings.Current.Addresses.FPS, typeof(Single)); } }
 
@@ -60,13 +60,13 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - CGameUIConstructor: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - CGameUI__Constructor: 0x" + address.ToString("X8") + " . ");
 
-                this.CGameUIConstructor = (CGameUIConstructorDelegate)Marshal.GetDelegateForFunctionPointer(address, typeof(CGameUIConstructorDelegate));
+                this.CGameUI__Constructor = (CGameUI__ConstructorDelegate)Marshal.GetDelegateForFunctionPointer(address, typeof(CGameUI__ConstructorDelegate));
                 Trace.Write("fetched . ");
 
-                this.CGameUIConstructorLocalHook = LocalHook.Create(address, new CGameUIConstructorDelegate(this.CGameUIConstructorHook), null);
-                this.CGameUIConstructorLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                this.CGameUI__ConstructorLocalHook = LocalHook.Create(address, new CGameUI__ConstructorDelegate(this.CGameUI__ConstructorHook), null);
+                this.CGameUI__ConstructorLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
                 Trace.WriteLine("installed!");
             }
             catch (Exception e)
@@ -109,16 +109,16 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        private IntPtr CGameUIConstructorHook(CGameUI _this)
+        private IntPtr CGameUI__ConstructorHook(CGameUIPtr _this)
         {
-            var result = CGameUIConstructor(_this);
+            var result = CGameUI__Constructor(_this);
 
             this.gameUI = _this;
 
             return result;
         }
 
-        private IntPtr CGameUI__DisplayChatMessageHook(CGameUI _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
+        private IntPtr CGameUI__DisplayChatMessageHook(CGameUIPtr _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
         {
             var result = IntPtr.Zero;
 

@@ -24,6 +24,8 @@ namespace TinkerWorX.SharpCraft
             {
                 Console.Write("SharpCraft");
 
+                Environment.CurrentDirectory = Path.GetDirectoryName(typeof(Program).Assembly.Location);
+
                 var fvi = FileVersionInfo.GetVersionInfo(typeof(Program).Assembly.Location);
                 Program.version = new Version(fvi.FileMajorPart, fvi.FileMinorPart, fvi.FileBuildPart, fvi.FilePrivatePart);
 
@@ -130,6 +132,8 @@ namespace TinkerWorX.SharpCraft
         {
             if (!File.Exists(gamePath))
                 throw new StartupException("Could not find war3.exe!" + Environment.NewLine + "You may need to verify your registry settings are correct.");
+            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "SharpCraft.Game.dll")))
+                throw new StartupException("Could not find SharpCraft.Game.dll!" + Environment.NewLine + "You may need to redownload SharpCraft.");
 
             var kill = (args.Length > 0 && args[0] == "-kill");
             if (kill)
@@ -162,6 +166,8 @@ namespace TinkerWorX.SharpCraft
         {
             if (!File.Exists(editorPath))
                 throw new StartupException("Could not find worldedit.exe!" + Environment.NewLine + "You may need to verify your registry settings are correct.");
+            if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "SharpCraft.Editor.dll")))
+                throw new StartupException("Could not find SharpCraft.Editor.dll!" + Environment.NewLine + "You may need to redownload SharpCraft.");
 
             var kill = (args.Length > 0 && args[0] == "-kill");
             if (kill)

@@ -31,7 +31,7 @@ namespace TinkerWorX.SharpCraft.Game
         public static JassSystem Jass { get; private set; }
         public static InterfaceSystem Interface { get; private set; }
 
-        private static GameStatePrototype gameState;
+        private static GameStatePrototype GameState;
 
         private static LocalHook gameStateHook;
 
@@ -56,6 +56,7 @@ namespace TinkerWorX.SharpCraft.Game
 
             Trace.WriteLine(" - Initializing JASS system . . .");
             WarcraftIII.Jass = new JassSystem();
+            WarcraftIII.Jass.Natives = new Natives();
             Trace.WriteLine(" - - Done!");
 
             Trace.WriteLine(" - Initializing state detection . . .");
@@ -66,27 +67,20 @@ namespace TinkerWorX.SharpCraft.Game
         private static void InstallGameStateHook(IntPtr address)
         {
             try
-        {
-                Trace.Write(" - - GameStateHook: 0x" + address.ToString("X8") + " . ");
+            {
+                Trace.Write(" - - GameState: 0x" + address.ToString("X8") + " . ");
 
-                WarcraftIII.gameState = (GameStatePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(GameStatePrototype));
+                WarcraftIII.GameState = (GameStatePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(GameStatePrototype));
                 Trace.Write("fetched . ");
 
                 WarcraftIII.gameStateHook = LocalHook.Create(address, new GameStatePrototype(WarcraftIII.GameStateHook), null);
                 WarcraftIII.gameStateHook.ThreadACL.SetExclusiveACL(new[] { 0 });
                 Trace.WriteLine("installed!");
-        }
+            }
             catch (Exception e)
-        {
+            {
                 Trace.WriteLine(e.Message);
-        }
-        }
-
-        // Wrappers
-
-        private static Int32 GameState(IntPtr _this, Boolean endMap, Boolean endGame)
-        {
-            return WarcraftIII.gameState(_this, endMap, endGame);
+            }
         }
 
         // Hooks

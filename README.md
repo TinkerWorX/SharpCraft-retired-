@@ -26,10 +26,10 @@ Jass API
 
 ```csharp
 // These events are safe for doing things that require the Jass virtual-machine, like calling natives, creating units, etc.
-event WarcraftIII.Jass.OnPreConfig;
-event WarcraftIII.Jass.OnPostConfig;
-event WarcraftIII.Jass.OnPreMain;
-event WarcraftIII.Jass.OnPostMain;
+event WarcraftIII.Jass.PreConfig;
+event WarcraftIII.Jass.PostConfig;
+event WarcraftIII.Jass.PreMain;
+event WarcraftIII.Jass.PostMain;
 
 // Thses methods are for adding custom natives.
 void WarcraftIII.Jass.AddNative(Delegate native);
@@ -75,10 +75,10 @@ void WarcraftIII.Interface.GameUI.WriteChatMessage(Int32 sender, String message,
 void WarcraftIII.Interface.GameUI.WriteChatMessage(JassPlayer sender, String message, ChatRecipients recipients, Single duration);
 
 // Writes to various parts of the interface, including the player chat area(ChatMessage), the regular message area(UnitMessage), top center(TopMessage) and the bottom information area(Message).
-void WarcraftIII.Interface.GameUI.ChatMessage.WriteLine(String message, CColor color, Single duration);
-void WarcraftIII.Interface.GameUI.UnitMessage.WriteLine(String message, CColor color, Single duration);
-void WarcraftIII.Interface.GameUI.TopMessage.WriteLine(String message, CColor color, Single duration);
-void WarcraftIII.Interface.GameUI.Message.WriteLine(String message, CColor color, Single duration);
+void WarcraftIII.Interface.GameUI.ChatMessage.WriteLine(String message, SColor color, Single duration);
+void WarcraftIII.Interface.GameUI.UnitMessage.WriteLine(String message, SColor color, Single duration);
+void WarcraftIII.Interface.GameUI.TopMessage.WriteLine(String message, SColor color, Single duration);
+void WarcraftIII.Interface.GameUI.Message.WriteLine(String message, SColor color, Single duration);
 ```
 
 Credits

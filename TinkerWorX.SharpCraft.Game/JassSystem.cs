@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EasyHook;
 using TinkerWorX.SharpCraft.Core;
+using TinkerWorX.SharpCraft.Game.Core;
 using TinkerWorX.SharpCraft.Game.Jass;
 
 namespace TinkerWorX.SharpCraft.Game
@@ -28,29 +29,35 @@ namespace TinkerWorX.SharpCraft.Game
         private delegate void BindNativePrototype();
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A normal __thiscall function.
-        private delegate IntPtr CJassConstructorPrototype(IntPtr cJass);
+        private delegate JassPtr Jass__ConstructorPrototype(JassPtr jass);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A normal __thiscall function.
-        private delegate IntPtr CallFunctionPrototype(IntPtr _this, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6);
+        private delegate IntPtr VirtualMachine__RunFunctionPrototype(VirtualMachinePtr vm, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A cheat for __fastcall when there is only one argument.
-        private delegate Int32 StringToJassStringIndexPrototype(IntPtr stringPtr);
+        private delegate Int32 StringToJassStringIndexPrototype(IntPtr unmanagedStringPtr);
 
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A cheat for __fastcall when there is only one argument.
         private delegate IntPtr JassStringHandleToStringPrototype(IntPtr jassStringHandle);
 
-        private IntPtr cJassPtr;
-        private IntPtr bindNativePtr;
+        //int __thiscall sub_6F45E9D0(int this, int a2, int a3, int a4, int a5)
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate ECodeResult VirtualMachine__RunCodePrototype(VirtualMachinePtr vm, IntPtr opcode, IntPtr a3, UInt32 opLimit, IntPtr a5);
+
+        private JassPtr jass;
 
         private InitNativesPrototype initNatives;
-        private CJassConstructorPrototype cJassConstructor;
-        private CallFunctionPrototype callFunction;
-        private StringToJassStringIndexPrototype stringToJassStringIndex;
-        private JassStringHandleToStringPrototype jassStringHandleToString;
+        private Jass__ConstructorPrototype Jass__Constructor;
+        private VirtualMachine__RunFunctionPrototype VirtualMachine__RunFunction;
+        private VirtualMachine__RunCodePrototype VirtualMachine__RunCode;
+        private StringToJassStringIndexPrototype StringToJassStringIndex;
+        private JassStringHandleToStringPrototype JassStringHandleToString;
+        private IntPtr bindNativePtr;
 
-        private LocalHook initNativesHook;
-        private LocalHook cJassConstructorHook;
-        private LocalHook callFunctionHook;
+        private LocalHook InitNativesLocalHook;
+        private LocalHook Jass__ConstructorLocalHook;
+        private LocalHook VirtualMachine__RunFunctionLocalHook;
+        private LocalHook VirtualMachine__RunCodeLocalHook;
 
         private List<Native> vanillaNatives = new List<Native>();
         private List<Native> customNatives = new List<Native>();
@@ -60,11 +67,14 @@ namespace TinkerWorX.SharpCraft.Game
         public event JassPreMainEventHandler PreMain;
         public event JassPostMainEventHandler PostMain;
 
+        public INatives Natives { get; internal set; }
+
         public JassSystem()
         {
+            this.InstallJass__ConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
+            this.InstallVirtualMachine__RunFunctionHook(WarcraftIII.Module + Settings.Current.Addresses.CallFunction);
+            this.InstallVirtualMachine__RunCodeHook(WarcraftIII.Module + 0x0045E9D0);
             this.InstallInitNativesHook(WarcraftIII.Module + Settings.Current.Addresses.InitNatives);
-            this.InstallCJassConstructorHook(WarcraftIII.Module + Settings.Current.Addresses.JassConstructor);
-            this.InstallCallFunctionHook(WarcraftIII.Module + Settings.Current.Addresses.CallFunction);
             this.FetchStringToJassStringIndex(WarcraftIII.Module + Settings.Current.Addresses.StringToJassStringIndex);
             this.FetchJassStringHandleToString(WarcraftIII.Module + Settings.Current.Addresses.JassStringHandleToString);
             this.bindNativePtr = WarcraftIII.Module + Settings.Current.Addresses.BindNative;
@@ -108,13 +118,13 @@ namespace TinkerWorX.SharpCraft.Game
         {
             try
             {
-                Trace.Write(" - - InitNativesHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - InitNatives: 0x" + address.ToString("X8") + " . ");
 
                 this.initNatives = (InitNativesPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(InitNativesPrototype));
                 Trace.Write("fetched . ");
 
-                this.initNativesHook = LocalHook.Create(address, new InitNativesPrototype(this.InitNativesHook), null);
-                this.initNativesHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                this.InitNativesLocalHook = LocalHook.Create(address, new InitNativesPrototype(this.InitNativesHook), null);
+                this.InitNativesLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
                 Trace.WriteLine("installed!");
             }
             catch (Exception e)
@@ -123,17 +133,17 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        private void InstallCJassConstructorHook(IntPtr address)
+        private void InstallJass__ConstructorHook(IntPtr address)
         {
             try
             {
-                Trace.Write(" - - CJassConstructorHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - Jass__Constructor: 0x" + address.ToString("X8") + " . ");
 
-                this.cJassConstructor = (CJassConstructorPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(CJassConstructorPrototype));
+                this.Jass__Constructor = (Jass__ConstructorPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(Jass__ConstructorPrototype));
                 Trace.Write("fetched . ");
 
-                this.cJassConstructorHook = LocalHook.Create(address, new CJassConstructorPrototype(this.CJassConstructorHook), null);
-                this.cJassConstructorHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                this.Jass__ConstructorLocalHook = LocalHook.Create(address, new Jass__ConstructorPrototype(this.Jass__ConstructorHook), null);
+                this.Jass__ConstructorLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
                 Trace.WriteLine("installed!");
             }
             catch (Exception e)
@@ -142,17 +152,17 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        private void InstallCallFunctionHook(IntPtr address)
+        private void InstallVirtualMachine__RunFunctionHook(IntPtr address)
         {
             try
             {
-                Trace.Write(" - - CallFunctionHook: 0x" + address.ToString("X8") + " . ");
+                Trace.Write(" - - VirtualMachine__RunFunction: 0x" + address.ToString("X8") + " . ");
 
-                this.callFunction = (CallFunctionPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(CallFunctionPrototype));
+                this.VirtualMachine__RunFunction = (VirtualMachine__RunFunctionPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(VirtualMachine__RunFunctionPrototype));
                 Trace.Write("fetched . ");
 
-                this.callFunctionHook = LocalHook.Create(address, new CallFunctionPrototype(this.CallFunctionHook), null);
-                this.callFunctionHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                this.VirtualMachine__RunFunctionLocalHook = LocalHook.Create(address, new VirtualMachine__RunFunctionPrototype(this.VirtualMachine__RunFunctionHook), null);
+                this.VirtualMachine__RunFunctionLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
                 Trace.WriteLine("installed!");
             }
             catch (Exception e)
@@ -161,14 +171,23 @@ namespace TinkerWorX.SharpCraft.Game
             }
         }
 
-        private Int32 InitNatives()
+        private void InstallVirtualMachine__RunCodeHook(IntPtr address)
         {
-            return this.initNatives();
-        }
+            try
+            {
+                Trace.Write(" - - VirtualMachine__RunCode: 0x" + address.ToString("X8") + " . ");
 
-        private IntPtr CJassConstructor(IntPtr cJass)
+                this.VirtualMachine__RunCode = (VirtualMachine__RunCodePrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(VirtualMachine__RunCodePrototype));
+                Trace.Write("fetched . ");
+
+                this.VirtualMachine__RunCodeLocalHook = LocalHook.Create(address, new VirtualMachine__RunCodePrototype(this.VirtualMachine__RunCodeHook), null);
+                this.VirtualMachine__RunCodeLocalHook.ThreadACL.SetExclusiveACL(new[] { 0 });
+                Trace.WriteLine("installed!");
+        }
+            catch (Exception e)
         {
-            return this.cJassConstructor(cJass);
+                Trace.WriteLine(e.Message);
+            }
         }
 
         private void FetchStringToJassStringIndex(IntPtr address)
@@ -177,7 +196,7 @@ namespace TinkerWorX.SharpCraft.Game
             {
                 Trace.Write(" - - StringToJassStringIndex: 0x" + address.ToString("X8") + " . ");
 
-                this.stringToJassStringIndex = (StringToJassStringIndexPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(StringToJassStringIndexPrototype));
+                this.StringToJassStringIndex = (StringToJassStringIndexPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(StringToJassStringIndexPrototype));
                 Trace.WriteLine("fetched!");
             }
             catch (Exception e)
@@ -192,7 +211,7 @@ namespace TinkerWorX.SharpCraft.Game
             {
                 Trace.Write(" - - JassStringHandleToString: 0x" + address.ToString("X8") + " . ");
 
-                this.jassStringHandleToString = (JassStringHandleToStringPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(JassStringHandleToStringPrototype));
+                this.JassStringHandleToString = (JassStringHandleToStringPrototype)Marshal.GetDelegateForFunctionPointer(address, typeof(JassStringHandleToStringPrototype));
                 Trace.WriteLine("fetched!");
             }
             catch (Exception e)
@@ -243,8 +262,7 @@ namespace TinkerWorX.SharpCraft.Game
 
         private Int32 InitNativesHook()
         {
-            var result = this.InitNatives();
-            //Debug.WriteLine("WarcraftIII.InitNatives()");
+            var result = this.initNatives();
 
             foreach (var native in this.customNatives)
             {
@@ -254,17 +272,16 @@ namespace TinkerWorX.SharpCraft.Game
             return result;
         }
 
-        private IntPtr CJassConstructorHook(IntPtr cJass)
+        private JassPtr Jass__ConstructorHook(JassPtr jass)
         {
-            var result = this.CJassConstructor(cJass);
-            //Debug.WriteLine("WarcraftIII.CJassConstructor(cJass:{0})", new object[] { "0x" + cJass.ToString("X8") });
+            var result = this.Jass__Constructor(jass);
 
-            this.cJassPtr = result;
+            this.jass = result;
 
             return result;
         }
 
-        private IntPtr CallFunctionHook(IntPtr _this, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6)
+        unsafe private IntPtr VirtualMachine__RunFunctionHook(VirtualMachinePtr vm, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6)
         {
             var result = IntPtr.Zero;
 
@@ -280,31 +297,67 @@ namespace TinkerWorX.SharpCraft.Game
 
                 case "main":
                     this.OnPreMain();
-                    result = this.callFunction(_this, functionName, a3, a4, a5, a6);
+                    result = this.VirtualMachine__RunFunction(vm, functionName, a3, a4, a5, a6);
                     this.OnPostMain();
                     break;
 
                 default:
-                    result = this.callFunction(_this, functionName, a3, a4, a5, a6);
+                    result = this.VirtualMachine__RunFunction(vm, functionName, a3, a4, a5, a6);
                     break;
             }
 
             return result;
         }
 
-        internal Int32 StringToJassStringIndex(String str)
+        unsafe private ECodeResult VirtualMachine__RunCodeHook(VirtualMachinePtr vm, IntPtr opcode, IntPtr a3, UInt32 opLimit, IntPtr a5)
         {
-            return stringToJassStringIndex(Marshal.StringToHGlobalAnsi(str));
+            var result = VirtualMachine__RunCode(vm, opcode, a3, opLimit, a5);
+
+            if (Settings.Current.IsDebugging)
+            {
+                unsafe
+                {
+                    // -8 is the start of the function declaration op.
+                    // -4 is the function id.
+                    // -0 is the first instruction in the function.
+                    var functionId = WarcraftIII.Memory.Read<Int32>(opcode - 0x04);
+                    var functionName = vm.AsUnsafe()->SymbolTable->StringPool->Nodes[functionId]->Value;
+                    switch (result)
+                    {
+                        case ECodeResult.Success: break;
+                        case ECodeResult.OpLimit:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Op limit exceeded in " + functionName, SColor.White, 10.00f);
+                            break;
+                        case ECodeResult.ThreadPaused: break;
+                        case ECodeResult.VariableUninitialized:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Uninitialized variable read in " + functionName, SColor.White, 10.00f);
+                            break;
+                        case ECodeResult.DivideByZero:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Divide by zero in " + functionName, SColor.White, 10.00f);
+                            break;
+                default:
+                            WarcraftIII.Interface.GameUI.ChatMessage.WriteLine("[System] |cffff0000Error|r: Unknown error(" + result + ") in " + functionName, SColor.White, 10.00f);
+                    break;
+            }
+                }
+            }
+
+            return result;
         }
 
-        internal String JassStringHandleToString(IntPtr jassStringHandle)
+        internal Int32 StringToJassStringIndexWrapper(String unmanagedString)
         {
-            return Marshal.PtrToStringAnsi(jassStringHandleToString(jassStringHandle));
+            return this.StringToJassStringIndex(Marshal.StringToHGlobalAnsi(unmanagedString));
+        }
+
+        internal String JassStringHandleToStringWrapper(IntPtr jassStringHandle)
+        {
+            return Marshal.PtrToStringAnsi(this.JassStringHandleToString(jassStringHandle));
         }
 
         internal IntPtr JassStringIndexToJassStringHandle(Int32 jassStringIndex)
         {
-            return (IntPtr)((Int32)Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(this.cJassPtr, 0x0C)), 0x2874), 0x0008) + 0x10 * jassStringIndex);
+            return (IntPtr)((Int32)Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(this.jass.AsIntPtr(), 0x0C)), 0x2874), 0x0008) + 0x10 * jassStringIndex);
             // the above code may be a bit confusing, but we're essentially doing the following, without needing to
             // find the function every patch, and avoid the convoluted class hierarchy.
             // return Jass->VirtualMachine->StringManager->Table[jassStringIndex];
