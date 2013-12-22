@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
