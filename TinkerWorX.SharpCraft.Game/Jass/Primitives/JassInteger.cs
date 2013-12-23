@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("I")]
+    [Serializable]
     public struct JassInteger
     {
         private readonly Int32 value;

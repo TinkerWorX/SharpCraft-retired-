@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("B")]
+    [Serializable]
     public struct JassBoolean
     {
         private readonly Int32 value;

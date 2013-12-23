@@ -2,7 +2,7 @@ using System;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
-    public class Natives : INatives
+    public class Natives : MarshalByRefObject, INatives
     {
         //native ConvertRace takes integer i returns race
         internal delegate JassRace ConvertRacePrototype(JassInteger i);

@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
     [JassType("R")]
+    [Serializable]
     public struct JassRealArg
     {
         private readonly IntPtr valueAsPtr;

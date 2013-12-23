@@ -5,7 +5,8 @@ using System.Text;
 
 namespace TinkerWorX.SharpCraft.Game.Jass
 {
-   public enum JassOrder : int
+    [Serializable]
+    public enum JassOrder : int
     {
         Base = 0x0D0000,
 
@@ -377,6 +378,6 @@ namespace TinkerWorX.SharpCraft.Game.Jass
         volcano = 852669,
         incineratearrow = 852670,
         incineratearrowon = 852671,
-        incineratearrowoff = 852672 
+        incineratearrowoff = 852672
     }
 }
