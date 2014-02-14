@@ -1,0 +1,3 @@
+<plugin_package name="Lidgren Network Library" type="safe" version="2012.1.7.0" target_version="agnostic">
+	<file name="Lidgren.Network.dll" type="binary" />
+</plugin_package>

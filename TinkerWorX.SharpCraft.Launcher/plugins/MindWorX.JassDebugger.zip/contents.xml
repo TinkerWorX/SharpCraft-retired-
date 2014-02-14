@@ -1,0 +1,4 @@
+<plugin_package id="mindworx.jass.debugger" name="Jass Debugger" type="full" version="0.0.0.1" target="1.26.0.6401">
+  <reference id="lidgren.network" version="2012.1.7.0"/>
+	<file name="MindWorX.JassDebugger.dll" />
+</plugin_package>
