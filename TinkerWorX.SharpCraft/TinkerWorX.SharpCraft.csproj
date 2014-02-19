@@ -219,6 +219,7 @@
     <Compile Include="Blizzard\Types\Color.cs" />
     <Compile Include="Blizzard\Types\ObjectIdB.cs" />
     <Compile Include="Blizzard\Types\ObjectIdL.cs" />
+    <Compile Include="MapPluginBase.cs" />
     <Compile Include="MapScriptBase.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
