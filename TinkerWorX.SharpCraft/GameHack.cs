@@ -46,7 +46,7 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("Initializing Game api . . .");
                 Trace.Indent();
                 sw.Start();
-                Game.Initialize();
+                InternalGame.Initialize();
                 sw.Stop();
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
@@ -55,7 +55,7 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("Initializing JassMachine api . . .");
                 Trace.Indent();
                 sw.Start();
-                JassMachine.Initialize();
+                InternalScript.Initialize();
                 sw.Stop();
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
@@ -64,7 +64,7 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("Initializing Interface api . . .");
                 Trace.Indent();
                 sw.Start();
-                Interface.Initialize();
+                InternalInterface.Initialize();
                 sw.Stop();
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
@@ -73,7 +73,7 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("Initializing Input api . . .");
                 Trace.Indent();
                 sw.Start();
-                Input.Initialize();
+                InternalInput.Initialize();
                 sw.Stop();
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
@@ -82,7 +82,7 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("Initializing Natives api . . .");
                 Trace.Indent();
                 sw.Start();
-                Natives.Initialize();
+                InternalNatives.Initialize();
                 sw.Stop();
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");

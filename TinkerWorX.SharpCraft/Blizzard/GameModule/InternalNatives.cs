@@ -10,7 +10,7 @@ using TinkerWorX.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
-    internal static partial class Natives
+    internal static partial class InternalNatives
     {
         private static GameFunctions.InitNativesPrototype InitNatives;
 
@@ -23,16 +23,16 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         public static void Initialize()
         {
             if (Kernel32.GetModuleHandle("game.dll") == IntPtr.Zero)
-                throw new Exception("Attempted to initialize " + typeof(Natives).Name + " before 'game.dll' has been loaded.");
+                throw new Exception("Attempted to initialize " + typeof(InternalNatives).Name + " before 'game.dll' has been loaded.");
 
             if (!GameAddresses.IsReady)
-                throw new Exception("Attempted to initialize " + typeof(Natives).Name + " before " + typeof(GameAddresses).Name + " was ready.");
+                throw new Exception("Attempted to initialize " + typeof(InternalNatives).Name + " before " + typeof(GameAddresses).Name + " was ready.");
 
             var address = IntPtr.Zero;
 
             address = GameAddresses.InitNatives;
             Trace.Write("InitNatives: 0x" + address.ToString("X8") + " . ");
-            Natives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(Natives.InitNativesHook), true, false);
+            InternalNatives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
             Trace.WriteLine("hook installed!");
 
             Trace.Write("Scanning vanilla natives . ");
@@ -40,18 +40,18 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             var offset = 0x05;
             while (Memory.Read<Byte>(address + offset) == 0x68)
             {
-                Natives.vanillaNatives.Add(new NativeDeclaration(address + offset));
+                InternalNatives.vanillaNatives.Add(new NativeDeclaration(address + offset));
                 offset += 0x14;
             }
-            Natives.GetVanillaNatives();
-            Trace.WriteLine("found " + Natives.vanillaNatives.Count + "!");
+            InternalNatives.GetVanillaNatives();
+            Trace.WriteLine("found " + InternalNatives.vanillaNatives.Count + "!");
         }
 
         private static Int32 InitNativesHook()
         {
-            var result = Natives.InitNatives();
+            var result = InternalNatives.InitNatives();
 
-            foreach (var native in Natives.customNatives)
+            foreach (var native in InternalNatives.customNatives)
             {
                 GameFunctions.BindNative(native.Function, native.Name, native.Prototype);
             }
@@ -100,12 +100,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static void Add(NativeDeclaration native)
         {
-            Natives.customNatives.Add(native);
+            InternalNatives.customNatives.Add(native);
         }
 
         public static void Add(Delegate function, String name, String prototype)
         {
-            Natives.Add(new NativeDeclaration(function, name, prototype));
+            InternalNatives.Add(new NativeDeclaration(function, name, prototype));
         }
 
         public static void Add(Delegate function, String name)
@@ -135,12 +135,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         public static void Add(Delegate function)
         {
-            Natives.Add(function, function.Method.Name);
+            InternalNatives.Add(function, function.Method.Name);
         }
 
         public static NativeDeclaration Get(String name)
         {
-            return Natives.vanillaNatives.FirstOrDefault(native => native.Name == name);
+            return InternalNatives.vanillaNatives.FirstOrDefault(native => native.Name == name);
         }
     }
 }

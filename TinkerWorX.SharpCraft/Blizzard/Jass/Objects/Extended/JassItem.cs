@@ -1,5 +1,6 @@
 ﻿using System;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
+using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 {
@@ -7,7 +8,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
     {
         public static JassItem Create(JassObjectId itemid, Single x, Single y)
         {
-            return Natives.CreateItem(itemid, x, y);
+            return SafeNatives.CreateItem(itemid, x, y);
         }
 
         public CItemPtr ToCItem()

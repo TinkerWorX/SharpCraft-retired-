@@ -1,4 +1,5 @@
 ﻿using System;
+using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 {
@@ -6,12 +7,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
     {
         public JassBoolean Evaluate()
         {
-            return Natives.TriggerEvaluate(this);
+            return SafeNatives.TriggerEvaluate(this);
         }
 
         public void Execute()
         {
-            Natives.TriggerExecute(this);
+            SafeNatives.TriggerExecute(this);
         }
     }
 }

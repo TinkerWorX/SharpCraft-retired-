@@ -1,5 +1,6 @@
 ﻿using System;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
+using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 {
@@ -16,7 +17,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
         /// <returns>A unit.</returns>
         public static JassUnit Create(JassPlayer player, JassObjectId unitId, Single x, Single y, Single facing)
         {
-            return Natives.CreateUnit(player, unitId, x, y, facing);
+            return SafeNatives.CreateUnit(player, unitId, x, y, facing);
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
         /// <returns>A unit.</returns>
         public static JassUnit Create(JassPlayer player, String unitname, Single x, Single y, Single facing)
         {
-            return Natives.CreateUnitByName(player, unitname, x, y, facing);
+            return SafeNatives.CreateUnitByName(player, unitname, x, y, facing);
         }
 
         /// <summary>
@@ -44,7 +45,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
         /// <returns>A unit.</returns>
         public static JassUnit CreateCorpse(JassPlayer player, JassObjectId unitid, Single x, Single y, Single facing)
         {
-            return Natives.CreateCorpse(player, unitid, x, y, facing);
+            return SafeNatives.CreateCorpse(player, unitid, x, y, facing);
         }
 
         public CUnitPtr ToCUnit()
@@ -54,92 +55,92 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 
         public Single GetX()
         {
-            return Natives.GetUnitX(this);
+            return SafeNatives.GetUnitX(this);
         }
 
         public void SetX(Single value)
         {
-            Natives.SetUnitX(this, value);
+            SafeNatives.SetUnitX(this, value);
         }
 
         public Single GetY()
         {
-            return Natives.GetUnitY(this);
+            return SafeNatives.GetUnitY(this);
         }
 
         public void SetY(Single value)
         {
-            Natives.SetUnitY(this, value);
+            SafeNatives.SetUnitY(this, value);
         }
 
         public Single GetFacing()
         {
-            return Natives.GetUnitFacing(this);
+            return SafeNatives.GetUnitFacing(this);
         }
 
         public void SetFacing(Single value)
         {
-            Natives.SetUnitFacing(this, value);
+            SafeNatives.SetUnitFacing(this, value);
         }
 
         public Single GetLife()
         {
-            return Natives.GetUnitState(this, JassUnitState.Life);
+            return SafeNatives.GetUnitState(this, JassUnitState.Life);
         }
 
         public void SetLife(Single value)
         {
-            Natives.SetUnitState(this, JassUnitState.Life, value);
+            SafeNatives.SetUnitState(this, JassUnitState.Life, value);
         }
 
         public Single GetMaxLife()
         {
-            return Natives.GetUnitState(this, JassUnitState.MaxLife);
+            return SafeNatives.GetUnitState(this, JassUnitState.MaxLife);
         }
 
         public void SetMaxLife(Single value)
         {
-            Natives.SetUnitState(this, JassUnitState.MaxLife, value);
+            SafeNatives.SetUnitState(this, JassUnitState.MaxLife, value);
         }
 
         public Single GetMana()
         {
-            return Natives.GetUnitState(this, JassUnitState.Mana);
+            return SafeNatives.GetUnitState(this, JassUnitState.Mana);
         }
 
         public void SetMana(Single value)
         {
-            Natives.SetUnitState(this, JassUnitState.Mana, value);
+            SafeNatives.SetUnitState(this, JassUnitState.Mana, value);
         }
 
         public Single GetMaxMana()
         {
-            return Natives.GetUnitState(this, JassUnitState.MaxMana);
+            return SafeNatives.GetUnitState(this, JassUnitState.MaxMana);
         }
 
         public void SetMaxMana(Single value)
         {
-            Natives.SetUnitState(this, JassUnitState.MaxMana, value);
+            SafeNatives.SetUnitState(this, JassUnitState.MaxMana, value);
         }
 
         public void Kill()
         {
-            Natives.KillUnit(this);
+            SafeNatives.KillUnit(this);
         }
 
         public void Remove()
         {
-            Natives.RemoveUnit(this);
+            SafeNatives.RemoveUnit(this);
         }
 
         public void Show()
         {
-            Natives.ShowUnit(this, true);
+            SafeNatives.ShowUnit(this, true);
         }
 
         public void Hide()
         {
-            Natives.ShowUnit(this, false);
+            SafeNatives.ShowUnit(this, false);
         }
     }
 }

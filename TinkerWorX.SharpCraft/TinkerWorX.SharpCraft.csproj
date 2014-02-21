@@ -66,27 +66,18 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blizzard\GameModule\APIs\InputAPI.cs" />
-    <Compile Include="Blizzard\GameModule\APIs\InterfaceAPI.cs" />
-    <Compile Include="Blizzard\GameModule\APIs\JassAPI.cs" />
-    <Compile Include="Blizzard\GameModule\APIs\NativesAPI.cs" />
-    <Compile Include="Blizzard\GameModule\APIs\NativesAPI.gen.cs" />
-    <Compile Include="Blizzard\GameModule\Game.cs" />
+    <Compile Include="Blizzard\GameModule\FullAPI\Input.cs" />
+    <Compile Include="Blizzard\GameModule\FullAPI\Interface.cs" />
+    <Compile Include="Blizzard\GameModule\FullAPI\Natives.full.gen.cs" />
+    <Compile Include="Blizzard\GameModule\InternalGame.cs" />
     <Compile Include="Blizzard\GameModule\GameAddresses.cs" />
     <Compile Include="Blizzard\GameModule\GameFunctions.cs" />
-    <Compile Include="Blizzard\GameModule\Input.cs" />
-    <Compile Include="Blizzard\GameModule\Interface.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IInputFullAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IInputSafeAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IInterfaceFullAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IInterfaceSafeAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IJassFullAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\IJassSafeAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\INativesFullAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\INativesSafeAPI.cs" />
-    <Compile Include="Blizzard\GameModule\Interfaces\INativesSafeAPI.gen.cs" />
-    <Compile Include="Blizzard\GameModule\Natives.cs" />
-    <Compile Include="Blizzard\GameModule\Natives.gen.cs" />
+    <Compile Include="Blizzard\GameModule\InternalInput.cs" />
+    <Compile Include="Blizzard\GameModule\InternalInterface.cs" />
+    <Compile Include="Blizzard\GameModule\InternalNatives.cs" />
+    <Compile Include="Blizzard\GameModule\InternalNatives.gen.cs" />
+    <Compile Include="Blizzard\GameModule\SafeAPI\Input.cs" />
+    <Compile Include="Blizzard\GameModule\SafeAPI\Natives.safe.gen.cs" />
     <Compile Include="Blizzard\GameModule\Types\AbilDataCacheNode.cs" />
     <Compile Include="Blizzard\GameModule\Types\AbilityLevelData.cs" />
     <Compile Include="Blizzard\GameModule\Types\CAbility.cs" />
@@ -108,7 +99,7 @@
     <Compile Include="Blizzard\GameModule\Types\ThreadLocalStorage.cs" />
     <Compile Include="Blizzard\GameModule\Types\Variable.cs" />
     <Compile Include="Blizzard\GameModule\Types\VirtualMachine.cs" />
-    <Compile Include="Blizzard\GameModule\Jass.cs" />
+    <Compile Include="Blizzard\GameModule\InternalScript.cs" />
     <Compile Include="Blizzard\Jass\JassTypeAttribute.cs" />
     <Compile Include="Blizzard\Jass\NativeDeclaration.cs" />
     <Compile Include="Blizzard\Jass\Objects\Base\JassAbility.gen.cs" />
@@ -219,14 +210,16 @@
     <Compile Include="Blizzard\Types\Color.cs" />
     <Compile Include="Blizzard\Types\ObjectIdB.cs" />
     <Compile Include="Blizzard\Types\ObjectIdL.cs" />
-    <Compile Include="MapPluginBase.cs" />
-    <Compile Include="MapScriptBase.cs" />
+    <Compile Include="Blizzard\GameModule\FullAPI\Script.cs" />
+    <Compile Include="Blizzard\GameModule\FullAPI\Natives.cs" />
+    <Compile Include="Blizzard\GameModule\Bases\MapPluginBase.cs" />
+    <Compile Include="Blizzard\GameModule\Bases\MapScriptBase.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
       <DependentUpon>DebuggerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="FullPluginBase.cs" />
+    <Compile Include="Blizzard\GameModule\Bases\FullPluginBase.cs" />
     <Compile Include="GameHack.cs" />
     <Compile Include="PluginPackage.cs" />
     <Compile Include="PluginSystem.cs" />
@@ -243,7 +236,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="SafePluginBase.cs" />
+    <Compile Include="Blizzard\GameModule\SafeAPI\Interface.cs" />
+    <Compile Include="Blizzard\GameModule\SafeAPI\Script.cs" />
+    <Compile Include="Blizzard\GameModule\SafeAPI\Natives.cs" />
+    <Compile Include="Blizzard\GameModule\Bases\SafePluginBase.cs" />
     <Compile Include="Types\Point2.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />

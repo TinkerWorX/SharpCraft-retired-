@@ -9,7 +9,7 @@ using TinkerWorX.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
-    unsafe internal static class Interface
+    unsafe internal static class InternalInterface
     {
         private static GameFunctions.CGameUI__ConstructorPrototype CGameUI__Constructor;
 
@@ -20,16 +20,16 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         public static void Initialize()
         {
             if (Kernel32.GetModuleHandle("game.dll") == IntPtr.Zero)
-                throw new Exception("Attempted to initialize " + typeof(Interface).Name + " before 'game.dll' has been loaded.");
+                throw new Exception("Attempted to initialize " + typeof(InternalInterface).Name + " before 'game.dll' has been loaded.");
 
             if (!GameAddresses.IsReady)
-                throw new Exception("Attempted to initialize " + typeof(Interface).Name + " before " + typeof(GameAddresses).Name + " was ready.");
+                throw new Exception("Attempted to initialize " + typeof(InternalInterface).Name + " before " + typeof(GameAddresses).Name + " was ready.");
 
             var address = IntPtr.Zero;
 
             address = GameAddresses.CGameUI__Constructor;
             Trace.Write("CGameUI__Constructor: 0x" + address.ToString("X8") + " . ");
-            Interface.CGameUI__Constructor = Memory.InstallHook(address, new GameFunctions.CGameUI__ConstructorPrototype(Interface.CGameUI__ConstructorHook), true, false);
+            InternalInterface.CGameUI__Constructor = Memory.InstallHook(address, new GameFunctions.CGameUI__ConstructorPrototype(InternalInterface.CGameUI__ConstructorHook), true, false);
             Trace.WriteLine("installed!");
         }
 
@@ -37,7 +37,15 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         {
             var result = CGameUI__Constructor(@this);
 
-            Interface.GameUI = @this.AsUnsafe();
+            try
+            {
+                InternalInterface.GameUI = @this.AsUnsafe();
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("Unhandled Exception in InternalInterface.CGameUI__ConstructorHook!");
+                Trace.WriteLine(e.ToString());
+            }
 
             return result;
         }

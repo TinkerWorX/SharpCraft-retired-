@@ -1,4 +1,5 @@
 ﻿using System;
+using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 {
@@ -6,19 +7,19 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
     {
         public static JassPlayer FromLocal()
         {
-            return Natives.GetLocalPlayer();
+            return SafeNatives.GetLocalPlayer();
         }
 
         public static JassPlayer FromIndex(Int32 index)
         {
-            return Natives.Player(index);
+            return SafeNatives.Player(index);
         }
 
         public Int32 Index { get { return this.GetIndex(); } }
 
         public Int32 GetIndex()
         {
-            return Natives.GetPlayerId(this);
+            return SafeNatives.GetPlayerId(this);
         }
 
         public Int32 Team
@@ -29,12 +30,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 
         public Int32 GetTeam()
         {
-            return Natives.GetPlayerTeam(this);
+            return SafeNatives.GetPlayerTeam(this);
         }
 
         public void SetTeam(Int32 team)
         {
-            Natives.SetPlayerTeam(this, team);
+            SafeNatives.SetPlayerTeam(this, team);
         }
 
         public Int32 StartLocation
@@ -45,12 +46,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 
         public Int32 GetStartLocation()
         {
-            return Natives.GetPlayerStartLocation(this);
+            return SafeNatives.GetPlayerStartLocation(this);
         }
 
         public void SetStartLocation(Int32 locationIndex)
         {
-            Natives.SetPlayerStartLocation(this, locationIndex);
+            SafeNatives.SetPlayerStartLocation(this, locationIndex);
         }
 
         public String Name
@@ -61,12 +62,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 
         public String GetName()
         {
-            return Natives.GetPlayerName(this);
+            return SafeNatives.GetPlayerName(this);
         }
 
         public void SetName(String name)
         {
-            Natives.SetPlayerName(this, name);
+            SafeNatives.SetPlayerName(this, name);
         }
     }
 }

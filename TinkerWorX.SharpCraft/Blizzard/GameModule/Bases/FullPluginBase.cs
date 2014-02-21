@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TinkerWorX.SharpCraft.Blizzard.GameModule;
-using TinkerWorX.SharpCraft.Blizzard.GameModule.Interfaces;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Types;
 
@@ -12,13 +12,13 @@ namespace TinkerWorX.SharpCraft
 {
     public abstract class FullPluginBase : MarshalByRefObject
     {
-        public IInputFullAPI Input { get; internal set; }
-
-        public IInterfaceFullAPI Interface { get; internal set; }
-
-        public IJassFullAPI Jass { get; internal set; }
-
-        public INativesFullAPI Natives { get; internal set; }
+        internal void InternalInitialize()
+        {
+            Input.Initialize();
+            Interface.Initialize();
+            Natives.Initialize();
+            Script.Initialize();
+        }
 
         public virtual void Initialize() { }
 

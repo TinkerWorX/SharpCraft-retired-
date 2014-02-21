@@ -11,13 +11,19 @@ using System.Text;
 using System.Windows;
 using Mono.CSharp;
 using TinkerWorX.SharpCraft.Blizzard.GameModule;
-using TinkerWorX.SharpCraft.Blizzard.GameModule.APIs;
-using TinkerWorX.SharpCraft.Blizzard.GameModule.Interfaces;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Types;
 using TinkerWorX.Utilities;
 using Assembly = System.Reflection.Assembly;
+using SafeInput = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Input;
+using SafeInterface = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Interface;
+using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
+using SafeScript = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Script;
+using FullInput = TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI.Input;
+using FullInterface = TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI.Interface;
+using FullNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI.Natives;
+using FullScript = TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI.Script;
 
 namespace TinkerWorX.SharpCraft
 {
@@ -253,12 +259,41 @@ namespace TinkerWorX.SharpCraft
             // The script assemblies needs Read and PathDiscovery access.
             foreach (var assembly in assemblyPaths)
                 safePermissionSet.AddPermission(new FileIOPermission(FileIOPermissionAccess.Read | FileIOPermissionAccess.PathDiscovery, assembly));
-            //safePermissionSet.Assert();
 
             safeDomain = AppDomain.CreateDomain("SharpCraft Scripting Domain", safeEvidence, appDomainSetup, safePermissionSet);
+            safeDomain.SetData(typeof(SafeInput).FullName.ToLower(), new SafeInput());
+            Trace.WriteLine(typeof(SafeInput).FullName + " set in safeDomain with key: " + typeof(SafeInput).FullName.ToLower());
+            safeDomain.SetData(typeof(SafeInterface).FullName.ToLower(), new SafeInterface());
+            Trace.WriteLine(typeof(SafeInterface).FullName + " set in safeDomain with key: " + typeof(SafeInterface).FullName.ToLower());
+            safeDomain.SetData(typeof(SafeNatives).FullName.ToLower(), new SafeNatives());
+            Trace.WriteLine(typeof(SafeNatives).FullName + " set in safeDomain with key: " + typeof(SafeNatives).FullName.ToLower());
+            safeDomain.SetData(typeof(SafeScript).FullName.ToLower(), new SafeScript());
+            Trace.WriteLine(typeof(SafeScript).FullName + " set in safeDomain with key: " + typeof(SafeScript).FullName.ToLower());
 
             // Prepare the full domain.
             fullDomain = AppDomain.CurrentDomain;
+            fullDomain.SetData(typeof(FullInput).FullName.ToLower(), new FullInput());
+            Trace.WriteLine(typeof(FullInput).FullName + " set in fullDomain with key: " + typeof(FullInput).FullName.ToLower());
+            fullDomain.SetData(typeof(FullInterface).FullName.ToLower(), new FullInterface());
+            Trace.WriteLine(typeof(FullInterface).FullName + " set in fullDomain with key: " + typeof(FullInterface).FullName.ToLower());
+            fullDomain.SetData(typeof(FullNatives).FullName.ToLower(), new FullNatives());
+            Trace.WriteLine(typeof(FullNatives).FullName + " set in fullDomain with key: " + typeof(FullNatives).FullName.ToLower());
+            fullDomain.SetData(typeof(FullScript).FullName.ToLower(), new SafeScript());
+            Trace.WriteLine(typeof(FullScript).FullName + " set in fullDomain with key: " + typeof(FullScript).FullName.ToLower());
+            fullDomain.SetData(typeof(SafeInput).FullName.ToLower(), new SafeInput());
+            Trace.WriteLine(typeof(SafeInput).FullName + " set in fullDomain with key: " + typeof(SafeInput).FullName.ToLower());
+            fullDomain.SetData(typeof(SafeInterface).FullName.ToLower(), new SafeInterface());
+            Trace.WriteLine(typeof(SafeInterface).FullName + " set in fullDomain with key: " + typeof(SafeInterface).FullName.ToLower());
+            fullDomain.SetData(typeof(SafeNatives).FullName.ToLower(), new SafeNatives());
+            Trace.WriteLine(typeof(SafeNatives).FullName + " set in fullDomain with key: " + typeof(SafeNatives).FullName.ToLower());
+            fullDomain.SetData(typeof(SafeScript).FullName.ToLower(), new SafeScript());
+            Trace.WriteLine(typeof(SafeScript).FullName + " set in fullDomain with key: " + typeof(SafeScript).FullName.ToLower());
+
+            SafeInput.Initialize();
+            SafeInterface.Initialize();
+            SafeNatives.Initialize();
+            SafeScript.Initialize();
+
             fullDomain.AssemblyResolve += (Object sender, ResolveEventArgs args) =>
             {
                 // Convert name to filename
@@ -344,11 +379,8 @@ namespace TinkerWorX.SharpCraft
                                 var plugin = (FullPluginBase)fullDomain.CreateInstanceFrom(path, type.FullName).Unwrap();
                                 fullPlugins.Add(plugin);
                                 Trace.Indent();
+                                plugin.InternalInitialize();
                                 plugin.Initialize();
-                                plugin.Input = new InputAPI();
-                                plugin.Interface = new InterfaceAPI();
-                                plugin.Jass = new JassAPI();
-                                plugin.Natives = new NativesAPI();
                                 Trace.Unindent();
                             }
                             else if (typeof(SafePluginBase).IsAssignableFrom(type))
@@ -357,11 +389,8 @@ namespace TinkerWorX.SharpCraft
                                 var plugin = (SafePluginBase)safeDomain.CreateInstanceFrom(path, type.FullName).Unwrap();
                                 safePlugins.Add(plugin);
                                 Trace.Indent();
+                                plugin.InternalInitialize();
                                 plugin.Initialize();
-                                plugin.Input = new InputAPI();
-                                plugin.Interface = new InterfaceAPI();
-                                plugin.Jass = new JassAPI();
-                                plugin.Natives = new NativesAPI();
                                 Trace.Unindent();
                             }
                         }
@@ -389,15 +418,18 @@ namespace TinkerWorX.SharpCraft
                         plugin.OnGameReady();
                 };
 
-                JassMachine.ScriptLoad += (String script) =>
+                InternalScript.ScriptLoad += (String script) =>
                 {
                     if (String.IsNullOrEmpty(script))
                         ClearMapScriptCode();
                     else
                         LoadMapScriptCode(script);
+
+                    if (mapPlugin != null)
+                        mapPlugin.InternalInitialize();
                 };
 
-                Input.MouseClick += (MouseButton button, MouseButtonState state, Point2 point) =>
+                InternalInput.MouseClick += (MouseButton button, MouseButtonState state, Point2 point) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnMouseClick(button, state, point);
@@ -405,7 +437,7 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.OnMouseClick(button, state, point);
                 };
 
-                Input.MouseWheel += (Int32 delta) =>
+                InternalInput.MouseWheel += (Int32 delta) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnMouseWheel(delta);
@@ -413,7 +445,7 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.OnMouseWheel(delta);
                 };
 
-                Input.KeyboardKey += (Int32 key, Char keyChar, KeyboardKeyState state) =>
+                InternalInput.KeyboardKey += (Int32 key, Char keyChar, KeyboardKeyState state) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnKeyboardKey(key, keyChar, state);
@@ -421,7 +453,7 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.OnKeyboardKey(key, keyChar, state);
                 };
 
-                Input.PlayerChat += (Int32 sender, String message, ChatRecipients recipients) =>
+                InternalInput.PlayerChat += (Int32 sender, String message, ChatRecipients recipients) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnPlayerChat(sender, message, recipients);
@@ -429,27 +461,27 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.OnPlayerChat(sender, message, recipients);
                 };
 
-                JassMachine.PreConfig += () =>
+                InternalScript.PreConfig += () =>
                 {
                     foreach (var plugin in safePlugins)
-                        plugin.OnPreConfig(!Game.IsInMap);
+                        plugin.OnPreConfig(!InternalGame.IsInMap);
                 };
 
-                JassMachine.PostConfig += () =>
+                InternalScript.PostConfig += () =>
                 {
                     foreach (var plugin in safePlugins)
-                        plugin.OnPostConfig(!Game.IsInMap);
+                        plugin.OnPostConfig(!InternalGame.IsInMap);
                     if (mapPlugin != null)
-                        mapPlugin.Config(!Game.IsInMap);
+                        mapPlugin.Config(!InternalGame.IsInMap);
                 };
 
-                JassMachine.PreMain += () =>
+                InternalScript.PreMain += () =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnPreMain();
                 };
 
-                JassMachine.PostMain += () =>
+                InternalScript.PostMain += () =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.OnPostMain();
@@ -457,7 +489,7 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.Main();
                 };
 
-                Natives.Add(new Natives.CheatPrototype((JassStringArg cheat) =>
+                InternalNatives.Add(new InternalNatives.CheatPrototype((JassStringArg cheat) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.CheatCallback(cheat);
@@ -466,11 +498,11 @@ namespace TinkerWorX.SharpCraft
                     if (mapPlugin != null)
                         mapPlugin.CheatCallback(cheat);
 
-                    Natives.Cheat(cheat);
+                    InternalNatives.Cheat(cheat);
                 }), "Cheat");
-                Natives.Add(new Natives.CreateUnitPrototype((JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
+                InternalNatives.Add(new InternalNatives.CreateUnitPrototype((JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
-                    var unit = Natives.CreateUnit(player, id, x, y, facing);
+                    var unit = InternalNatives.CreateUnit(player, id, x, y, facing);
 
                     foreach (var plugin in safePlugins)
                         plugin.CreateUnitCallback(unit, player, id, x, y, facing);
@@ -481,49 +513,49 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateUnit");
-                Natives.Add(new Natives.CreateUnitByNamePrototype((JassPlayer player, JassStringArg name, JassRealArg x, JassRealArg y, JassRealArg facing) =>
+                InternalNatives.Add(new InternalNatives.CreateUnitByNamePrototype((JassPlayer player, JassStringArg name, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
-                    var unit = Natives.CreateUnitByName(player, name, x, y, facing);
+                    var unit = InternalNatives.CreateUnitByName(player, name, x, y, facing);
 
                     foreach (var plugin in safePlugins)
-                        plugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), x, y, facing);
+                        plugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), x, y, facing);
                     foreach (var plugin in fullPlugins)
-                        plugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), x, y, facing);
+                        plugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), x, y, facing);
                     if (mapPlugin != null)
-                        mapPlugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), x, y, facing);
+                        mapPlugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), x, y, facing);
 
                     return unit;
                 }), "CreateUnitByName");
-                Natives.Add(new Natives.CreateUnitAtLocPrototype((JassPlayer player, JassObjectId id, JassLocation location, JassRealArg facing) =>
+                InternalNatives.Add(new InternalNatives.CreateUnitAtLocPrototype((JassPlayer player, JassObjectId id, JassLocation location, JassRealArg facing) =>
                 {
-                    var unit = Natives.CreateUnitAtLoc(player, id, location, facing);
+                    var unit = InternalNatives.CreateUnitAtLoc(player, id, location, facing);
 
                     foreach (var plugin in safePlugins)
-                        plugin.CreateUnitCallback(unit, player, id, Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        plugin.CreateUnitCallback(unit, player, id, InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
                     foreach (var plugin in fullPlugins)
-                        plugin.CreateUnitCallback(unit, player, id, Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        plugin.CreateUnitCallback(unit, player, id, InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
                     if (mapPlugin != null)
-                        mapPlugin.CreateUnitCallback(unit, player, id, Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        mapPlugin.CreateUnitCallback(unit, player, id, InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
 
                     return unit;
                 }), "CreateUnitAtLoc");
-                Natives.Add(new Natives.CreateUnitAtLocByNamePrototype((JassPlayer player, JassStringArg name, JassLocation location, JassRealArg facing) =>
+                InternalNatives.Add(new InternalNatives.CreateUnitAtLocByNamePrototype((JassPlayer player, JassStringArg name, JassLocation location, JassRealArg facing) =>
                 {
-                    var unit = Natives.CreateUnitAtLocByName(player, name, location, facing);
+                    var unit = InternalNatives.CreateUnitAtLocByName(player, name, location, facing);
 
                     foreach (var plugin in safePlugins)
-                        plugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        plugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
                     foreach (var plugin in fullPlugins)
-                        plugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        plugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
                     if (mapPlugin != null)
-                        mapPlugin.CreateUnitCallback(unit, player, Natives.GetUnitTypeId(unit), Natives.GetLocationX(location), Natives.GetLocationY(location), facing);
+                        mapPlugin.CreateUnitCallback(unit, player, InternalNatives.GetUnitTypeId(unit), InternalNatives.GetLocationX(location), InternalNatives.GetLocationY(location), facing);
 
                     return unit;
                 }), "CreateUnitAtLocByName");
-                Natives.Add(new Natives.CreateCorpsePrototype(
+                InternalNatives.Add(new InternalNatives.CreateCorpsePrototype(
                 (JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
-                    var unit = Natives.CreateUnit(player, id, x, y, facing);
+                    var unit = InternalNatives.CreateUnit(player, id, x, y, facing);
 
                     foreach (var plugin in safePlugins)
                         plugin.CreateCorpseCallback(unit, player, id, x, y, facing);
@@ -534,7 +566,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateCorpse");
-                Natives.Add(new Natives.RemoveUnitPrototype((JassUnit unit) =>
+                InternalNatives.Add(new InternalNatives.RemoveUnitPrototype((JassUnit unit) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.RemoveUnitCallback(unit);
@@ -543,7 +575,7 @@ namespace TinkerWorX.SharpCraft
                     if (mapPlugin != null)
                         mapPlugin.RemoveUnitCallback(unit);
 
-                    Natives.RemoveUnit(unit);
+                    InternalNatives.RemoveUnit(unit);
                 }), "RemoveUnit");
             }
             catch (Exception e)
@@ -601,10 +633,6 @@ namespace TinkerWorX.SharpCraft
                     throw new MapScriptException("MapScript does not inherit from " + typeof(MapScriptBase).Name);
 
                 mapPlugin = (MapScriptBase)Activator.CreateInstance(type);
-                mapPlugin.Input = new InputAPI();
-                mapPlugin.Interface = new InterfaceAPI();
-                mapPlugin.Jass = new JassAPI();
-                mapPlugin.Natives = new NativesAPI();
             }
             catch (MapScriptException e)
             {
