@@ -1,18 +1,30 @@
 ﻿using System;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
+using TinkerWorX.SharpCraft.Blizzard.Types;
 using SafeNatives = TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI.Natives;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
 {
     public partial struct JassTrigger
     {
+        public CTriggerWar3Ptr ToCTrigger()
+        {
+            return GameFunctions.GetTriggerFromHandle(this);
+        }
+
         public static JassTrigger Create()
         {
             return SafeNatives.CreateTrigger();
         }
 
-        public void AddAction(JassCode function)
+        public void AddAction(JassCode action)
         {
-            SafeNatives.TriggerAddAction(this, function);
+            SafeNatives.TriggerAddAction(this, action);
+        }
+
+        public void AddAction(ManagedAction action)
+        {
+            SafeNatives.TriggerAddAction(this, action);
         }
 
         public JassEvent RegisterVariableEvent(String variableName, JassLimitOp opcode, Single value)

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Blizzard.Types;
 using TinkerWorX.Utilities;
@@ -119,7 +120,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         /// <returns>The trigger.</returns>
         /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CTriggerWar3Ptr GetTriggerFromHandlePrototype(IntPtr triggerHandle);
+        public delegate CTriggerWar3Ptr GetTriggerFromHandlePrototype(JassTrigger triggerHandle);
         public static GetTriggerFromHandlePrototype GetTriggerFromHandle;
 
         /// <summary>

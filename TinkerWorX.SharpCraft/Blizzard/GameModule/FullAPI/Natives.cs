@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
+using TinkerWorX.SharpCraft.Blizzard.Types;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI
 {
@@ -23,6 +25,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI
         public static void Add(Delegate function)
         {
             InternalNatives.Add(function);
+        }
+
+        public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
+        {
+            InternalNatives.TriggerAddAction(trigger, action);
         }
     }
 }

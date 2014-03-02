@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
     [StructLayout(LayoutKind.Sequential, Size = 0x7C)]
     unsafe public struct CTriggerWar3
     {
-        public static CTriggerWar3* FromHandle(IntPtr triggerHandle)
+        public static CTriggerWar3* FromHandle(JassTrigger trigger)
         {
-            return GameFunctions.GetTriggerFromHandle(triggerHandle).AsUnsafe();
+            return GameFunctions.GetTriggerFromHandle(trigger).AsUnsafe();
         }
 
         public CTriggerWar3VTable* Virtual;
@@ -71,9 +72,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 
     public struct CTriggerWar3Ptr
     {
-        public static CTriggerWar3Ptr FromHandle(IntPtr triggerHandle)
+        public static CTriggerWar3Ptr FromHandle(JassTrigger trigger)
         {
-            return GameFunctions.GetTriggerFromHandle(triggerHandle);
+            return GameFunctions.GetTriggerFromHandle(trigger);
         }
 
 
@@ -103,6 +104,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public void Execute()
         {
             GameFunctions.CTriggerWar3__Execute(this, false);
+        }
+
+        public override Int32 GetHashCode()
+        {
+            return (Int32)this.AsIntPtr();
         }
     }
 

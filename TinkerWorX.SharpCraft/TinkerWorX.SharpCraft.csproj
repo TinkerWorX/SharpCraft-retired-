@@ -219,6 +219,7 @@
     <Compile Include="Blizzard\Jass\Primitives\JassString.cs" />
     <Compile Include="Blizzard\Storm.cs" />
     <Compile Include="Blizzard\Types\Color.cs" />
+    <Compile Include="Blizzard\Types\ManagedAction.cs" />
     <Compile Include="Blizzard\Types\ObjectIdB.cs" />
     <Compile Include="Blizzard\Types\ObjectIdL.cs" />
     <Compile Include="Blizzard\GameModule\FullAPI\Script.cs" />

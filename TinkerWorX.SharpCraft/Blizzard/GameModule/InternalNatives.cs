@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection.Emit;
 using EasyHook;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
+using TinkerWorX.SharpCraft.Blizzard.Types;
 using TinkerWorX.Utilities;
 using TinkerWorX.Windows;
 
@@ -14,11 +16,17 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
     {
         private static GameFunctions.InitNativesPrototype InitNatives;
 
+        private static GameFunctions.CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
+
         private static List<NativeDeclaration> vanillaNatives = new List<NativeDeclaration>();
 
         private static List<NativeDeclaration> customNatives = new List<NativeDeclaration>();
 
         //private static Dictionary<Type, Object> buckets = new Dictionary<Type, Object>();
+
+        private static Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>> actions = new Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>>();
+
+        private static Dictionary<CTriggerWar3Ptr, JassTrigger> handles = new Dictionary<CTriggerWar3Ptr, JassTrigger>();
 
         public static void Initialize()
         {
@@ -33,6 +41,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             address = GameAddresses.InitNatives;
             Trace.Write("InitNatives: 0x" + address.ToString("X8") + " . ");
             InternalNatives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
+            Trace.WriteLine("hook installed!");
+
+            address = GameAddresses.CTriggerWar3__Execute;
+            Trace.Write("CTriggerWar3__Execute: 0x" + address.ToString("X8") + " . ");
+            InternalNatives.CTriggerWar3__Execute = Memory.InstallHook(address, new GameFunctions.CTriggerWar3__ExecutePrototype(InternalNatives.CTriggerWar3__ExecuteHook), true, false);
             Trace.WriteLine("hook installed!");
 
             Trace.Write("Scanning vanilla natives . ");
@@ -57,6 +70,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             }
 
             return result;
+        }
+
+        private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, Boolean wait)
+        {
+            GameFunctions.CTriggerWar3__Execute(@this, wait);
+            InternalNatives.TriggerRunActions(@this);
         }
 
         // private ... AddCallback(...) 
@@ -141,6 +160,24 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         public static NativeDeclaration Get(String name)
         {
             return InternalNatives.vanillaNatives.FirstOrDefault(native => native.Name == name);
+        }
+
+        public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
+        {
+            var key = trigger.ToCTrigger();
+            InternalNatives.handles[key] = trigger;
+            HashSet<ManagedAction> bucket;
+            if (!InternalNatives.actions.TryGetValue(key, out bucket))
+                InternalNatives.actions.Add(key, bucket = new HashSet<ManagedAction>());
+            bucket.Add(action);
+        }
+
+        public static void TriggerRunActions(CTriggerWar3Ptr key)
+        {
+            HashSet<ManagedAction> bucket;
+            if (InternalNatives.actions.TryGetValue(key, out bucket))
+                foreach (var action in bucket)
+                    action.Invoke(InternalNatives.handles[key]);
         }
     }
 }
