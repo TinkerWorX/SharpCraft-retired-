@@ -31,6 +31,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             GameAddresses.GetDestructableFromHandle = @base + GameAddresses.GetDestructableFromHandleOffset;
             GameAddresses.GetItemFromHandle = @base + GameAddresses.GetItemFromHandleOffset;
             GameAddresses.StringToJassStringIndex = @base + GameAddresses.StringToJassStringIndexOffset;
+            GameAddresses.CTriggerWar3__Execute = @base + GameAddresses.CTriggerWar3__ExecuteOffset;
             GameAddresses.InitNatives = @base + GameAddresses.InitNativesOffset;
             GameAddresses.BindNative = @base + GameAddresses.BindNativeOffset;
             GameAddresses.Jass__Constructor = @base + GameAddresses.Jass__ConstructorOffset;
@@ -286,6 +287,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         //       6F3BAA20 - 6F000000 = 003BAA20
         public static IntPtr StringToJassStringIndex;
         private const Int32 StringToJassStringIndexOffset = 0x3BAA20;
+
+        // === INSTRUCTIONS ===
+        // TODO: Needs instructions.
+        // void __thiscall sub_6F4482D0(CTriggerWar3 *this, bool wait)
+        public static IntPtr CTriggerWar3__Execute;
+        private const Int32 CTriggerWar3__ExecuteOffset = 0x4482D0;
 
         // === INSTRUCTIONS ===
         // 1. Hit "Alt + B" to search for the following byte sequence, 

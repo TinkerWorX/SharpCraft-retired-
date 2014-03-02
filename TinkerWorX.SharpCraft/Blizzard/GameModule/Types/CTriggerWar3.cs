@@ -57,6 +57,16 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
             fixed (void* pointer = &this)
                 return new IntPtr(pointer);
         }
+
+        public void Execute(Boolean wait)
+        {
+            GameFunctions.CTriggerWar3__Execute(this.AsSafe(), wait);
+        }
+
+        public void Execute()
+        {
+            GameFunctions.CTriggerWar3__Execute(this.AsSafe(), false);
+        }
     }
 
     public struct CTriggerWar3Ptr
@@ -83,6 +93,16 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public IntPtr AsIntPtr()
         {
             return this.pointer;
+        }
+
+        public void Execute(Boolean wait)
+        {
+            GameFunctions.CTriggerWar3__Execute(this, wait);
+        }
+
+        public void Execute()
+        {
+            GameFunctions.CTriggerWar3__Execute(this, false);
         }
     }
 
