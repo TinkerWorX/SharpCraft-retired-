@@ -72,6 +72,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         // === INSTRUCTIONS ===
         // TODO: Needs instructions.
+        // xref "CacheAbilityData" and find the only function it's used in
+        // xref that function and find the only function it's called in
+        // this is the function we need.
         // int __fastcall sub_6F265ED0(int a1)
         public static IntPtr GetAbilDataCacheNodeFromId;
         private const Int32 GetAbilDataCacheNodeFromIdOffset = 0x265ED0;
@@ -214,6 +217,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         // CUnit* __fastcall sub_6F3BDCB0(int unit_jass_handle)
         public static IntPtr GetUnitFromHandle;
         private const Int32 GetUnitFromHandleOffset = 0x3BDCB0;
+
+        // === INSTRUCTIONS ===
+        // The first function called in DestroyTrigger and ResetTrigger.
+        // CTriggerWar3* __fastcall sub_6F3BDEF0(int trigger_handle)
+        public static IntPtr GetTriggerFromHandle;
+        private const Int32 GetTriggerFromHandleOffset = 0x3BDEF0;
 
         // === INSTRUCTIONS ===
         // The first function called in GetDestructableX and GetDestructableY.

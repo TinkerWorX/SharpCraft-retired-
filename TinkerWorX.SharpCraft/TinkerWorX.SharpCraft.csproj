@@ -90,6 +90,7 @@
     <Compile Include="Blizzard\GameModule\Types\CodeResult.cs" />
     <Compile Include="Blizzard\GameModule\Types\COrderTarget.cs" />
     <Compile Include="Blizzard\GameModule\Types\CSimpleMessageFrame.cs" />
+    <Compile Include="Blizzard\GameModule\Types\CTriggerWar3.cs" />
     <Compile Include="Blizzard\GameModule\Types\CUnit.cs" />
     <Compile Include="Blizzard\GameModule\Types\IAgent.cs" />
     <Compile Include="Blizzard\GameModule\Types\Jass.cs" />

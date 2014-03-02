@@ -32,6 +32,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             GameFunctions.Unknown__UpdateMouse = Utility.PtrAsFunction<Unknown__UpdateMousePrototype>(GameAddresses.Unknown__UpdateMouse);
             GameFunctions.Unknown__SetState = Utility.PtrAsFunction<Unknown__SetStatePrototype>(GameAddresses.Unknown__SetState);
             GameFunctions.GetUnitFromHandle = Utility.PtrAsFunction<GetUnitFromHandlePrototype>(GameAddresses.GetUnitFromHandle);
+            GameFunctions.GetTriggerFromHandle = Utility.PtrAsFunction<GetTriggerFromHandlePrototype>(GameAddresses.GetTriggerFromHandle);
             GameFunctions.GetDestructableFromHandle = Utility.PtrAsFunction<GetDestructableFromHandlePrototype>(GameAddresses.GetDestructableFromHandle);
             GameFunctions.GetItemFromHandle = Utility.PtrAsFunction<GetItemFromHandlePrototype>(GameAddresses.GetItemFromHandle);
             GameFunctions.StringToJassStringIndexInternal = Utility.PtrAsFunction<StringToJassStringIndexPrototype>(GameAddresses.StringToJassStringIndex);
@@ -109,6 +110,16 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
         public delegate CUnitPtr GetUnitFromHandlePrototype(IntPtr unitJassHandle);
         public static GetUnitFromHandlePrototype GetUnitFromHandle;
+
+        /// <summary>
+        /// Gets a trigger from a trigger jass handle.
+        /// </summary>
+        /// <param name="triggerHandle">The trigger jass handle.</param>
+        /// <returns>The trigger.</returns>
+        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate CTriggerWar3Ptr GetTriggerFromHandlePrototype(IntPtr triggerHandle);
+        public static GetTriggerFromHandlePrototype GetTriggerFromHandle;
 
         /// <summary>
         /// Gets a destructable from a destructable jass handle.
