@@ -15,6 +15,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
         stunned = 851973,
         instant3 = 851975,
         cancel = 851976,
+        cancel2 = 851979,
         setrally = 851980,
         getitem = 851981,
         attack = 851983,
