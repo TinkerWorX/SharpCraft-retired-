@@ -27,6 +27,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             GameAddresses.Unknown__UpdateMouse = @base + GameAddresses.Unknown__UpdateMouseOffset;
             GameAddresses.Unknown__SetState = @base + GameAddresses.Unknown__SetStateOffset;
             GameAddresses.GetUnitFromHandle = @base + GameAddresses.GetUnitFromHandleOffset;
+            GameAddresses.GetTriggerFromHandle = @base + GameAddresses.GetTriggerFromHandleOffset;
             GameAddresses.GetDestructableFromHandle = @base + GameAddresses.GetDestructableFromHandleOffset;
             GameAddresses.GetItemFromHandle = @base + GameAddresses.GetItemFromHandleOffset;
             GameAddresses.StringToJassStringIndex = @base + GameAddresses.StringToJassStringIndexOffset;
