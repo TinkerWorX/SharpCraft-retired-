@@ -239,7 +239,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         public static String JassStringHandleToString(IntPtr stringJassHandle)
         {
-            return Memory.PtrAsString(JassStringHandleToStringInternal(stringJassHandle));
+           return Memory.PtrAsString(JassStringHandleToStringInternal(stringJassHandle));
         }
 
         // void* __fastcall sub_6F4786B0(void* a1)
@@ -276,6 +276,8 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             // the above code may be a bit confusing, but we're essentially doing the following, without needing to
             // find the function every patch, and avoid the convoluted class hierarchy.
             // return Jass->VirtualMachine->StringManager->Table[jassStringIndex];
+            // sub_6F6B1CA0 in 1.21b
+            // sub_6F459640 in 1.26.0.6401
             // TODO: Future proof this.
         }
 

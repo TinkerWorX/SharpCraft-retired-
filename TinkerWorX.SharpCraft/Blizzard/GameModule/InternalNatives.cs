@@ -16,6 +16,8 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
     {
         private static GameFunctions.InitNativesPrototype InitNatives;
 
+        private static GameFunctions.JassStringHandleToStringPrototype JassStringHandleToString;
+
         private static GameFunctions.CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
 
         private static List<NativeDeclaration> vanillaNatives = new List<NativeDeclaration>();
@@ -27,6 +29,8 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         private static Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>> actions = new Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>>();
 
         private static Dictionary<CTriggerWar3Ptr, JassTrigger> handles = new Dictionary<CTriggerWar3Ptr, JassTrigger>();
+
+        public static Boolean SkipStringConversion { get; set; }
 
         public static void Initialize()
         {
@@ -41,6 +45,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             address = GameAddresses.InitNatives;
             Trace.Write("InitNatives: 0x" + address.ToString("X8") + " . ");
             InternalNatives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
+            Trace.WriteLine("hook installed!");
+
+            address = GameAddresses.JassStringHandleToString;
+            Trace.Write("JassStringHandleToString: 0x" + address.ToString("X8") + " . ");
+            InternalNatives.JassStringHandleToString = Memory.InstallHook(address, new GameFunctions.JassStringHandleToStringPrototype(InternalNatives.JassStringHandleToStringHook), true, false);
             Trace.WriteLine("hook installed!");
 
             address = GameAddresses.CTriggerWar3__Execute;
@@ -72,10 +81,25 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return result;
         }
 
+        private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
+        {
+            if (InternalNatives.SkipStringConversion)
+                return stringJassHandle;
+            return JassStringHandleToString(stringJassHandle);
+        }
+
         private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, Boolean wait)
         {
-            GameFunctions.CTriggerWar3__Execute(@this, wait);
-            InternalNatives.TriggerRunActions(@this);
+            try
+            {
+                InternalNatives.CTriggerWar3__Execute(@this, wait);
+                InternalNatives.TriggerRunActions(@this);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("CTriggerWar3__ExecuteHook");
+                Trace.WriteLine(e.ToString());
+            }
         }
 
         // private ... AddCallback(...) 
@@ -164,20 +188,40 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
         {
-            var key = trigger.ToCTrigger();
-            InternalNatives.handles[key] = trigger;
-            HashSet<ManagedAction> bucket;
-            if (!InternalNatives.actions.TryGetValue(key, out bucket))
-                InternalNatives.actions.Add(key, bucket = new HashSet<ManagedAction>());
-            bucket.Add(action);
+            try
+            {
+                var key = trigger.ToCTrigger();
+                InternalNatives.handles[key] = trigger;
+                HashSet<ManagedAction> bucket;
+                if (!InternalNatives.actions.TryGetValue(key, out bucket))
+                    InternalNatives.actions.Add(key, bucket = new HashSet<ManagedAction>());
+                bucket.Add(action);
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("TriggerAddAction");
+                Trace.WriteLine(e.ToString());
+            }
         }
 
         public static void TriggerRunActions(CTriggerWar3Ptr key)
         {
-            HashSet<ManagedAction> bucket;
-            if (InternalNatives.actions.TryGetValue(key, out bucket))
-                foreach (var action in bucket)
-                    action.Invoke(InternalNatives.handles[key]);
+            try
+            {
+                HashSet<ManagedAction> bucket;
+                if (InternalNatives.actions.TryGetValue(key, out bucket))
+                {
+                    foreach (var action in bucket)
+                    {
+                        action.Invoke(InternalNatives.handles[key]);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Trace.WriteLine("TriggerRunActions");
+                Trace.WriteLine(e.ToString());
+            }
         }
     }
 }

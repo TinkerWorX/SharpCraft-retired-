@@ -290,9 +290,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         // === INSTRUCTIONS ===
         // TODO: Needs instructions.
-        // void __thiscall sub_6F4482D0(CTriggerWar3 *this, bool wait)
+        // void __thiscall sub_6F4481A0(CTriggerWar3 *this, bool wait)
         public static IntPtr CTriggerWar3__Execute;
-        private const Int32 CTriggerWar3__ExecuteOffset = 0x4482D0;
+        private const Int32 CTriggerWar3__ExecuteOffset = 0x4481A0;
 
         // === INSTRUCTIONS ===
         // 1. Hit "Alt + B" to search for the following byte sequence, 
