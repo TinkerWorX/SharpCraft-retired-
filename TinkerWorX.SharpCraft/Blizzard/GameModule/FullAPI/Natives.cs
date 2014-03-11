@@ -27,7 +27,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI
             InternalNatives.Add(function);
         }
 
-        public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
+        public static void TriggerAddAction(JassTrigger trigger, ManagedActionBase action)
         {
             InternalNatives.TriggerAddAction(trigger, action);
         }

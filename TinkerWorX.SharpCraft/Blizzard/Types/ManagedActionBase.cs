@@ -7,20 +7,15 @@ using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 
 namespace TinkerWorX.SharpCraft.Blizzard.Types
 {
-    public delegate void ManagedActionDelegate(JassTrigger trigger);
-
-    public class ManagedAction : MarshalByRefObject
+    public abstract class ManagedActionBase : MarshalByRefObject
     {
-        private ManagedActionDelegate action;
-
-        public ManagedAction(ManagedActionDelegate action)
-        {
-            this.action = action;
-        }
+        public virtual Boolean Condition(JassTrigger trigger) { return true; }
+        public virtual void Action(JassTrigger trigger) { }
 
         public void Invoke(JassTrigger trigger)
         {
-            this.action.Invoke(trigger);
+            if (this.Condition(trigger))
+                this.Action(trigger);
         }
     }
 }

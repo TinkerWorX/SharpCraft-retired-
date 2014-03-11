@@ -21,12 +21,12 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.SafeAPI
                 Trace.WriteLine("Attempted to initialize " + typeof(Natives).Name + " in an invalid state.");
         }
 
-        private void triggerAddAction(JassTrigger trigger, ManagedAction action)
+        private void triggerAddAction(JassTrigger trigger, ManagedActionBase action)
         {
             InternalNatives.TriggerAddAction(trigger, action);
         }
 
-        public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
+        public static void TriggerAddAction(JassTrigger trigger, ManagedActionBase action)
         {
             Natives.instance.triggerAddAction(trigger, action);
         }

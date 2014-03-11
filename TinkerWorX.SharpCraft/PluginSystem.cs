@@ -406,6 +406,14 @@ namespace TinkerWorX.SharpCraft
             }
         }
 
+        private delegate void CheatPrototype(JassStringArg cheat);
+        private delegate JassUnit CreateUnitPrototype(JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing);
+        private delegate JassUnit CreateUnitByNamePrototype(JassPlayer player, JassStringArg name, JassRealArg x, JassRealArg y, JassRealArg facing);
+        private delegate JassUnit CreateUnitAtLocPrototype(JassPlayer player, JassObjectId id, JassLocation location, JassRealArg facing);
+        private delegate JassUnit CreateUnitAtLocByNamePrototype(JassPlayer player, JassStringArg name, JassLocation location, JassRealArg facing);
+        private delegate JassUnit CreateCorpsePrototype(JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing);
+        private delegate void RemoveUnitPrototype(JassUnit unit);
+
         private static void InitializeEvents()
         {
             try
@@ -489,7 +497,7 @@ namespace TinkerWorX.SharpCraft
                         mapPlugin.Main();
                 };
 
-                InternalNatives.Add(new InternalNatives.CheatPrototype((JassStringArg cheat) =>
+                InternalNatives.Add(new CheatPrototype((JassStringArg cheat) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.CheatCallback(cheat);
@@ -500,7 +508,7 @@ namespace TinkerWorX.SharpCraft
 
                     InternalNatives.Cheat(cheat);
                 }), "Cheat");
-                InternalNatives.Add(new InternalNatives.CreateUnitPrototype((JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
+                InternalNatives.Add(new CreateUnitPrototype((JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
                     var unit = InternalNatives.CreateUnit(player, id, x, y, facing);
 
@@ -513,7 +521,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateUnit");
-                InternalNatives.Add(new InternalNatives.CreateUnitByNamePrototype((JassPlayer player, JassStringArg name, JassRealArg x, JassRealArg y, JassRealArg facing) =>
+                InternalNatives.Add(new CreateUnitByNamePrototype((JassPlayer player, JassStringArg name, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
                     var unit = InternalNatives.CreateUnitByName(player, name, x, y, facing);
 
@@ -526,7 +534,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateUnitByName");
-                InternalNatives.Add(new InternalNatives.CreateUnitAtLocPrototype((JassPlayer player, JassObjectId id, JassLocation location, JassRealArg facing) =>
+                InternalNatives.Add(new CreateUnitAtLocPrototype((JassPlayer player, JassObjectId id, JassLocation location, JassRealArg facing) =>
                 {
                     var unit = InternalNatives.CreateUnitAtLoc(player, id, location, facing);
 
@@ -539,7 +547,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateUnitAtLoc");
-                InternalNatives.Add(new InternalNatives.CreateUnitAtLocByNamePrototype((JassPlayer player, JassStringArg name, JassLocation location, JassRealArg facing) =>
+                InternalNatives.Add(new CreateUnitAtLocByNamePrototype((JassPlayer player, JassStringArg name, JassLocation location, JassRealArg facing) =>
                 {
                     var unit = InternalNatives.CreateUnitAtLocByName(player, name, location, facing);
 
@@ -552,8 +560,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateUnitAtLocByName");
-                InternalNatives.Add(new InternalNatives.CreateCorpsePrototype(
-                (JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
+                InternalNatives.Add(new CreateCorpsePrototype((JassPlayer player, JassObjectId id, JassRealArg x, JassRealArg y, JassRealArg facing) =>
                 {
                     var unit = InternalNatives.CreateUnit(player, id, x, y, facing);
 
@@ -566,7 +573,7 @@ namespace TinkerWorX.SharpCraft
 
                     return unit;
                 }), "CreateCorpse");
-                InternalNatives.Add(new InternalNatives.RemoveUnitPrototype((JassUnit unit) =>
+                InternalNatives.Add(new RemoveUnitPrototype((JassUnit unit) =>
                 {
                     foreach (var plugin in safePlugins)
                         plugin.RemoveUnitCallback(unit);

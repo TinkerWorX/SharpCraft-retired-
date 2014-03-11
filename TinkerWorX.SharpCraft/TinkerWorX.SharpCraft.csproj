@@ -202,6 +202,7 @@
     <Compile Include="Blizzard\Jass\Objects\Extended\JassMapControl.cs" />
     <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayer.cs" />
     <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerColor.cs" />
+    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerEvent.cs" />
     <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerSlotState.cs" />
     <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerState.cs" />
     <Compile Include="Blizzard\Jass\Objects\Extended\JassRacePreference.cs" />
@@ -219,7 +220,8 @@
     <Compile Include="Blizzard\Jass\Primitives\JassString.cs" />
     <Compile Include="Blizzard\Storm.cs" />
     <Compile Include="Blizzard\Types\Color.cs" />
-    <Compile Include="Blizzard\Types\ManagedAction.cs" />
+    <Compile Include="Blizzard\Types\DelegateAction.cs" />
+    <Compile Include="Blizzard\Types\ManagedActionBase.cs" />
     <Compile Include="Blizzard\Types\ObjectIdB.cs" />
     <Compile Include="Blizzard\Types\ObjectIdL.cs" />
     <Compile Include="Blizzard\GameModule\FullAPI\Script.cs" />

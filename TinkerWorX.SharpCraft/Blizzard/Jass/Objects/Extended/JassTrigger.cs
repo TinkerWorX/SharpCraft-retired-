@@ -22,7 +22,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
             SafeNatives.TriggerAddAction(this, action);
         }
 
-        public void AddAction(ManagedAction action)
+        public void AddAction(ManagedActionBase action)
         {
             SafeNatives.TriggerAddAction(this, action);
         }

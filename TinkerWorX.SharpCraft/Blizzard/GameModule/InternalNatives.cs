@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Text;
+using System.Windows;
 using EasyHook;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
@@ -26,11 +28,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         //private static Dictionary<Type, Object> buckets = new Dictionary<Type, Object>();
 
-        private static Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>> actions = new Dictionary<CTriggerWar3Ptr, HashSet<ManagedAction>>();
+        private static Dictionary<CTriggerWar3Ptr, HashSet<ManagedActionBase>> actions = new Dictionary<CTriggerWar3Ptr, HashSet<ManagedActionBase>>();
 
         private static Dictionary<CTriggerWar3Ptr, JassTrigger> handles = new Dictionary<CTriggerWar3Ptr, JassTrigger>();
-
-        public static Boolean SkipStringConversion { get; set; }
 
         public static void Initialize()
         {
@@ -83,9 +83,42 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
         {
-            if (InternalNatives.SkipStringConversion)
-                return stringJassHandle;
-            return JassStringHandleToString(stringJassHandle);
+            //.rdata:6F96B6C0                 dd offset aButton_0     ; "BUTTON"
+            //.rdata:6F96B6C4                 dd offset sub_6F5E9400
+            // Open the sub on the second line.
+            //.text:6F5E9450                 push    3
+            //.text:6F5E9452                 mov     ecx, esi
+            //.text:6F5E9454                 call    sub_6F5E15A0
+            // Find the code above and open the sub.
+            //.text:6F5E15F5                 lea     ebx, [esi+128h]
+            //.text:6F5E15FB                 push    edi
+            //.text:6F5E15FC                 mov     ecx, ebx
+            //.text:6F5E15FE                 mov     byte ptr [esp+28h+var_4], 1
+            //.text:6F5E1603                 call    sub_6F011300
+            //.text:6F5E1608                 mov     dword ptr [ebx], offset off_6F969F5C
+            //.text:6F5E160E                 lea     ebx, [esi+134h]
+            //.text:6F5E1614                 push    edi
+            //.text:6F5E1615                 mov     ecx, ebx
+            //.text:6F5E1617                 mov     byte ptr [esp+28h+var_4], 2
+            //.text:6F5E161C                 call    sub_6F011300
+            //.text:6F5E1621                 mov     dword ptr [ebx], offset off_6F969F5C
+            // Code like the above repeats several times, where off_6F969F5C is used seven times. This is the first vtable. Rebase it and we get 969F5C.
+
+            // xref ".?AUJassString@@" and find the function where it's used three times.
+            //.text:6F44C678                 add     ebx, edi
+            //.text:6F44C67A                 mov     [esi+4], eax
+            //.text:6F44C67D                 mov     dword ptr [esi], offset off_6F87688C
+            //.text:6F44C683                 mov     [esi+8], eax
+            // Find code that looks like the stuff above. It's between the second and third use of the string.
+            // This is the vtable we'er looking for.
+            if (Memory.Read<IntPtr>(stringJassHandle) == Kernel32.GetModuleHandle("game.dll") + 0x87688C ||
+                Memory.Read<IntPtr>(stringJassHandle) == Kernel32.GetModuleHandle("game.dll") + 0x969F5C)
+            {
+                // The two checks above are vtables for the two only know string handles.
+                return JassStringHandleToString(stringJassHandle);
+            }
+            // Anything but the two types above must be strings that doesn't need to be converted.
+            return stringJassHandle;
         }
 
         private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, Boolean wait)
@@ -186,15 +219,15 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return InternalNatives.vanillaNatives.FirstOrDefault(native => native.Name == name);
         }
 
-        public static void TriggerAddAction(JassTrigger trigger, ManagedAction action)
+        public static void TriggerAddAction(JassTrigger trigger, ManagedActionBase action)
         {
             try
             {
                 var key = trigger.ToCTrigger();
                 InternalNatives.handles[key] = trigger;
-                HashSet<ManagedAction> bucket;
+                HashSet<ManagedActionBase> bucket;
                 if (!InternalNatives.actions.TryGetValue(key, out bucket))
-                    InternalNatives.actions.Add(key, bucket = new HashSet<ManagedAction>());
+                    InternalNatives.actions.Add(key, bucket = new HashSet<ManagedActionBase>());
                 bucket.Add(action);
             }
             catch (Exception e)
@@ -208,7 +241,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         {
             try
             {
-                HashSet<ManagedAction> bucket;
+                HashSet<ManagedActionBase> bucket;
                 if (InternalNatives.actions.TryGetValue(key, out bucket))
                 {
                     foreach (var action in bucket)

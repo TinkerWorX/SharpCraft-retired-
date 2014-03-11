@@ -358,7 +358,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native OrderId takes string orderIdString returns integer
-        public delegate JassOrder OrderIdPrototype(JassStringArg orderIdString);
+        public delegate JassOrder OrderIdPrototype(String orderIdString);
         private static OrderIdPrototype _OrderId;
         public static JassOrder OrderId(String orderIdString)
         {
@@ -366,7 +366,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native OrderId2String takes integer orderId returns string
-        public delegate JassStringRet OrderId2StringPrototype(JassOrder orderId);
+        public delegate String OrderId2StringPrototype(JassOrder orderId);
         private static OrderId2StringPrototype _OrderId2String;
         public static String OrderId2String(JassOrder orderId)
         {
@@ -374,7 +374,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native UnitId takes string unitIdString returns integer
-        public delegate JassObjectId UnitIdPrototype(JassStringArg unitIdString);
+        public delegate JassObjectId UnitIdPrototype(String unitIdString);
         private static UnitIdPrototype _UnitId;
         public static JassObjectId UnitId(String unitIdString)
         {
@@ -382,7 +382,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native UnitId2String takes integer unitId returns string
-        public delegate JassStringRet UnitId2StringPrototype(JassObjectId unitId);
+        public delegate String UnitId2StringPrototype(JassObjectId unitId);
         private static UnitId2StringPrototype _UnitId2String;
         public static String UnitId2String(JassObjectId unitId)
         {
@@ -390,7 +390,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AbilityId takes string abilityIdString returns integer
-        public delegate JassObjectId AbilityIdPrototype(JassStringArg abilityIdString);
+        public delegate JassObjectId AbilityIdPrototype(String abilityIdString);
         private static AbilityIdPrototype _AbilityId;
         public static JassObjectId AbilityId(String abilityIdString)
         {
@@ -398,7 +398,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AbilityId2String takes integer abilityId returns string
-        public delegate JassStringRet AbilityId2StringPrototype(JassInteger abilityId);
+        public delegate String AbilityId2StringPrototype(JassInteger abilityId);
         private static AbilityId2StringPrototype _AbilityId2String;
         public static String AbilityId2String(JassInteger abilityId)
         {
@@ -406,7 +406,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetObjectName takes integer objectId returns string
-        public delegate JassStringRet GetObjectNamePrototype(JassObjectId objectId);
+        public delegate String GetObjectNamePrototype(JassObjectId objectId);
         private static GetObjectNamePrototype _GetObjectName;
         public static String GetObjectName(JassObjectId objectId)
         {
@@ -518,7 +518,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native I2S takes integer i returns string
-        public delegate JassStringRet I2SPrototype(JassInteger i);
+        public delegate String I2SPrototype(JassInteger i);
         private static I2SPrototype _I2S;
         public static String I2S(JassInteger i)
         {
@@ -526,7 +526,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native R2S takes real r returns string
-        public delegate JassStringRet R2SPrototype(JassRealArg r);
+        public delegate String R2SPrototype(JassRealArg r);
         private static R2SPrototype _R2S;
         public static String R2S(Single r)
         {
@@ -534,7 +534,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native R2SW takes real r, integer width, integer precision returns string
-        public delegate JassStringRet R2SWPrototype(JassRealArg r, JassInteger width, JassInteger precision);
+        public delegate String R2SWPrototype(JassRealArg r, JassInteger width, JassInteger precision);
         private static R2SWPrototype _R2SW;
         public static String R2SW(Single r, JassInteger width, JassInteger precision)
         {
@@ -542,7 +542,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native S2I takes string s returns integer
-        public delegate JassInteger S2IPrototype(JassStringArg s);
+        public delegate JassInteger S2IPrototype(String s);
         private static S2IPrototype _S2I;
         public static JassInteger S2I(String s)
         {
@@ -550,7 +550,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native S2R takes string s returns real
-        public delegate JassRealRet S2RPrototype(JassStringArg s);
+        public delegate JassRealRet S2RPrototype(String s);
         private static S2RPrototype _S2R;
         public static Single S2R(String s)
         {
@@ -566,7 +566,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SubString takes string source, integer start, integer end returns string
-        public delegate JassStringRet SubStringPrototype(JassStringArg source, JassInteger start, JassInteger end);
+        public delegate String SubStringPrototype(String source, JassInteger start, JassInteger end);
         private static SubStringPrototype _SubString;
         public static String SubString(String source, JassInteger start, JassInteger end)
         {
@@ -574,7 +574,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StringLength takes string s returns integer
-        public delegate JassInteger StringLengthPrototype(JassStringArg s);
+        public delegate JassInteger StringLengthPrototype(String s);
         private static StringLengthPrototype _StringLength;
         public static JassInteger StringLength(String s)
         {
@@ -582,7 +582,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StringCase takes string source, boolean upper returns string
-        public delegate JassStringRet StringCasePrototype(JassStringArg source, JassBoolean upper);
+        public delegate String StringCasePrototype(String source, JassBoolean upper);
         private static StringCasePrototype _StringCase;
         public static String StringCase(String source, Boolean upper)
         {
@@ -590,7 +590,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StringHash takes string s returns integer
-        public delegate JassInteger StringHashPrototype(JassStringArg s);
+        public delegate JassInteger StringHashPrototype(String s);
         private static StringHashPrototype _StringHash;
         public static JassInteger StringHash(String s)
         {
@@ -598,7 +598,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetLocalizedString takes string source returns string
-        public delegate JassStringRet GetLocalizedStringPrototype(JassStringArg source);
+        public delegate String GetLocalizedStringPrototype(String source);
         private static GetLocalizedStringPrototype _GetLocalizedString;
         public static String GetLocalizedString(String source)
         {
@@ -606,7 +606,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetLocalizedHotkey takes string source returns integer
-        public delegate JassInteger GetLocalizedHotkeyPrototype(JassStringArg source);
+        public delegate JassInteger GetLocalizedHotkeyPrototype(String source);
         private static GetLocalizedHotkeyPrototype _GetLocalizedHotkey;
         public static JassInteger GetLocalizedHotkey(String source)
         {
@@ -614,7 +614,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetMapName takes string name returns nothing
-        public delegate void SetMapNamePrototype(JassStringArg name);
+        public delegate void SetMapNamePrototype(String name);
         private static SetMapNamePrototype _SetMapName;
         public static void SetMapName(String name)
         {
@@ -622,7 +622,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetMapDescription takes string description returns nothing
-        public delegate void SetMapDescriptionPrototype(JassStringArg description);
+        public delegate void SetMapDescriptionPrototype(String description);
         private static SetMapDescriptionPrototype _SetMapDescription;
         public static void SetMapDescription(String description)
         {
@@ -926,7 +926,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetPlayerName takes player whichPlayer, string name returns nothing
-        public delegate void SetPlayerNamePrototype(JassPlayer whichPlayer, JassStringArg name);
+        public delegate void SetPlayerNamePrototype(JassPlayer whichPlayer, String name);
         private static SetPlayerNamePrototype _SetPlayerName;
         public static void SetPlayerName(JassPlayer whichPlayer, String name)
         {
@@ -1006,7 +1006,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetPlayerName takes player whichPlayer returns string
-        public delegate JassStringRet GetPlayerNamePrototype(JassPlayer whichPlayer);
+        public delegate String GetPlayerNamePrototype(JassPlayer whichPlayer);
         private static GetPlayerNamePrototype _GetPlayerName;
         public static String GetPlayerName(JassPlayer whichPlayer)
         {
@@ -1126,7 +1126,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupEnumUnitsOfType takes group whichGroup, string unitname, boolexpr filter returns nothing
-        public delegate void GroupEnumUnitsOfTypePrototype(JassGroup whichGroup, JassStringArg unitname, JassBooleanExpression filter);
+        public delegate void GroupEnumUnitsOfTypePrototype(JassGroup whichGroup, String unitname, JassBooleanExpression filter);
         private static GroupEnumUnitsOfTypePrototype _GroupEnumUnitsOfType;
         public static void GroupEnumUnitsOfType(JassGroup whichGroup, String unitname, JassBooleanExpression filter)
         {
@@ -1142,7 +1142,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupEnumUnitsOfTypeCounted takes group whichGroup, string unitname, boolexpr filter, integer countLimit returns nothing
-        public delegate void GroupEnumUnitsOfTypeCountedPrototype(JassGroup whichGroup, JassStringArg unitname, JassBooleanExpression filter, JassInteger countLimit);
+        public delegate void GroupEnumUnitsOfTypeCountedPrototype(JassGroup whichGroup, String unitname, JassBooleanExpression filter, JassInteger countLimit);
         private static GroupEnumUnitsOfTypeCountedPrototype _GroupEnumUnitsOfTypeCounted;
         public static void GroupEnumUnitsOfTypeCounted(JassGroup whichGroup, String unitname, JassBooleanExpression filter, JassInteger countLimit)
         {
@@ -1206,7 +1206,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupImmediateOrder takes group whichGroup, string order returns boolean
-        public delegate JassBoolean GroupImmediateOrderPrototype(JassGroup whichGroup, JassStringArg order);
+        public delegate JassBoolean GroupImmediateOrderPrototype(JassGroup whichGroup, String order);
         private static GroupImmediateOrderPrototype _GroupImmediateOrder;
         public static Boolean GroupImmediateOrder(JassGroup whichGroup, String order)
         {
@@ -1222,7 +1222,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupPointOrder takes group whichGroup, string order, real x, real y returns boolean
-        public delegate JassBoolean GroupPointOrderPrototype(JassGroup whichGroup, JassStringArg order, JassRealArg x, JassRealArg y);
+        public delegate JassBoolean GroupPointOrderPrototype(JassGroup whichGroup, String order, JassRealArg x, JassRealArg y);
         private static GroupPointOrderPrototype _GroupPointOrder;
         public static Boolean GroupPointOrder(JassGroup whichGroup, String order, Single x, Single y)
         {
@@ -1230,7 +1230,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupPointOrderLoc takes group whichGroup, string order, location whichLocation returns boolean
-        public delegate JassBoolean GroupPointOrderLocPrototype(JassGroup whichGroup, JassStringArg order, JassLocation whichLocation);
+        public delegate JassBoolean GroupPointOrderLocPrototype(JassGroup whichGroup, String order, JassLocation whichLocation);
         private static GroupPointOrderLocPrototype _GroupPointOrderLoc;
         public static Boolean GroupPointOrderLoc(JassGroup whichGroup, String order, JassLocation whichLocation)
         {
@@ -1254,7 +1254,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GroupTargetOrder takes group whichGroup, string order, widget targetWidget returns boolean
-        public delegate JassBoolean GroupTargetOrderPrototype(JassGroup whichGroup, JassStringArg order, JassWidget targetWidget);
+        public delegate JassBoolean GroupTargetOrderPrototype(JassGroup whichGroup, String order, JassWidget targetWidget);
         private static GroupTargetOrderPrototype _GroupTargetOrder;
         public static Boolean GroupTargetOrder(JassGroup whichGroup, String order, JassWidget targetWidget)
         {
@@ -1774,7 +1774,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native ExecuteFunc takes string funcName returns nothing
-        public delegate void ExecuteFuncPrototype(JassStringArg funcName);
+        public delegate void ExecuteFuncPrototype(String funcName);
         private static ExecuteFuncPrototype _ExecuteFunc;
         public static void ExecuteFunc(String funcName)
         {
@@ -1846,7 +1846,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native TriggerRegisterVariableEvent takes trigger whichTrigger, string varName, limitop opcode, real limitval returns event
-        public delegate JassEvent TriggerRegisterVariableEventPrototype(JassTrigger whichTrigger, JassStringArg varName, JassLimitOp opcode, JassRealArg limitval);
+        public delegate JassEvent TriggerRegisterVariableEventPrototype(JassTrigger whichTrigger, String varName, JassLimitOp opcode, JassRealArg limitval);
         private static TriggerRegisterVariableEventPrototype _TriggerRegisterVariableEvent;
         public static JassEvent TriggerRegisterVariableEvent(JassTrigger whichTrigger, String varName, JassLimitOp opcode, Single limitval)
         {
@@ -2030,7 +2030,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetSaveBasicFilename takes nothing returns string
-        public delegate JassStringRet GetSaveBasicFilenamePrototype();
+        public delegate String GetSaveBasicFilenamePrototype();
         private static GetSaveBasicFilenamePrototype _GetSaveBasicFilename;
         public static String GetSaveBasicFilename()
         {
@@ -2478,7 +2478,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native TriggerRegisterPlayerChatEvent takes trigger whichTrigger, player whichPlayer, string chatMessageToDetect, boolean exactMatchOnly returns event
-        public delegate JassEvent TriggerRegisterPlayerChatEventPrototype(JassTrigger whichTrigger, JassPlayer whichPlayer, JassStringArg chatMessageToDetect, JassBoolean exactMatchOnly);
+        public delegate JassEvent TriggerRegisterPlayerChatEventPrototype(JassTrigger whichTrigger, JassPlayer whichPlayer, String chatMessageToDetect, JassBoolean exactMatchOnly);
         private static TriggerRegisterPlayerChatEventPrototype _TriggerRegisterPlayerChatEvent;
         public static JassEvent TriggerRegisterPlayerChatEvent(JassTrigger whichTrigger, JassPlayer whichPlayer, String chatMessageToDetect, Boolean exactMatchOnly)
         {
@@ -2486,7 +2486,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetEventPlayerChatString takes nothing returns string
-        public delegate JassStringRet GetEventPlayerChatStringPrototype();
+        public delegate String GetEventPlayerChatStringPrototype();
         private static GetEventPlayerChatStringPrototype _GetEventPlayerChatString;
         public static String GetEventPlayerChatString()
         {
@@ -2494,7 +2494,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetEventPlayerChatStringMatched takes nothing returns string
-        public delegate JassStringRet GetEventPlayerChatStringMatchedPrototype();
+        public delegate String GetEventPlayerChatStringMatchedPrototype();
         private static GetEventPlayerChatStringMatchedPrototype _GetEventPlayerChatStringMatched;
         public static String GetEventPlayerChatStringMatched()
         {
@@ -2870,7 +2870,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QueueDestructableAnimation takes destructable d, string whichAnimation returns nothing
-        public delegate void QueueDestructableAnimationPrototype(JassDestructable d, JassStringArg whichAnimation);
+        public delegate void QueueDestructableAnimationPrototype(JassDestructable d, String whichAnimation);
         private static QueueDestructableAnimationPrototype _QueueDestructableAnimation;
         public static void QueueDestructableAnimation(JassDestructable d, String whichAnimation)
         {
@@ -2878,7 +2878,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetDestructableAnimation takes destructable d, string whichAnimation returns nothing
-        public delegate void SetDestructableAnimationPrototype(JassDestructable d, JassStringArg whichAnimation);
+        public delegate void SetDestructableAnimationPrototype(JassDestructable d, String whichAnimation);
         private static SetDestructableAnimationPrototype _SetDestructableAnimation;
         public static void SetDestructableAnimation(JassDestructable d, String whichAnimation)
         {
@@ -2918,7 +2918,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetDestructableName takes destructable d returns string
-        public delegate JassStringRet GetDestructableNamePrototype(JassDestructable d);
+        public delegate String GetDestructableNamePrototype(JassDestructable d);
         private static GetDestructableNamePrototype _GetDestructableName;
         public static String GetDestructableName(JassDestructable d)
         {
@@ -3142,7 +3142,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetItemName takes item whichItem returns string
-        public delegate JassStringRet GetItemNamePrototype(JassItem whichItem);
+        public delegate String GetItemNamePrototype(JassItem whichItem);
         private static GetItemNamePrototype _GetItemName;
         public static String GetItemName(JassItem whichItem)
         {
@@ -3190,7 +3190,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateUnitByName takes player whichPlayer, string unitname, real x, real y, real face returns unit
-        public delegate JassUnit CreateUnitByNamePrototype(JassPlayer whichPlayer, JassStringArg unitname, JassRealArg x, JassRealArg y, JassRealArg face);
+        public delegate JassUnit CreateUnitByNamePrototype(JassPlayer whichPlayer, String unitname, JassRealArg x, JassRealArg y, JassRealArg face);
         private static CreateUnitByNamePrototype _CreateUnitByName;
         public static JassUnit CreateUnitByName(JassPlayer whichPlayer, String unitname, Single x, Single y, Single face)
         {
@@ -3206,7 +3206,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateUnitAtLocByName takes player id, string unitname, location whichLocation, real face returns unit
-        public delegate JassUnit CreateUnitAtLocByNamePrototype(JassPlayer id, JassStringArg unitname, JassLocation whichLocation, JassRealArg face);
+        public delegate JassUnit CreateUnitAtLocByNamePrototype(JassPlayer id, String unitname, JassLocation whichLocation, JassRealArg face);
         private static CreateUnitAtLocByNamePrototype _CreateUnitAtLocByName;
         public static JassUnit CreateUnitAtLocByName(JassPlayer id, String unitname, JassLocation whichLocation, Single face)
         {
@@ -3462,7 +3462,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QueueUnitAnimation takes unit whichUnit, string whichAnimation returns nothing
-        public delegate void QueueUnitAnimationPrototype(JassUnit whichUnit, JassStringArg whichAnimation);
+        public delegate void QueueUnitAnimationPrototype(JassUnit whichUnit, String whichAnimation);
         private static QueueUnitAnimationPrototype _QueueUnitAnimation;
         public static void QueueUnitAnimation(JassUnit whichUnit, String whichAnimation)
         {
@@ -3470,7 +3470,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetUnitAnimation takes unit whichUnit, string whichAnimation returns nothing
-        public delegate void SetUnitAnimationPrototype(JassUnit whichUnit, JassStringArg whichAnimation);
+        public delegate void SetUnitAnimationPrototype(JassUnit whichUnit, String whichAnimation);
         private static SetUnitAnimationPrototype _SetUnitAnimation;
         public static void SetUnitAnimation(JassUnit whichUnit, String whichAnimation)
         {
@@ -3486,7 +3486,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetUnitAnimationWithRarity takes unit whichUnit, string whichAnimation, raritycontrol rarity returns nothing
-        public delegate void SetUnitAnimationWithRarityPrototype(JassUnit whichUnit, JassStringArg whichAnimation, JassRarityControl rarity);
+        public delegate void SetUnitAnimationWithRarityPrototype(JassUnit whichUnit, String whichAnimation, JassRarityControl rarity);
         private static SetUnitAnimationWithRarityPrototype _SetUnitAnimationWithRarity;
         public static void SetUnitAnimationWithRarity(JassUnit whichUnit, String whichAnimation, JassRarityControl rarity)
         {
@@ -3494,7 +3494,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddUnitAnimationProperties takes unit whichUnit, string animProperties, boolean add returns nothing
-        public delegate void AddUnitAnimationPropertiesPrototype(JassUnit whichUnit, JassStringArg animProperties, JassBoolean add);
+        public delegate void AddUnitAnimationPropertiesPrototype(JassUnit whichUnit, String animProperties, JassBoolean add);
         private static AddUnitAnimationPropertiesPrototype _AddUnitAnimationProperties;
         public static void AddUnitAnimationProperties(JassUnit whichUnit, String animProperties, Boolean add)
         {
@@ -3502,7 +3502,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetUnitLookAt takes unit whichUnit, string whichBone, unit lookAtTarget, real offsetX, real offsetY, real offsetZ returns nothing
-        public delegate void SetUnitLookAtPrototype(JassUnit whichUnit, JassStringArg whichBone, JassUnit lookAtTarget, JassRealArg offsetX, JassRealArg offsetY, JassRealArg offsetZ);
+        public delegate void SetUnitLookAtPrototype(JassUnit whichUnit, String whichBone, JassUnit lookAtTarget, JassRealArg offsetX, JassRealArg offsetY, JassRealArg offsetZ);
         private static SetUnitLookAtPrototype _SetUnitLookAt;
         public static void SetUnitLookAt(JassUnit whichUnit, String whichBone, JassUnit lookAtTarget, Single offsetX, Single offsetY, Single offsetZ)
         {
@@ -3654,7 +3654,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetHeroProperName takes unit whichHero returns string
-        public delegate JassStringRet GetHeroProperNamePrototype(JassUnit whichHero);
+        public delegate String GetHeroProperNamePrototype(JassUnit whichHero);
         private static GetHeroProperNamePrototype _GetHeroProperName;
         public static String GetHeroProperName(JassUnit whichHero)
         {
@@ -3998,7 +3998,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetUnitName takes unit whichUnit returns string
-        public delegate JassStringRet GetUnitNamePrototype(JassUnit whichUnit);
+        public delegate String GetUnitNamePrototype(JassUnit whichUnit);
         private static GetUnitNamePrototype _GetUnitName;
         public static String GetUnitName(JassUnit whichUnit)
         {
@@ -4470,7 +4470,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueImmediateOrder takes unit whichUnit, string order returns boolean
-        public delegate JassBoolean IssueImmediateOrderPrototype(JassUnit whichUnit, JassStringArg order);
+        public delegate JassBoolean IssueImmediateOrderPrototype(JassUnit whichUnit, String order);
         private static IssueImmediateOrderPrototype _IssueImmediateOrder;
         public static Boolean IssueImmediateOrder(JassUnit whichUnit, String order)
         {
@@ -4486,7 +4486,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssuePointOrder takes unit whichUnit, string order, real x, real y returns boolean
-        public delegate JassBoolean IssuePointOrderPrototype(JassUnit whichUnit, JassStringArg order, JassRealArg x, JassRealArg y);
+        public delegate JassBoolean IssuePointOrderPrototype(JassUnit whichUnit, String order, JassRealArg x, JassRealArg y);
         private static IssuePointOrderPrototype _IssuePointOrder;
         public static Boolean IssuePointOrder(JassUnit whichUnit, String order, Single x, Single y)
         {
@@ -4494,7 +4494,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssuePointOrderLoc takes unit whichUnit, string order, location whichLocation returns boolean
-        public delegate JassBoolean IssuePointOrderLocPrototype(JassUnit whichUnit, JassStringArg order, JassLocation whichLocation);
+        public delegate JassBoolean IssuePointOrderLocPrototype(JassUnit whichUnit, String order, JassLocation whichLocation);
         private static IssuePointOrderLocPrototype _IssuePointOrderLoc;
         public static Boolean IssuePointOrderLoc(JassUnit whichUnit, String order, JassLocation whichLocation)
         {
@@ -4518,7 +4518,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueTargetOrder takes unit whichUnit, string order, widget targetWidget returns boolean
-        public delegate JassBoolean IssueTargetOrderPrototype(JassUnit whichUnit, JassStringArg order, JassWidget targetWidget);
+        public delegate JassBoolean IssueTargetOrderPrototype(JassUnit whichUnit, String order, JassWidget targetWidget);
         private static IssueTargetOrderPrototype _IssueTargetOrder;
         public static Boolean IssueTargetOrder(JassUnit whichUnit, String order, JassWidget targetWidget)
         {
@@ -4534,7 +4534,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueInstantPointOrder takes unit whichUnit, string order, real x, real y, widget instantTargetWidget returns boolean
-        public delegate JassBoolean IssueInstantPointOrderPrototype(JassUnit whichUnit, JassStringArg order, JassRealArg x, JassRealArg y, JassWidget instantTargetWidget);
+        public delegate JassBoolean IssueInstantPointOrderPrototype(JassUnit whichUnit, String order, JassRealArg x, JassRealArg y, JassWidget instantTargetWidget);
         private static IssueInstantPointOrderPrototype _IssueInstantPointOrder;
         public static Boolean IssueInstantPointOrder(JassUnit whichUnit, String order, Single x, Single y, JassWidget instantTargetWidget)
         {
@@ -4550,7 +4550,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueInstantTargetOrder takes unit whichUnit, string order, widget targetWidget, widget instantTargetWidget returns boolean
-        public delegate JassBoolean IssueInstantTargetOrderPrototype(JassUnit whichUnit, JassStringArg order, JassWidget targetWidget, JassWidget instantTargetWidget);
+        public delegate JassBoolean IssueInstantTargetOrderPrototype(JassUnit whichUnit, String order, JassWidget targetWidget, JassWidget instantTargetWidget);
         private static IssueInstantTargetOrderPrototype _IssueInstantTargetOrder;
         public static Boolean IssueInstantTargetOrder(JassUnit whichUnit, String order, JassWidget targetWidget, JassWidget instantTargetWidget)
         {
@@ -4566,7 +4566,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueBuildOrder takes unit whichPeon, string unitToBuild, real x, real y returns boolean
-        public delegate JassBoolean IssueBuildOrderPrototype(JassUnit whichPeon, JassStringArg unitToBuild, JassRealArg x, JassRealArg y);
+        public delegate JassBoolean IssueBuildOrderPrototype(JassUnit whichPeon, String unitToBuild, JassRealArg x, JassRealArg y);
         private static IssueBuildOrderPrototype _IssueBuildOrder;
         public static Boolean IssueBuildOrder(JassUnit whichPeon, String unitToBuild, Single x, Single y)
         {
@@ -4582,7 +4582,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueNeutralImmediateOrder takes player forWhichPlayer, unit neutralStructure, string unitToBuild returns boolean
-        public delegate JassBoolean IssueNeutralImmediateOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, JassStringArg unitToBuild);
+        public delegate JassBoolean IssueNeutralImmediateOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild);
         private static IssueNeutralImmediateOrderPrototype _IssueNeutralImmediateOrder;
         public static Boolean IssueNeutralImmediateOrder(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild)
         {
@@ -4598,7 +4598,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueNeutralPointOrder takes player forWhichPlayer, unit neutralStructure, string unitToBuild, real x, real y returns boolean
-        public delegate JassBoolean IssueNeutralPointOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, JassStringArg unitToBuild, JassRealArg x, JassRealArg y);
+        public delegate JassBoolean IssueNeutralPointOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild, JassRealArg x, JassRealArg y);
         private static IssueNeutralPointOrderPrototype _IssueNeutralPointOrder;
         public static Boolean IssueNeutralPointOrder(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild, Single x, Single y)
         {
@@ -4614,7 +4614,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native IssueNeutralTargetOrder takes player forWhichPlayer, unit neutralStructure, string unitToBuild, widget target returns boolean
-        public delegate JassBoolean IssueNeutralTargetOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, JassStringArg unitToBuild, JassWidget target);
+        public delegate JassBoolean IssueNeutralTargetOrderPrototype(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild, JassWidget target);
         private static IssueNeutralTargetOrderPrototype _IssueNeutralTargetOrder;
         public static Boolean IssueNeutralTargetOrder(JassPlayer forWhichPlayer, JassUnit neutralStructure, String unitToBuild, JassWidget target)
         {
@@ -4934,7 +4934,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetPlayerTypedUnitCount takes player whichPlayer, string unitName, boolean includeIncomplete, boolean includeUpgrades returns integer
-        public delegate JassInteger GetPlayerTypedUnitCountPrototype(JassPlayer whichPlayer, JassStringArg unitName, JassBoolean includeIncomplete, JassBoolean includeUpgrades);
+        public delegate JassInteger GetPlayerTypedUnitCountPrototype(JassPlayer whichPlayer, String unitName, JassBoolean includeIncomplete, JassBoolean includeUpgrades);
         private static GetPlayerTypedUnitCountPrototype _GetPlayerTypedUnitCount;
         public static JassInteger GetPlayerTypedUnitCount(JassPlayer whichPlayer, String unitName, Boolean includeIncomplete, Boolean includeUpgrades)
         {
@@ -5238,7 +5238,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native ChangeLevel takes string newLevel, boolean doScoreScreen returns nothing
-        public delegate void ChangeLevelPrototype(JassStringArg newLevel, JassBoolean doScoreScreen);
+        public delegate void ChangeLevelPrototype(String newLevel, JassBoolean doScoreScreen);
         private static ChangeLevelPrototype _ChangeLevel;
         public static void ChangeLevel(String newLevel, Boolean doScoreScreen)
         {
@@ -5286,7 +5286,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LoadGame takes string saveFileName, boolean doScoreScreen returns nothing
-        public delegate void LoadGamePrototype(JassStringArg saveFileName, JassBoolean doScoreScreen);
+        public delegate void LoadGamePrototype(String saveFileName, JassBoolean doScoreScreen);
         private static LoadGamePrototype _LoadGame;
         public static void LoadGame(String saveFileName, Boolean doScoreScreen)
         {
@@ -5294,7 +5294,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SaveGame takes string saveFileName returns nothing
-        public delegate void SaveGamePrototype(JassStringArg saveFileName);
+        public delegate void SaveGamePrototype(String saveFileName);
         private static SaveGamePrototype _SaveGame;
         public static void SaveGame(String saveFileName)
         {
@@ -5302,7 +5302,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native RenameSaveDirectory takes string sourceDirName, string destDirName returns boolean
-        public delegate JassBoolean RenameSaveDirectoryPrototype(JassStringArg sourceDirName, JassStringArg destDirName);
+        public delegate JassBoolean RenameSaveDirectoryPrototype(String sourceDirName, String destDirName);
         private static RenameSaveDirectoryPrototype _RenameSaveDirectory;
         public static Boolean RenameSaveDirectory(String sourceDirName, String destDirName)
         {
@@ -5310,7 +5310,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native RemoveSaveDirectory takes string sourceDirName returns boolean
-        public delegate JassBoolean RemoveSaveDirectoryPrototype(JassStringArg sourceDirName);
+        public delegate JassBoolean RemoveSaveDirectoryPrototype(String sourceDirName);
         private static RemoveSaveDirectoryPrototype _RemoveSaveDirectory;
         public static Boolean RemoveSaveDirectory(String sourceDirName)
         {
@@ -5318,7 +5318,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CopySaveGame takes string sourceSaveName, string destSaveName returns boolean
-        public delegate JassBoolean CopySaveGamePrototype(JassStringArg sourceSaveName, JassStringArg destSaveName);
+        public delegate JassBoolean CopySaveGamePrototype(String sourceSaveName, String destSaveName);
         private static CopySaveGamePrototype _CopySaveGame;
         public static Boolean CopySaveGame(String sourceSaveName, String destSaveName)
         {
@@ -5326,7 +5326,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SaveGameExists takes string saveName returns boolean
-        public delegate JassBoolean SaveGameExistsPrototype(JassStringArg saveName);
+        public delegate JassBoolean SaveGameExistsPrototype(String saveName);
         private static SaveGameExistsPrototype _SaveGameExists;
         public static Boolean SaveGameExists(String saveName)
         {
@@ -5478,7 +5478,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DialogSetMessage takes dialog whichDialog, string messageText returns nothing
-        public delegate void DialogSetMessagePrototype(JassDialog whichDialog, JassStringArg messageText);
+        public delegate void DialogSetMessagePrototype(JassDialog whichDialog, String messageText);
         private static DialogSetMessagePrototype _DialogSetMessage;
         public static void DialogSetMessage(JassDialog whichDialog, String messageText)
         {
@@ -5486,7 +5486,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DialogAddButton takes dialog whichDialog, string buttonText, integer hotkey returns button
-        public delegate JassButton DialogAddButtonPrototype(JassDialog whichDialog, JassStringArg buttonText, JassInteger hotkey);
+        public delegate JassButton DialogAddButtonPrototype(JassDialog whichDialog, String buttonText, JassInteger hotkey);
         private static DialogAddButtonPrototype _DialogAddButton;
         public static JassButton DialogAddButton(JassDialog whichDialog, String buttonText, JassInteger hotkey)
         {
@@ -5494,7 +5494,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DialogAddQuitButton takes dialog whichDialog, boolean doScoreScreen, string buttonText, integer hotkey returns button
-        public delegate JassButton DialogAddQuitButtonPrototype(JassDialog whichDialog, JassBoolean doScoreScreen, JassStringArg buttonText, JassInteger hotkey);
+        public delegate JassButton DialogAddQuitButtonPrototype(JassDialog whichDialog, JassBoolean doScoreScreen, String buttonText, JassInteger hotkey);
         private static DialogAddQuitButtonPrototype _DialogAddQuitButton;
         public static JassButton DialogAddQuitButton(JassDialog whichDialog, Boolean doScoreScreen, String buttonText, JassInteger hotkey)
         {
@@ -5518,7 +5518,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native InitGameCache takes string campaignFile returns gamecache
-        public delegate JassGameCache InitGameCachePrototype(JassStringArg campaignFile);
+        public delegate JassGameCache InitGameCachePrototype(String campaignFile);
         private static InitGameCachePrototype _InitGameCache;
         public static JassGameCache InitGameCache(String campaignFile)
         {
@@ -5534,7 +5534,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StoreInteger takes gamecache cache, string missionKey, string key, integer value returns nothing
-        public delegate void StoreIntegerPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassInteger value);
+        public delegate void StoreIntegerPrototype(JassGameCache cache, String missionKey, String key, JassInteger value);
         private static StoreIntegerPrototype _StoreInteger;
         public static void StoreInteger(JassGameCache cache, String missionKey, String key, JassInteger value)
         {
@@ -5542,7 +5542,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StoreReal takes gamecache cache, string missionKey, string key, real value returns nothing
-        public delegate void StoreRealPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassRealArg value);
+        public delegate void StoreRealPrototype(JassGameCache cache, String missionKey, String key, JassRealArg value);
         private static StoreRealPrototype _StoreReal;
         public static void StoreReal(JassGameCache cache, String missionKey, String key, Single value)
         {
@@ -5550,7 +5550,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StoreBoolean takes gamecache cache, string missionKey, string key, boolean value returns nothing
-        public delegate void StoreBooleanPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassBoolean value);
+        public delegate void StoreBooleanPrototype(JassGameCache cache, String missionKey, String key, JassBoolean value);
         private static StoreBooleanPrototype _StoreBoolean;
         public static void StoreBoolean(JassGameCache cache, String missionKey, String key, Boolean value)
         {
@@ -5558,7 +5558,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StoreUnit takes gamecache cache, string missionKey, string key, unit whichUnit returns boolean
-        public delegate JassBoolean StoreUnitPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassUnit whichUnit);
+        public delegate JassBoolean StoreUnitPrototype(JassGameCache cache, String missionKey, String key, JassUnit whichUnit);
         private static StoreUnitPrototype _StoreUnit;
         public static Boolean StoreUnit(JassGameCache cache, String missionKey, String key, JassUnit whichUnit)
         {
@@ -5566,7 +5566,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StoreString takes gamecache cache, string missionKey, string key, string value returns boolean
-        public delegate JassBoolean StoreStringPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassStringArg value);
+        public delegate JassBoolean StoreStringPrototype(JassGameCache cache, String missionKey, String key, String value);
         private static StoreStringPrototype _StoreString;
         public static Boolean StoreString(JassGameCache cache, String missionKey, String key, String value)
         {
@@ -5574,7 +5574,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SyncStoredInteger takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void SyncStoredIntegerPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void SyncStoredIntegerPrototype(JassGameCache cache, String missionKey, String key);
         private static SyncStoredIntegerPrototype _SyncStoredInteger;
         public static void SyncStoredInteger(JassGameCache cache, String missionKey, String key)
         {
@@ -5582,7 +5582,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SyncStoredReal takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void SyncStoredRealPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void SyncStoredRealPrototype(JassGameCache cache, String missionKey, String key);
         private static SyncStoredRealPrototype _SyncStoredReal;
         public static void SyncStoredReal(JassGameCache cache, String missionKey, String key)
         {
@@ -5590,7 +5590,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SyncStoredBoolean takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void SyncStoredBooleanPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void SyncStoredBooleanPrototype(JassGameCache cache, String missionKey, String key);
         private static SyncStoredBooleanPrototype _SyncStoredBoolean;
         public static void SyncStoredBoolean(JassGameCache cache, String missionKey, String key)
         {
@@ -5598,7 +5598,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SyncStoredUnit takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void SyncStoredUnitPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void SyncStoredUnitPrototype(JassGameCache cache, String missionKey, String key);
         private static SyncStoredUnitPrototype _SyncStoredUnit;
         public static void SyncStoredUnit(JassGameCache cache, String missionKey, String key)
         {
@@ -5606,7 +5606,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SyncStoredString takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void SyncStoredStringPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void SyncStoredStringPrototype(JassGameCache cache, String missionKey, String key);
         private static SyncStoredStringPrototype _SyncStoredString;
         public static void SyncStoredString(JassGameCache cache, String missionKey, String key)
         {
@@ -5614,7 +5614,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native HaveStoredInteger takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean HaveStoredIntegerPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean HaveStoredIntegerPrototype(JassGameCache cache, String missionKey, String key);
         private static HaveStoredIntegerPrototype _HaveStoredInteger;
         public static Boolean HaveStoredInteger(JassGameCache cache, String missionKey, String key)
         {
@@ -5622,7 +5622,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native HaveStoredReal takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean HaveStoredRealPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean HaveStoredRealPrototype(JassGameCache cache, String missionKey, String key);
         private static HaveStoredRealPrototype _HaveStoredReal;
         public static Boolean HaveStoredReal(JassGameCache cache, String missionKey, String key)
         {
@@ -5630,7 +5630,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native HaveStoredBoolean takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean HaveStoredBooleanPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean HaveStoredBooleanPrototype(JassGameCache cache, String missionKey, String key);
         private static HaveStoredBooleanPrototype _HaveStoredBoolean;
         public static Boolean HaveStoredBoolean(JassGameCache cache, String missionKey, String key)
         {
@@ -5638,7 +5638,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native HaveStoredUnit takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean HaveStoredUnitPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean HaveStoredUnitPrototype(JassGameCache cache, String missionKey, String key);
         private static HaveStoredUnitPrototype _HaveStoredUnit;
         public static Boolean HaveStoredUnit(JassGameCache cache, String missionKey, String key)
         {
@@ -5646,7 +5646,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native HaveStoredString takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean HaveStoredStringPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean HaveStoredStringPrototype(JassGameCache cache, String missionKey, String key);
         private static HaveStoredStringPrototype _HaveStoredString;
         public static Boolean HaveStoredString(JassGameCache cache, String missionKey, String key)
         {
@@ -5662,7 +5662,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredMission takes gamecache cache, string missionKey returns nothing
-        public delegate void FlushStoredMissionPrototype(JassGameCache cache, JassStringArg missionKey);
+        public delegate void FlushStoredMissionPrototype(JassGameCache cache, String missionKey);
         private static FlushStoredMissionPrototype _FlushStoredMission;
         public static void FlushStoredMission(JassGameCache cache, String missionKey)
         {
@@ -5670,7 +5670,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredInteger takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void FlushStoredIntegerPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void FlushStoredIntegerPrototype(JassGameCache cache, String missionKey, String key);
         private static FlushStoredIntegerPrototype _FlushStoredInteger;
         public static void FlushStoredInteger(JassGameCache cache, String missionKey, String key)
         {
@@ -5678,7 +5678,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredReal takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void FlushStoredRealPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void FlushStoredRealPrototype(JassGameCache cache, String missionKey, String key);
         private static FlushStoredRealPrototype _FlushStoredReal;
         public static void FlushStoredReal(JassGameCache cache, String missionKey, String key)
         {
@@ -5686,7 +5686,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredBoolean takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void FlushStoredBooleanPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void FlushStoredBooleanPrototype(JassGameCache cache, String missionKey, String key);
         private static FlushStoredBooleanPrototype _FlushStoredBoolean;
         public static void FlushStoredBoolean(JassGameCache cache, String missionKey, String key)
         {
@@ -5694,7 +5694,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredUnit takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void FlushStoredUnitPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void FlushStoredUnitPrototype(JassGameCache cache, String missionKey, String key);
         private static FlushStoredUnitPrototype _FlushStoredUnit;
         public static void FlushStoredUnit(JassGameCache cache, String missionKey, String key)
         {
@@ -5702,7 +5702,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native FlushStoredString takes gamecache cache, string missionKey, string key returns nothing
-        public delegate void FlushStoredStringPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate void FlushStoredStringPrototype(JassGameCache cache, String missionKey, String key);
         private static FlushStoredStringPrototype _FlushStoredString;
         public static void FlushStoredString(JassGameCache cache, String missionKey, String key)
         {
@@ -5710,7 +5710,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetStoredInteger takes gamecache cache, string missionKey, string key returns integer
-        public delegate JassInteger GetStoredIntegerPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassInteger GetStoredIntegerPrototype(JassGameCache cache, String missionKey, String key);
         private static GetStoredIntegerPrototype _GetStoredInteger;
         public static JassInteger GetStoredInteger(JassGameCache cache, String missionKey, String key)
         {
@@ -5718,7 +5718,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetStoredReal takes gamecache cache, string missionKey, string key returns real
-        public delegate JassRealRet GetStoredRealPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassRealRet GetStoredRealPrototype(JassGameCache cache, String missionKey, String key);
         private static GetStoredRealPrototype _GetStoredReal;
         public static Single GetStoredReal(JassGameCache cache, String missionKey, String key)
         {
@@ -5726,7 +5726,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetStoredBoolean takes gamecache cache, string missionKey, string key returns boolean
-        public delegate JassBoolean GetStoredBooleanPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate JassBoolean GetStoredBooleanPrototype(JassGameCache cache, String missionKey, String key);
         private static GetStoredBooleanPrototype _GetStoredBoolean;
         public static Boolean GetStoredBoolean(JassGameCache cache, String missionKey, String key)
         {
@@ -5734,7 +5734,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetStoredString takes gamecache cache, string missionKey, string key returns string
-        public delegate JassStringRet GetStoredStringPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key);
+        public delegate String GetStoredStringPrototype(JassGameCache cache, String missionKey, String key);
         private static GetStoredStringPrototype _GetStoredString;
         public static String GetStoredString(JassGameCache cache, String missionKey, String key)
         {
@@ -5742,7 +5742,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native RestoreUnit takes gamecache cache, string missionKey, string key, player forWhichPlayer, real x, real y, real facing returns unit
-        public delegate JassUnit RestoreUnitPrototype(JassGameCache cache, JassStringArg missionKey, JassStringArg key, JassPlayer forWhichPlayer, JassRealArg x, JassRealArg y, JassRealArg facing);
+        public delegate JassUnit RestoreUnitPrototype(JassGameCache cache, String missionKey, String key, JassPlayer forWhichPlayer, JassRealArg x, JassRealArg y, JassRealArg facing);
         private static RestoreUnitPrototype _RestoreUnit;
         public static JassUnit RestoreUnit(JassGameCache cache, String missionKey, String key, JassPlayer forWhichPlayer, Single x, Single y, Single facing)
         {
@@ -5782,7 +5782,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SaveStr takes hashtable table, integer parentKey, integer childKey, string value returns boolean
-        public delegate JassBoolean SaveStrPrototype(JassHashTable table, JassInteger parentKey, JassInteger childKey, JassStringArg value);
+        public delegate JassBoolean SaveStrPrototype(JassHashTable table, JassInteger parentKey, JassInteger childKey, String value);
         private static SaveStrPrototype _SaveStr;
         public static Boolean SaveStr(JassHashTable table, JassInteger parentKey, JassInteger childKey, String value)
         {
@@ -6126,7 +6126,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LoadStr takes hashtable table, integer parentKey, integer childKey returns string
-        public delegate JassStringRet LoadStrPrototype(JassHashTable table, JassInteger parentKey, JassInteger childKey);
+        public delegate String LoadStrPrototype(JassHashTable table, JassInteger parentKey, JassInteger childKey);
         private static LoadStrPrototype _LoadStr;
         public static String LoadStr(JassHashTable table, JassInteger parentKey, JassInteger childKey)
         {
@@ -6702,7 +6702,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DisplayTextToPlayer takes player toPlayer, real x, real y, string message returns nothing
-        public delegate void DisplayTextToPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassStringArg message);
+        public delegate void DisplayTextToPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, String message);
         private static DisplayTextToPlayerPrototype _DisplayTextToPlayer;
         public static void DisplayTextToPlayer(JassPlayer toPlayer, Single x, Single y, String message)
         {
@@ -6710,7 +6710,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DisplayTimedTextToPlayer takes player toPlayer, real x, real y, real duration, string message returns nothing
-        public delegate void DisplayTimedTextToPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassRealArg duration, JassStringArg message);
+        public delegate void DisplayTimedTextToPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassRealArg duration, String message);
         private static DisplayTimedTextToPlayerPrototype _DisplayTimedTextToPlayer;
         public static void DisplayTimedTextToPlayer(JassPlayer toPlayer, Single x, Single y, Single duration, String message)
         {
@@ -6718,7 +6718,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DisplayTimedTextFromPlayer takes player toPlayer, real x, real y, real duration, string message returns nothing
-        public delegate void DisplayTimedTextFromPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassRealArg duration, JassStringArg message);
+        public delegate void DisplayTimedTextFromPlayerPrototype(JassPlayer toPlayer, JassRealArg x, JassRealArg y, JassRealArg duration, String message);
         private static DisplayTimedTextFromPlayerPrototype _DisplayTimedTextFromPlayer;
         public static void DisplayTimedTextFromPlayer(JassPlayer toPlayer, Single x, Single y, Single duration, String message)
         {
@@ -6734,7 +6734,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetDayNightModels takes string terrainDNCFile, string unitDNCFile returns nothing
-        public delegate void SetDayNightModelsPrototype(JassStringArg terrainDNCFile, JassStringArg unitDNCFile);
+        public delegate void SetDayNightModelsPrototype(String terrainDNCFile, String unitDNCFile);
         private static SetDayNightModelsPrototype _SetDayNightModels;
         public static void SetDayNightModels(String terrainDNCFile, String unitDNCFile)
         {
@@ -6742,7 +6742,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetSkyModel takes string skyModelFile returns nothing
-        public delegate void SetSkyModelPrototype(JassStringArg skyModelFile);
+        public delegate void SetSkyModelPrototype(String skyModelFile);
         private static SetSkyModelPrototype _SetSkyModel;
         public static void SetSkyModel(String skyModelFile)
         {
@@ -6846,7 +6846,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetIntroShotText takes string introText returns nothing
-        public delegate void SetIntroShotTextPrototype(JassStringArg introText);
+        public delegate void SetIntroShotTextPrototype(String introText);
         private static SetIntroShotTextPrototype _SetIntroShotText;
         public static void SetIntroShotText(String introText)
         {
@@ -6854,7 +6854,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetIntroShotModel takes string introModelPath returns nothing
-        public delegate void SetIntroShotModelPrototype(JassStringArg introModelPath);
+        public delegate void SetIntroShotModelPrototype(String introModelPath);
         private static SetIntroShotModelPrototype _SetIntroShotModel;
         public static void SetIntroShotModel(String introModelPath)
         {
@@ -6870,7 +6870,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayModelCinematic takes string modelName returns nothing
-        public delegate void PlayModelCinematicPrototype(JassStringArg modelName);
+        public delegate void PlayModelCinematicPrototype(String modelName);
         private static PlayModelCinematicPrototype _PlayModelCinematic;
         public static void PlayModelCinematic(String modelName)
         {
@@ -6878,7 +6878,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayCinematic takes string movieName returns nothing
-        public delegate void PlayCinematicPrototype(JassStringArg movieName);
+        public delegate void PlayCinematicPrototype(String movieName);
         private static PlayCinematicPrototype _PlayCinematic;
         public static void PlayCinematic(String movieName)
         {
@@ -6886,7 +6886,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native ForceUIKey takes string key returns nothing
-        public delegate void ForceUIKeyPrototype(JassStringArg key);
+        public delegate void ForceUIKeyPrototype(String key);
         private static ForceUIKeyPrototype _ForceUIKey;
         public static void ForceUIKey(String key)
         {
@@ -6910,7 +6910,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetAltMinimapIcon takes string iconPath returns nothing
-        public delegate void SetAltMinimapIconPrototype(JassStringArg iconPath);
+        public delegate void SetAltMinimapIconPrototype(String iconPath);
         private static SetAltMinimapIconPrototype _SetAltMinimapIcon;
         public static void SetAltMinimapIcon(String iconPath)
         {
@@ -6942,7 +6942,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetTextTagText takes texttag t, string s, real height returns nothing
-        public delegate void SetTextTagTextPrototype(JassTextTag t, JassStringArg s, JassRealArg height);
+        public delegate void SetTextTagTextPrototype(JassTextTag t, String s, JassRealArg height);
         private static SetTextTagTextPrototype _SetTextTagText;
         public static void SetTextTagText(JassTextTag t, String s, Single height)
         {
@@ -7102,7 +7102,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateTrackable takes string trackableModelPath, real x, real y, real facing returns trackable
-        public delegate JassTrackable CreateTrackablePrototype(JassStringArg trackableModelPath, JassRealArg x, JassRealArg y, JassRealArg facing);
+        public delegate JassTrackable CreateTrackablePrototype(String trackableModelPath, JassRealArg x, JassRealArg y, JassRealArg facing);
         private static CreateTrackablePrototype _CreateTrackable;
         public static JassTrackable CreateTrackable(String trackableModelPath, Single x, Single y, Single facing)
         {
@@ -7126,7 +7126,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QuestSetTitle takes quest whichQuest, string title returns nothing
-        public delegate void QuestSetTitlePrototype(JassQuest whichQuest, JassStringArg title);
+        public delegate void QuestSetTitlePrototype(JassQuest whichQuest, String title);
         private static QuestSetTitlePrototype _QuestSetTitle;
         public static void QuestSetTitle(JassQuest whichQuest, String title)
         {
@@ -7134,7 +7134,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QuestSetDescription takes quest whichQuest, string description returns nothing
-        public delegate void QuestSetDescriptionPrototype(JassQuest whichQuest, JassStringArg description);
+        public delegate void QuestSetDescriptionPrototype(JassQuest whichQuest, String description);
         private static QuestSetDescriptionPrototype _QuestSetDescription;
         public static void QuestSetDescription(JassQuest whichQuest, String description)
         {
@@ -7142,7 +7142,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QuestSetIconPath takes quest whichQuest, string iconPath returns nothing
-        public delegate void QuestSetIconPathPrototype(JassQuest whichQuest, JassStringArg iconPath);
+        public delegate void QuestSetIconPathPrototype(JassQuest whichQuest, String iconPath);
         private static QuestSetIconPathPrototype _QuestSetIconPath;
         public static void QuestSetIconPath(JassQuest whichQuest, String iconPath)
         {
@@ -7238,7 +7238,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native QuestItemSetDescription takes questitem whichQuestItem, string description returns nothing
-        public delegate void QuestItemSetDescriptionPrototype(JassQuestItem whichQuestItem, JassStringArg description);
+        public delegate void QuestItemSetDescriptionPrototype(JassQuestItem whichQuestItem, String description);
         private static QuestItemSetDescriptionPrototype _QuestItemSetDescription;
         public static void QuestItemSetDescription(JassQuestItem whichQuestItem, String description)
         {
@@ -7278,7 +7278,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native DefeatConditionSetDescription takes defeatcondition whichCondition, string description returns nothing
-        public delegate void DefeatConditionSetDescriptionPrototype(JassDefeatCondition whichCondition, JassStringArg description);
+        public delegate void DefeatConditionSetDescriptionPrototype(JassDefeatCondition whichCondition, String description);
         private static DefeatConditionSetDescriptionPrototype _DefeatConditionSetDescription;
         public static void DefeatConditionSetDescription(JassDefeatCondition whichCondition, String description)
         {
@@ -7318,7 +7318,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native TimerDialogSetTitle takes timerdialog whichDialog, string title returns nothing
-        public delegate void TimerDialogSetTitlePrototype(JassTimerDialog whichDialog, JassStringArg title);
+        public delegate void TimerDialogSetTitlePrototype(JassTimerDialog whichDialog, String title);
         private static TimerDialogSetTitlePrototype _TimerDialogSetTitle;
         public static void TimerDialogSetTitle(JassTimerDialog whichDialog, String title)
         {
@@ -7422,7 +7422,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LeaderboardAddItem takes leaderboard lb, string label, integer value, player p returns nothing
-        public delegate void LeaderboardAddItemPrototype(JassLeaderboard lb, JassStringArg label, JassInteger value, JassPlayer p);
+        public delegate void LeaderboardAddItemPrototype(JassLeaderboard lb, String label, JassInteger value, JassPlayer p);
         private static LeaderboardAddItemPrototype _LeaderboardAddItem;
         public static void LeaderboardAddItem(JassLeaderboard lb, String label, JassInteger value, JassPlayer p)
         {
@@ -7494,7 +7494,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LeaderboardSetLabel takes leaderboard lb, string label returns nothing
-        public delegate void LeaderboardSetLabelPrototype(JassLeaderboard lb, JassStringArg label);
+        public delegate void LeaderboardSetLabelPrototype(JassLeaderboard lb, String label);
         private static LeaderboardSetLabelPrototype _LeaderboardSetLabel;
         public static void LeaderboardSetLabel(JassLeaderboard lb, String label)
         {
@@ -7502,7 +7502,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LeaderboardGetLabelText takes leaderboard lb returns string
-        public delegate JassStringRet LeaderboardGetLabelTextPrototype(JassLeaderboard lb);
+        public delegate String LeaderboardGetLabelTextPrototype(JassLeaderboard lb);
         private static LeaderboardGetLabelTextPrototype _LeaderboardGetLabelText;
         public static String LeaderboardGetLabelText(JassLeaderboard lb)
         {
@@ -7558,7 +7558,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native LeaderboardSetItemLabel takes leaderboard lb, integer whichItem, string val returns nothing
-        public delegate void LeaderboardSetItemLabelPrototype(JassLeaderboard lb, JassInteger whichItem, JassStringArg val);
+        public delegate void LeaderboardSetItemLabelPrototype(JassLeaderboard lb, JassInteger whichItem, String val);
         private static LeaderboardSetItemLabelPrototype _LeaderboardSetItemLabel;
         public static void LeaderboardSetItemLabel(JassLeaderboard lb, JassInteger whichItem, String val)
         {
@@ -7646,7 +7646,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardSetTitleText takes multiboard lb, string label returns nothing
-        public delegate void MultiboardSetTitleTextPrototype(JassMultiboard lb, JassStringArg label);
+        public delegate void MultiboardSetTitleTextPrototype(JassMultiboard lb, String label);
         private static MultiboardSetTitleTextPrototype _MultiboardSetTitleText;
         public static void MultiboardSetTitleText(JassMultiboard lb, String label)
         {
@@ -7654,7 +7654,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardGetTitleText takes multiboard lb returns string
-        public delegate JassStringRet MultiboardGetTitleTextPrototype(JassMultiboard lb);
+        public delegate String MultiboardGetTitleTextPrototype(JassMultiboard lb);
         private static MultiboardGetTitleTextPrototype _MultiboardGetTitleText;
         public static String MultiboardGetTitleText(JassMultiboard lb)
         {
@@ -7710,7 +7710,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardSetItemsValue takes multiboard lb, string value returns nothing
-        public delegate void MultiboardSetItemsValuePrototype(JassMultiboard lb, JassStringArg value);
+        public delegate void MultiboardSetItemsValuePrototype(JassMultiboard lb, String value);
         private static MultiboardSetItemsValuePrototype _MultiboardSetItemsValue;
         public static void MultiboardSetItemsValue(JassMultiboard lb, String value)
         {
@@ -7734,7 +7734,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardSetItemsIcon takes multiboard lb, string iconPath returns nothing
-        public delegate void MultiboardSetItemsIconPrototype(JassMultiboard lb, JassStringArg iconPath);
+        public delegate void MultiboardSetItemsIconPrototype(JassMultiboard lb, String iconPath);
         private static MultiboardSetItemsIconPrototype _MultiboardSetItemsIcon;
         public static void MultiboardSetItemsIcon(JassMultiboard lb, String iconPath)
         {
@@ -7766,7 +7766,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardSetItemValue takes multiboarditem mbi, string val returns nothing
-        public delegate void MultiboardSetItemValuePrototype(JassMultiboardItem mbi, JassStringArg val);
+        public delegate void MultiboardSetItemValuePrototype(JassMultiboardItem mbi, String val);
         private static MultiboardSetItemValuePrototype _MultiboardSetItemValue;
         public static void MultiboardSetItemValue(JassMultiboardItem mbi, String val)
         {
@@ -7790,7 +7790,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native MultiboardSetItemIcon takes multiboarditem mbi, string iconFileName returns nothing
-        public delegate void MultiboardSetItemIconPrototype(JassMultiboardItem mbi, JassStringArg iconFileName);
+        public delegate void MultiboardSetItemIconPrototype(JassMultiboardItem mbi, String iconFileName);
         private static MultiboardSetItemIconPrototype _MultiboardSetItemIcon;
         public static void MultiboardSetItemIcon(JassMultiboardItem mbi, String iconFileName)
         {
@@ -7878,7 +7878,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetCinematicCamera takes string cameraModelFile returns nothing
-        public delegate void SetCinematicCameraPrototype(JassStringArg cameraModelFile);
+        public delegate void SetCinematicCameraPrototype(String cameraModelFile);
         private static SetCinematicCameraPrototype _SetCinematicCamera;
         public static void SetCinematicCamera(String cameraModelFile)
         {
@@ -8054,7 +8054,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetCineFilterTexture takes string filename returns nothing
-        public delegate void SetCineFilterTexturePrototype(JassStringArg filename);
+        public delegate void SetCineFilterTexturePrototype(String filename);
         private static SetCineFilterTexturePrototype _SetCineFilterTexture;
         public static void SetCineFilterTexture(String filename)
         {
@@ -8134,7 +8134,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetCinematicScene takes integer portraitUnitId, playercolor color, string speakerTitle, string text, real sceneDuration, real voiceoverDuration returns nothing
-        public delegate void SetCinematicScenePrototype(JassInteger portraitUnitId, JassPlayerColor color, JassStringArg speakerTitle, JassStringArg text, JassRealArg sceneDuration, JassRealArg voiceoverDuration);
+        public delegate void SetCinematicScenePrototype(JassInteger portraitUnitId, JassPlayerColor color, String speakerTitle, String text, JassRealArg sceneDuration, JassRealArg voiceoverDuration);
         private static SetCinematicScenePrototype _SetCinematicScene;
         public static void SetCinematicScene(JassInteger portraitUnitId, JassPlayerColor color, String speakerTitle, String text, Single sceneDuration, Single voiceoverDuration)
         {
@@ -8270,7 +8270,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native NewSoundEnvironment takes string environmentName returns nothing
-        public delegate void NewSoundEnvironmentPrototype(JassStringArg environmentName);
+        public delegate void NewSoundEnvironmentPrototype(String environmentName);
         private static NewSoundEnvironmentPrototype _NewSoundEnvironment;
         public static void NewSoundEnvironment(String environmentName)
         {
@@ -8278,7 +8278,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateSound takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string eaxSetting returns sound
-        public delegate JassSound CreateSoundPrototype(JassStringArg fileName, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, JassStringArg eaxSetting);
+        public delegate JassSound CreateSoundPrototype(String fileName, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, String eaxSetting);
         private static CreateSoundPrototype _CreateSound;
         public static JassSound CreateSound(String fileName, Boolean looping, Boolean is3D, Boolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, String eaxSetting)
         {
@@ -8286,7 +8286,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateSoundFilenameWithLabel takes string fileName, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate, string SLKEntryName returns sound
-        public delegate JassSound CreateSoundFilenameWithLabelPrototype(JassStringArg fileName, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, JassStringArg SLKEntryName);
+        public delegate JassSound CreateSoundFilenameWithLabelPrototype(String fileName, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, String SLKEntryName);
         private static CreateSoundFilenameWithLabelPrototype _CreateSoundFilenameWithLabel;
         public static JassSound CreateSoundFilenameWithLabel(String fileName, Boolean looping, Boolean is3D, Boolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate, String SLKEntryName)
         {
@@ -8294,7 +8294,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateSoundFromLabel takes string soundLabel, boolean looping, boolean is3D, boolean stopwhenoutofrange, integer fadeInRate, integer fadeOutRate returns sound
-        public delegate JassSound CreateSoundFromLabelPrototype(JassStringArg soundLabel, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate);
+        public delegate JassSound CreateSoundFromLabelPrototype(String soundLabel, JassBoolean looping, JassBoolean is3D, JassBoolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate);
         private static CreateSoundFromLabelPrototype _CreateSoundFromLabel;
         public static JassSound CreateSoundFromLabel(String soundLabel, Boolean looping, Boolean is3D, Boolean stopwhenoutofrange, JassInteger fadeInRate, JassInteger fadeOutRate)
         {
@@ -8302,7 +8302,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateMIDISound takes string soundLabel, integer fadeInRate, integer fadeOutRate returns sound
-        public delegate JassSound CreateMIDISoundPrototype(JassStringArg soundLabel, JassInteger fadeInRate, JassInteger fadeOutRate);
+        public delegate JassSound CreateMIDISoundPrototype(String soundLabel, JassInteger fadeInRate, JassInteger fadeOutRate);
         private static CreateMIDISoundPrototype _CreateMIDISound;
         public static JassSound CreateMIDISound(String soundLabel, JassInteger fadeInRate, JassInteger fadeOutRate)
         {
@@ -8310,7 +8310,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetSoundParamsFromLabel takes sound soundHandle, string soundLabel returns nothing
-        public delegate void SetSoundParamsFromLabelPrototype(JassSound soundHandle, JassStringArg soundLabel);
+        public delegate void SetSoundParamsFromLabelPrototype(JassSound soundHandle, String soundLabel);
         private static SetSoundParamsFromLabelPrototype _SetSoundParamsFromLabel;
         public static void SetSoundParamsFromLabel(JassSound soundHandle, String soundLabel)
         {
@@ -8430,7 +8430,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetMapMusic takes string musicName, boolean random, integer index returns nothing
-        public delegate void SetMapMusicPrototype(JassStringArg musicName, JassBoolean random, JassInteger index);
+        public delegate void SetMapMusicPrototype(String musicName, JassBoolean random, JassInteger index);
         private static SetMapMusicPrototype _SetMapMusic;
         public static void SetMapMusic(String musicName, Boolean random, JassInteger index)
         {
@@ -8446,7 +8446,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayMusic takes string musicName returns nothing
-        public delegate void PlayMusicPrototype(JassStringArg musicName);
+        public delegate void PlayMusicPrototype(String musicName);
         private static PlayMusicPrototype _PlayMusic;
         public static void PlayMusic(String musicName)
         {
@@ -8454,7 +8454,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayMusicEx takes string musicName, integer frommsecs, integer fadeinmsecs returns nothing
-        public delegate void PlayMusicExPrototype(JassStringArg musicName, JassInteger frommsecs, JassInteger fadeinmsecs);
+        public delegate void PlayMusicExPrototype(String musicName, JassInteger frommsecs, JassInteger fadeinmsecs);
         private static PlayMusicExPrototype _PlayMusicEx;
         public static void PlayMusicEx(String musicName, JassInteger frommsecs, JassInteger fadeinmsecs)
         {
@@ -8478,7 +8478,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayThematicMusic takes string musicFileName returns nothing
-        public delegate void PlayThematicMusicPrototype(JassStringArg musicFileName);
+        public delegate void PlayThematicMusicPrototype(String musicFileName);
         private static PlayThematicMusicPrototype _PlayThematicMusic;
         public static void PlayThematicMusic(String musicFileName)
         {
@@ -8486,7 +8486,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PlayThematicMusicEx takes string musicFileName, integer frommsecs returns nothing
-        public delegate void PlayThematicMusicExPrototype(JassStringArg musicFileName, JassInteger frommsecs);
+        public delegate void PlayThematicMusicExPrototype(String musicFileName, JassInteger frommsecs);
         private static PlayThematicMusicExPrototype _PlayThematicMusicEx;
         public static void PlayThematicMusicEx(String musicFileName, JassInteger frommsecs)
         {
@@ -8542,7 +8542,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetSoundFileDuration takes string musicFileName returns integer
-        public delegate JassInteger GetSoundFileDurationPrototype(JassStringArg musicFileName);
+        public delegate JassInteger GetSoundFileDurationPrototype(String musicFileName);
         private static GetSoundFileDurationPrototype _GetSoundFileDuration;
         public static JassInteger GetSoundFileDuration(String musicFileName)
         {
@@ -8670,7 +8670,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpecialEffect takes string modelName, real x, real y returns effect
-        public delegate JassEffect AddSpecialEffectPrototype(JassStringArg modelName, JassRealArg x, JassRealArg y);
+        public delegate JassEffect AddSpecialEffectPrototype(String modelName, JassRealArg x, JassRealArg y);
         private static AddSpecialEffectPrototype _AddSpecialEffect;
         public static JassEffect AddSpecialEffect(String modelName, Single x, Single y)
         {
@@ -8678,7 +8678,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpecialEffectLoc takes string modelName, location where returns effect
-        public delegate JassEffect AddSpecialEffectLocPrototype(JassStringArg modelName, JassLocation where);
+        public delegate JassEffect AddSpecialEffectLocPrototype(String modelName, JassLocation where);
         private static AddSpecialEffectLocPrototype _AddSpecialEffectLoc;
         public static JassEffect AddSpecialEffectLoc(String modelName, JassLocation where)
         {
@@ -8686,7 +8686,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpecialEffectTarget takes string modelName, widget targetWidget, string attachPointName returns effect
-        public delegate JassEffect AddSpecialEffectTargetPrototype(JassStringArg modelName, JassWidget targetWidget, JassStringArg attachPointName);
+        public delegate JassEffect AddSpecialEffectTargetPrototype(String modelName, JassWidget targetWidget, String attachPointName);
         private static AddSpecialEffectTargetPrototype _AddSpecialEffectTarget;
         public static JassEffect AddSpecialEffectTarget(String modelName, JassWidget targetWidget, String attachPointName)
         {
@@ -8702,7 +8702,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpellEffect takes string abilityString, effecttype t, real x, real y returns effect
-        public delegate JassEffect AddSpellEffectPrototype(JassStringArg abilityString, JassEffectType t, JassRealArg x, JassRealArg y);
+        public delegate JassEffect AddSpellEffectPrototype(String abilityString, JassEffectType t, JassRealArg x, JassRealArg y);
         private static AddSpellEffectPrototype _AddSpellEffect;
         public static JassEffect AddSpellEffect(String abilityString, JassEffectType t, Single x, Single y)
         {
@@ -8710,7 +8710,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpellEffectLoc takes string abilityString, effecttype t, location where returns effect
-        public delegate JassEffect AddSpellEffectLocPrototype(JassStringArg abilityString, JassEffectType t, JassLocation where);
+        public delegate JassEffect AddSpellEffectLocPrototype(String abilityString, JassEffectType t, JassLocation where);
         private static AddSpellEffectLocPrototype _AddSpellEffectLoc;
         public static JassEffect AddSpellEffectLoc(String abilityString, JassEffectType t, JassLocation where)
         {
@@ -8734,7 +8734,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpellEffectTarget takes string modelName, effecttype t, widget targetWidget, string attachPoint returns effect
-        public delegate JassEffect AddSpellEffectTargetPrototype(JassStringArg modelName, JassEffectType t, JassWidget targetWidget, JassStringArg attachPoint);
+        public delegate JassEffect AddSpellEffectTargetPrototype(String modelName, JassEffectType t, JassWidget targetWidget, String attachPoint);
         private static AddSpellEffectTargetPrototype _AddSpellEffectTarget;
         public static JassEffect AddSpellEffectTarget(String modelName, JassEffectType t, JassWidget targetWidget, String attachPoint)
         {
@@ -8742,7 +8742,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddSpellEffectTargetById takes integer abilityId, effecttype t, widget targetWidget, string attachPoint returns effect
-        public delegate JassEffect AddSpellEffectTargetByIdPrototype(JassInteger abilityId, JassEffectType t, JassWidget targetWidget, JassStringArg attachPoint);
+        public delegate JassEffect AddSpellEffectTargetByIdPrototype(JassInteger abilityId, JassEffectType t, JassWidget targetWidget, String attachPoint);
         private static AddSpellEffectTargetByIdPrototype _AddSpellEffectTargetById;
         public static JassEffect AddSpellEffectTargetById(JassInteger abilityId, JassEffectType t, JassWidget targetWidget, String attachPoint)
         {
@@ -8750,7 +8750,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddLightning takes string codeName, boolean checkVisibility, real x1, real y1, real x2, real y2 returns lightning
-        public delegate JassLightning AddLightningPrototype(JassStringArg codeName, JassBoolean checkVisibility, JassRealArg x1, JassRealArg y1, JassRealArg x2, JassRealArg y2);
+        public delegate JassLightning AddLightningPrototype(String codeName, JassBoolean checkVisibility, JassRealArg x1, JassRealArg y1, JassRealArg x2, JassRealArg y2);
         private static AddLightningPrototype _AddLightning;
         public static JassLightning AddLightning(String codeName, Boolean checkVisibility, Single x1, Single y1, Single x2, Single y2)
         {
@@ -8758,7 +8758,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native AddLightningEx takes string codeName, boolean checkVisibility, real x1, real y1, real z1, real x2, real y2, real z2 returns lightning
-        public delegate JassLightning AddLightningExPrototype(JassStringArg codeName, JassBoolean checkVisibility, JassRealArg x1, JassRealArg y1, JassRealArg z1, JassRealArg x2, JassRealArg y2, JassRealArg z2);
+        public delegate JassLightning AddLightningExPrototype(String codeName, JassBoolean checkVisibility, JassRealArg x1, JassRealArg y1, JassRealArg z1, JassRealArg x2, JassRealArg y2, JassRealArg z2);
         private static AddLightningExPrototype _AddLightningEx;
         public static JassLightning AddLightningEx(String codeName, Boolean checkVisibility, Single x1, Single y1, Single z1, Single x2, Single y2, Single z2)
         {
@@ -8830,7 +8830,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetAbilityEffect takes string abilityString, effecttype t, integer index returns string
-        public delegate JassStringRet GetAbilityEffectPrototype(JassStringArg abilityString, JassEffectType t, JassInteger index);
+        public delegate String GetAbilityEffectPrototype(String abilityString, JassEffectType t, JassInteger index);
         private static GetAbilityEffectPrototype _GetAbilityEffect;
         public static String GetAbilityEffect(String abilityString, JassEffectType t, JassInteger index)
         {
@@ -8838,7 +8838,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetAbilityEffectById takes integer abilityId, effecttype t, integer index returns string
-        public delegate JassStringRet GetAbilityEffectByIdPrototype(JassInteger abilityId, JassEffectType t, JassInteger index);
+        public delegate String GetAbilityEffectByIdPrototype(JassInteger abilityId, JassEffectType t, JassInteger index);
         private static GetAbilityEffectByIdPrototype _GetAbilityEffectById;
         public static String GetAbilityEffectById(JassInteger abilityId, JassEffectType t, JassInteger index)
         {
@@ -8846,7 +8846,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetAbilitySound takes string abilityString, soundtype t returns string
-        public delegate JassStringRet GetAbilitySoundPrototype(JassStringArg abilityString, JassSoundType t);
+        public delegate String GetAbilitySoundPrototype(String abilityString, JassSoundType t);
         private static GetAbilitySoundPrototype _GetAbilitySound;
         public static String GetAbilitySound(String abilityString, JassSoundType t)
         {
@@ -8854,7 +8854,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native GetAbilitySoundById takes integer abilityId, soundtype t returns string
-        public delegate JassStringRet GetAbilitySoundByIdPrototype(JassInteger abilityId, JassSoundType t);
+        public delegate String GetAbilitySoundByIdPrototype(JassInteger abilityId, JassSoundType t);
         private static GetAbilitySoundByIdPrototype _GetAbilitySoundById;
         public static String GetAbilitySoundById(JassInteger abilityId, JassSoundType t)
         {
@@ -8926,7 +8926,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateImage takes string file, real sizeX, real sizeY, real sizeZ, real posX, real posY, real posZ, real originX, real originY, real originZ, integer imageType returns image
-        public delegate JassImage CreateImagePrototype(JassStringArg file, JassRealArg sizeX, JassRealArg sizeY, JassRealArg sizeZ, JassRealArg posX, JassRealArg posY, JassRealArg posZ, JassRealArg originX, JassRealArg originY, JassRealArg originZ, JassInteger imageType);
+        public delegate JassImage CreateImagePrototype(String file, JassRealArg sizeX, JassRealArg sizeY, JassRealArg sizeZ, JassRealArg posX, JassRealArg posY, JassRealArg posZ, JassRealArg originX, JassRealArg originY, JassRealArg originZ, JassInteger imageType);
         private static CreateImagePrototype _CreateImage;
         public static JassImage CreateImage(String file, Single sizeX, Single sizeY, Single sizeZ, Single posX, Single posY, Single posZ, Single originX, Single originY, Single originZ, JassInteger imageType)
         {
@@ -9006,7 +9006,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native CreateUbersplat takes real x, real y, string name, integer red, integer green, integer blue, integer alpha, boolean forcePaused, boolean noBirthTime returns ubersplat
-        public delegate JassUberSplat CreateUbersplatPrototype(JassRealArg x, JassRealArg y, JassStringArg name, JassInteger red, JassInteger green, JassInteger blue, JassInteger alpha, JassBoolean forcePaused, JassBoolean noBirthTime);
+        public delegate JassUberSplat CreateUbersplatPrototype(JassRealArg x, JassRealArg y, String name, JassInteger red, JassInteger green, JassInteger blue, JassInteger alpha, JassBoolean forcePaused, JassBoolean noBirthTime);
         private static CreateUbersplatPrototype _CreateUbersplat;
         public static JassUberSplat CreateUbersplat(Single x, Single y, String name, JassInteger red, JassInteger green, JassInteger blue, JassInteger alpha, Boolean forcePaused, Boolean noBirthTime)
         {
@@ -9110,7 +9110,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetDoodadAnimation takes real x, real y, real radius, integer doodadID, boolean nearestOnly, string animName, boolean animRandom returns nothing
-        public delegate void SetDoodadAnimationPrototype(JassRealArg x, JassRealArg y, JassRealArg radius, JassObjectId doodadID, JassBoolean nearestOnly, JassStringArg animName, JassBoolean animRandom);
+        public delegate void SetDoodadAnimationPrototype(JassRealArg x, JassRealArg y, JassRealArg radius, JassObjectId doodadID, JassBoolean nearestOnly, String animName, JassBoolean animRandom);
         private static SetDoodadAnimationPrototype _SetDoodadAnimation;
         public static void SetDoodadAnimation(Single x, Single y, Single radius, JassObjectId doodadID, Boolean nearestOnly, String animName, Boolean animRandom)
         {
@@ -9118,7 +9118,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native SetDoodadAnimationRect takes rect r, integer doodadID, string animName, boolean animRandom returns nothing
-        public delegate void SetDoodadAnimationRectPrototype(JassRect r, JassObjectId doodadID, JassStringArg animName, JassBoolean animRandom);
+        public delegate void SetDoodadAnimationRectPrototype(JassRect r, JassObjectId doodadID, String animName, JassBoolean animRandom);
         private static SetDoodadAnimationRectPrototype _SetDoodadAnimationRect;
         public static void SetDoodadAnimationRect(JassRect r, JassObjectId doodadID, String animName, Boolean animRandom)
         {
@@ -9126,7 +9126,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StartMeleeAI takes player num, string script returns nothing
-        public delegate void StartMeleeAIPrototype(JassPlayer num, JassStringArg script);
+        public delegate void StartMeleeAIPrototype(JassPlayer num, String script);
         private static StartMeleeAIPrototype _StartMeleeAI;
         public static void StartMeleeAI(JassPlayer num, String script)
         {
@@ -9134,7 +9134,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native StartCampaignAI takes player num, string script returns nothing
-        public delegate void StartCampaignAIPrototype(JassPlayer num, JassStringArg script);
+        public delegate void StartCampaignAIPrototype(JassPlayer num, String script);
         private static StartCampaignAIPrototype _StartCampaignAI;
         public static void StartCampaignAI(JassPlayer num, String script)
         {
@@ -9190,7 +9190,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native Cheat takes string cheatStr returns nothing
-        public delegate void CheatPrototype(JassStringArg cheatStr);
+        public delegate void CheatPrototype(String cheatStr);
         private static CheatPrototype _Cheat;
         public static void Cheat(String cheatStr)
         {
@@ -9214,7 +9214,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native Preload takes string filename returns nothing
-        public delegate void PreloadPrototype(JassStringArg filename);
+        public delegate void PreloadPrototype(String filename);
         private static PreloadPrototype _Preload;
         public static void Preload(String filename)
         {
@@ -9270,7 +9270,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native PreloadGenEnd takes string filename returns nothing
-        public delegate void PreloadGenEndPrototype(JassStringArg filename);
+        public delegate void PreloadGenEndPrototype(String filename);
         private static PreloadGenEndPrototype _PreloadGenEnd;
         public static void PreloadGenEnd(String filename)
         {
@@ -9278,7 +9278,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         }
         
         //native Preloader takes string filename returns nothing
-        public delegate void PreloaderPrototype(JassStringArg filename);
+        public delegate void PreloaderPrototype(String filename);
         private static PreloaderPrototype _Preloader;
         public static void Preloader(String filename)
         {
