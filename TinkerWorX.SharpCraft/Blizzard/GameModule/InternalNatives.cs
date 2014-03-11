@@ -32,6 +32,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static Dictionary<CTriggerWar3Ptr, JassTrigger> handles = new Dictionary<CTriggerWar3Ptr, JassTrigger>();
 
+        private static IntPtr UnknownStringType1VTable;
+        private static IntPtr UnknownStringType2VTable;
+
         public static void Initialize()
         {
             if (Kernel32.GetModuleHandle("game.dll") == IntPtr.Zero)
@@ -57,32 +60,6 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             InternalNatives.CTriggerWar3__Execute = Memory.InstallHook(address, new GameFunctions.CTriggerWar3__ExecutePrototype(InternalNatives.CTriggerWar3__ExecuteHook), true, false);
             Trace.WriteLine("hook installed!");
 
-            Trace.Write("Scanning vanilla natives . ");
-            address = GameAddresses.InitNatives;
-            var offset = 0x05;
-            while (Memory.Read<Byte>(address + offset) == 0x68)
-            {
-                InternalNatives.vanillaNatives.Add(new NativeDeclaration(address + offset));
-                offset += 0x14;
-            }
-            InternalNatives.GetVanillaNatives();
-            Trace.WriteLine("found " + InternalNatives.vanillaNatives.Count + "!");
-        }
-
-        private static Int32 InitNativesHook()
-        {
-            var result = InternalNatives.InitNatives();
-
-            foreach (var native in InternalNatives.customNatives)
-            {
-                GameFunctions.BindNative(native.Function, native.Name, native.Prototype);
-            }
-
-            return result;
-        }
-
-        private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
-        {
             //.rdata:6F96B6C0                 dd offset aButton_0     ; "BUTTON"
             //.rdata:6F96B6C4                 dd offset sub_6F5E9400
             // Open the sub on the second line.
@@ -111,8 +88,43 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             //.text:6F44C683                 mov     [esi+8], eax
             // Find code that looks like the stuff above. It's between the second and third use of the string.
             // This is the vtable we'er looking for.
-            if (Memory.Read<IntPtr>(stringJassHandle) == Kernel32.GetModuleHandle("game.dll") + 0x87688C ||
-                Memory.Read<IntPtr>(stringJassHandle) == Kernel32.GetModuleHandle("game.dll") + 0x969F5C)
+
+            address = Kernel32.GetModuleHandle("game.dll") + 0x87688C;
+            Trace.WriteLine("UnknownStringType1VTable: 0x" + address.ToString("X8"));
+            UnknownStringType1VTable = address;
+
+            address = Kernel32.GetModuleHandle("game.dll") + 0x969F5C;
+            Trace.WriteLine("UnknownStringType2VTable: 0x" + address.ToString("X8"));
+            UnknownStringType2VTable = address;
+
+            Trace.Write("Scanning vanilla natives . ");
+            address = GameAddresses.InitNatives;
+            var offset = 0x05;
+            while (Memory.Read<Byte>(address + offset) == 0x68)
+            {
+                InternalNatives.vanillaNatives.Add(new NativeDeclaration(address + offset));
+                offset += 0x14;
+            }
+            InternalNatives.GetVanillaNatives();
+            Trace.WriteLine("found " + InternalNatives.vanillaNatives.Count + "!");
+        }
+
+        private static Int32 InitNativesHook()
+        {
+            var result = InternalNatives.InitNatives();
+
+            foreach (var native in InternalNatives.customNatives)
+            {
+                GameFunctions.BindNative(native.Function, native.Name, native.Prototype);
+            }
+
+            return result;
+        }
+
+        private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
+        {
+            var vtable = Memory.Read<IntPtr>(stringJassHandle);
+            if (vtable == UnknownStringType1VTable || vtable == UnknownStringType2VTable)
             {
                 // The two checks above are vtables for the two only know string handles.
                 return JassStringHandleToString(stringJassHandle);
