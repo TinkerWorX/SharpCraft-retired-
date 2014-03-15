@@ -8,7 +8,7 @@
             <RowDefinition Height="20"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="OutputTextBox" FontFamily="Lucida Console" IsReadOnly="True" IsReadOnlyCaretVisible="False" Grid.Row="0"/>
-        <TextBox x:Name="InputTextBox" FontFamily="Lucida Console" Grid.Row="1" PreviewKeyDown="InputTextBox_PreviewKeyDown" IsEnabled="False"/>
+        <TextBox x:Name="OutputTextBox" FontFamily="Lucida Console" IsReadOnly="True" IsReadOnlyCaretVisible="False" Grid.Row="0" />
+        <TextBox x:Name="InputTextBox" FontFamily="Lucida Console" Grid.Row="1" PreviewKeyDown="InputTextBox_PreviewKeyDown" />
     </Grid>
 </Window>

@@ -14,11 +14,13 @@ using TinkerWorX.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
-    internal static partial class InternalNatives
+    internal unsafe static partial class InternalNatives
     {
         private static GameFunctions.InitNativesPrototype InitNatives;
 
         private static GameFunctions.JassStringHandleToStringPrototype JassStringHandleToString;
+
+        private static GameFunctions.JassStringManager__ResizePrototype JassStringManager__Resize;
 
         private static GameFunctions.CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
 
@@ -34,6 +36,8 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static IntPtr UnknownStringType1VTable;
         private static IntPtr UnknownStringType2VTable;
+
+        public static JassStringManager* JassStringManager;
 
         public static void Initialize()
         {
@@ -53,6 +57,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             address = GameAddresses.JassStringHandleToString;
             Trace.Write("JassStringHandleToString: 0x" + address.ToString("X8") + " . ");
             InternalNatives.JassStringHandleToString = Memory.InstallHook(address, new GameFunctions.JassStringHandleToStringPrototype(InternalNatives.JassStringHandleToStringHook), true, false);
+            Trace.WriteLine("hook installed!");
+
+            address = GameAddresses.JassStringManager__Resize;
+            Trace.WriteLine("JassStringManager__Resize: 0x" + address.ToString("X8") + " . ");
+            InternalNatives.JassStringManager__Resize = Memory.InstallHook(address, new GameFunctions.JassStringManager__ResizePrototype(InternalNatives.JassStringManager__ResizeHook), true, false);
             Trace.WriteLine("hook installed!");
 
             address = GameAddresses.CTriggerWar3__Execute;
@@ -133,11 +142,20 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return stringJassHandle;
         }
 
-        private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, Boolean wait)
+        private static IntPtr JassStringManager__ResizeHook(JassStringManager* @this, UInt32 newSize)
+        {
+            var result = JassStringManager__Resize(@this, newSize);
+
+            InternalNatives.JassStringManager = @this;
+
+            return result;
+        }
+
+        private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, IntPtr a2)
         {
             try
             {
-                InternalNatives.CTriggerWar3__Execute(@this, wait);
+                InternalNatives.CTriggerWar3__Execute(@this, a2);
                 InternalNatives.TriggerRunActions(@this);
             }
             catch (Exception e)

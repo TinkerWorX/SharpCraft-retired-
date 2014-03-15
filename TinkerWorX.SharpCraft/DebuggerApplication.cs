@@ -12,8 +12,15 @@ namespace TinkerWorX.SharpCraft
     {
         public static Boolean IsReady { get; private set; }
 
-        public static void Start()
+        private static String Context;
+
+        private static String HackPath;
+
+        public static void Start(String context, String hackPath)
         {
+            Context = context;
+            HackPath = hackPath;
+
             var thread = new Thread(new ThreadStart(Thread));
             thread.SetApartmentState(ApartmentState.STA);
             thread.Start();
@@ -24,7 +31,7 @@ namespace TinkerWorX.SharpCraft
             try
             {
                 var application = new DebuggerApplication();
-                var window = new DebuggerWindow();
+                var window = new DebuggerWindow(Context, HackPath);
                 DebuggerApplication.IsReady = true;
                 application.Run(window);
             }

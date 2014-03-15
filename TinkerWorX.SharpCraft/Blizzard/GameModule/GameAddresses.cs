@@ -32,6 +32,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             GameAddresses.GetItemFromHandle = @base + GameAddresses.GetItemFromHandleOffset;
             GameAddresses.StringToJassStringIndex = @base + GameAddresses.StringToJassStringIndexOffset;
             GameAddresses.CTriggerWar3__Execute = @base + GameAddresses.CTriggerWar3__ExecuteOffset;
+            GameAddresses.JassStringManager__Resize = @base + GameAddresses.JassStringManager__ResizeOffset;
             GameAddresses.InitNatives = @base + GameAddresses.InitNativesOffset;
             GameAddresses.BindNative = @base + GameAddresses.BindNativeOffset;
             GameAddresses.Jass__Constructor = @base + GameAddresses.Jass__ConstructorOffset;
@@ -290,9 +291,14 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         // === INSTRUCTIONS ===
         // TODO: Needs instructions.
-        // void __thiscall sub_6F4481A0(CTriggerWar3 *this, bool wait)
+        // void __thiscall sub_6F4481A0(CTriggerWar3 *this, IntPtr a2)
         public static IntPtr CTriggerWar3__Execute;
-        private const Int32 CTriggerWar3__ExecuteOffset = 0x4481A0;
+        private const Int32 CTriggerWar3__ExecuteOffset = 0x448360;
+
+        // === INSTRUCTIONS ===
+        // Crossreference ".?AUJassString@@". It's used three times in the same function. This is the function we want.
+        public static IntPtr JassStringManager__Resize;
+        private const Int32 JassStringManager__ResizeOffset = 0x44C5A0;
 
         // === INSTRUCTIONS ===
         // 1. Hit "Alt + B" to search for the following byte sequence, 

@@ -59,7 +59,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
                 return new IntPtr(pointer);
         }
 
-        public void Execute(Boolean wait)
+        /*public void Execute(Boolean wait)
         {
             GameFunctions.CTriggerWar3__Execute(this.AsSafe(), wait);
         }
@@ -67,7 +67,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public void Execute()
         {
             GameFunctions.CTriggerWar3__Execute(this.AsSafe(), false);
-        }
+        }*/
     }
 
     public struct CTriggerWar3Ptr
@@ -96,7 +96,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
             return this.pointer;
         }
 
-        public void Execute(Boolean wait)
+        /*public void Execute(Boolean wait)
         {
             GameFunctions.CTriggerWar3__Execute(this, wait);
         }
@@ -104,7 +104,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public void Execute()
         {
             GameFunctions.CTriggerWar3__Execute(this, false);
-        }
+        }*/
 
         public override Int32 GetHashCode()
         {

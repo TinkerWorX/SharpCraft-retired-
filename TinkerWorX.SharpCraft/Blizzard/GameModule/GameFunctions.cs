@@ -38,6 +38,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             GameFunctions.GetItemFromHandle = Utility.PtrAsFunction<GetItemFromHandlePrototype>(GameAddresses.GetItemFromHandle);
             GameFunctions.StringToJassStringIndexInternal = Utility.PtrAsFunction<StringToJassStringIndexPrototype>(GameAddresses.StringToJassStringIndex);
             GameFunctions.CTriggerWar3__Execute = Utility.PtrAsFunction<CTriggerWar3__ExecutePrototype>(GameAddresses.CTriggerWar3__Execute);
+            GameFunctions.JassStringManager__Resize = Utility.PtrAsFunction<JassStringManager__ResizePrototype>(GameAddresses.JassStringManager__Resize);
             GameFunctions.InitNatives = Utility.PtrAsFunction<InitNativesPrototype>(GameAddresses.InitNatives);
             GameFunctions.Jass__Constructor = Utility.PtrAsFunction<Jass__ConstructorPrototype>(GameAddresses.Jass__Constructor);
             GameFunctions.VirtualMachine__RunCode = Utility.PtrAsFunction<VirtualMachine__RunCodePrototype>(GameAddresses.VirtualMachine__RunCode);
@@ -158,14 +159,13 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return GameFunctions.StringToJassStringIndexInternal(Marshal.StringToHGlobalAnsi(s));
         }
 
-        /// <summary>
-        /// Executes a trigger, optionally skipping waits.
-        /// </summary>
-        /// <param name="this"></param>
-        /// <param name="wait"></param>
         [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate void CTriggerWar3__ExecutePrototype(CTriggerWar3Ptr @this, Boolean wait);
+        public delegate void CTriggerWar3__ExecutePrototype(CTriggerWar3Ptr @this, IntPtr a2);
         public static CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
+
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate IntPtr JassStringManager__ResizePrototype(JassStringManager* @this, UInt32 newSize);
+        public static JassStringManager__ResizePrototype JassStringManager__Resize;
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         public delegate Int32 InitNativesPrototype();
@@ -239,7 +239,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         public static String JassStringHandleToString(IntPtr stringJassHandle)
         {
-           return Memory.PtrAsString(JassStringHandleToStringInternal(stringJassHandle));
+            return Memory.PtrAsString(JassStringHandleToStringInternal(stringJassHandle));
         }
 
         // void* __fastcall sub_6F4786B0(void* a1)

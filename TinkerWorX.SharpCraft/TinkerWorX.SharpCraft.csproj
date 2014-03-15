@@ -94,6 +94,9 @@
     <Compile Include="Blizzard\GameModule\Types\CUnit.cs" />
     <Compile Include="Blizzard\GameModule\Types\IAgent.cs" />
     <Compile Include="Blizzard\GameModule\Types\Jass.cs" />
+    <Compile Include="Blizzard\GameModule\Types\JassString.cs" />
+    <Compile Include="Blizzard\GameModule\Types\JassStringManager.cs" />
+    <Compile Include="Blizzard\GameModule\Types\RCString.cs" />
     <Compile Include="Blizzard\GameModule\Types\StringNode.cs" />
     <Compile Include="Blizzard\GameModule\Types\StringPool.cs" />
     <Compile Include="Blizzard\GameModule\Types\SymbolTable.cs" />

@@ -38,7 +38,7 @@ namespace TinkerWorX.SharpCraft
             {
                 if (isDebugging)
                 {
-                    DebuggerApplication.Start();
+                    DebuggerApplication.Start(context, hackPath);
                     while (!DebuggerApplication.IsReady)
                         Thread.Sleep(1); // Sleep(0) is a nono.
                 }

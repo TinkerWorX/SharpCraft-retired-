@@ -7,17 +7,26 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
     [Serializable]
     public struct JassStringRet
     {
-        private readonly Int32 Index;
+        private readonly Int32 Reference;
 
-        public JassStringRet(Int32 index)
+        public JassStringRet(Int32 reference)
         {
-            this.Index = index;
+            this.Reference = reference;
         }
 
         // Implicit conversion from JassStringRet to String
         public static implicit operator String(JassStringRet from)
         {
-            return GameFunctions.JassStringHandleToString(GameFunctions.JassStringIndexToJassStringHandle(from.Index));
+            return GameFunctions.JassStringHandleToString(GameFunctions.JassStringIndexToJassStringHandle(from.Reference));
+
+            /*
+             * Potential solution to out-of-jass-thread fetching, but right now, it's not working as intended.
+             * The issue is sporadic and hard to trace, but sometimes this will fail and return something weird. 
+            unsafe
+            {
+                return InternalNatives.JassStringManager->Strings[from.Reference].ToString();
+            }
+             */
         }
 
         // Implicit conversion from String to JassStringRet
