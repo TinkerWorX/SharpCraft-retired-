@@ -18,9 +18,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
     {
         private static GameFunctions.InitNativesPrototype InitNatives;
 
-        private static GameFunctions.JassStringHandleToStringPrototype JassStringHandleToString;
+        //private static GameFunctions.JassStringHandleToStringPrototype JassStringHandleToString;
 
-        private static GameFunctions.JassStringManager__ResizePrototype JassStringManager__Resize;
+        //private static GameFunctions.JassStringManager__ResizePrototype JassStringManager__Resize;
 
         private static GameFunctions.CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
 
@@ -37,7 +37,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         private static IntPtr UnknownStringType1VTable;
         private static IntPtr UnknownStringType2VTable;
 
-        public static JassStringManager* JassStringManager;
+        //public static JassStringManager* JassStringManager;
 
         public static void Initialize()
         {
@@ -54,15 +54,15 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             InternalNatives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
             Trace.WriteLine("hook installed!");
 
-            address = GameAddresses.JassStringHandleToString;
-            Trace.Write("JassStringHandleToString: 0x" + address.ToString("X8") + " . ");
-            InternalNatives.JassStringHandleToString = Memory.InstallHook(address, new GameFunctions.JassStringHandleToStringPrototype(InternalNatives.JassStringHandleToStringHook), true, false);
-            Trace.WriteLine("hook installed!");
+            //address = GameAddresses.JassStringHandleToString;
+            //Trace.Write("JassStringHandleToString: 0x" + address.ToString("X8") + " . ");
+            //InternalNatives.JassStringHandleToString = Memory.InstallHook(address, new GameFunctions.JassStringHandleToStringPrototype(InternalNatives.JassStringHandleToStringHook), true, false);
+            //Trace.WriteLine("hook installed!");
 
-            address = GameAddresses.JassStringManager__Resize;
-            Trace.WriteLine("JassStringManager__Resize: 0x" + address.ToString("X8") + " . ");
-            InternalNatives.JassStringManager__Resize = Memory.InstallHook(address, new GameFunctions.JassStringManager__ResizePrototype(InternalNatives.JassStringManager__ResizeHook), true, false);
-            Trace.WriteLine("hook installed!");
+            //address = GameAddresses.JassStringManager__Resize;
+            //Trace.WriteLine("JassStringManager__Resize: 0x" + address.ToString("X8") + " . ");
+            //InternalNatives.JassStringManager__Resize = Memory.InstallHook(address, new GameFunctions.JassStringManager__ResizePrototype(InternalNatives.JassStringManager__ResizeHook), true, false);
+            //Trace.WriteLine("hook installed!");
 
             address = GameAddresses.CTriggerWar3__Execute;
             Trace.Write("CTriggerWar3__Execute: 0x" + address.ToString("X8") + " . ");
@@ -130,26 +130,26 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return result;
         }
 
-        private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
-        {
-            var vtable = Memory.Read<IntPtr>(stringJassHandle);
-            if (vtable == UnknownStringType1VTable || vtable == UnknownStringType2VTable)
-            {
-                // The two checks above are vtables for the two only know string handles.
-                return JassStringHandleToString(stringJassHandle);
-            }
-            // Anything but the two types above must be strings that doesn't need to be converted.
-            return stringJassHandle;
-        }
+        //private static IntPtr JassStringHandleToStringHook(IntPtr stringJassHandle)
+        //{
+        //    var vtable = Memory.Read<IntPtr>(stringJassHandle);
+        //    if (vtable == UnknownStringType1VTable || vtable == UnknownStringType2VTable)
+        //    {
+        //        // The two checks above are vtables for the two only know string handles.
+        //        return JassStringHandleToString(stringJassHandle);
+        //    }
+        //    // Anything but the two types above must be strings that doesn't need to be converted.
+        //    return stringJassHandle;
+        //}
 
-        private static IntPtr JassStringManager__ResizeHook(JassStringManager* @this, UInt32 newSize)
-        {
-            var result = JassStringManager__Resize(@this, newSize);
+        //private static IntPtr JassStringManager__ResizeHook(JassStringManager* @this, UInt32 newSize)
+        //{
+        //    var result = JassStringManager__Resize(@this, newSize);
 
-            InternalNatives.JassStringManager = @this;
+        //    InternalNatives.JassStringManager = @this;
 
-            return result;
-        }
+        //    return result;
+        //}
 
         private static void CTriggerWar3__ExecuteHook(CTriggerWar3Ptr @this, IntPtr a2)
         {
