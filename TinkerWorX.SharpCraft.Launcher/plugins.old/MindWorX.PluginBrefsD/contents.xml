@@ -1,3 +1,0 @@
-<plugin_package id="mindworx.plugin.b" name="MindWorX Plugin B" type="safe" version="1.2.3.4" target_version="agnostic">
-	<reference id="mindworx.plugin.d" version="1.2.3.4"/>
-</plugin_package>

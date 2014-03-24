@@ -3,26 +3,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Emit;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using EasyHook;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Blizzard.Types;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
     internal unsafe static partial class InternalNatives
     {
-        private static GameFunctions.InitNativesPrototype InitNatives;
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate Int32 InitNativesPrototype();
+
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate void CTriggerWar3__ExecutePrototype(CTriggerWar3Ptr @this, IntPtr a2);
+
+        private static InitNativesPrototype InitNatives;
 
         //private static GameFunctions.JassStringHandleToStringPrototype JassStringHandleToString;
 
         //private static GameFunctions.JassStringManager__ResizePrototype JassStringManager__Resize;
 
-        private static GameFunctions.CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
+        private static CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
 
         private static List<NativeDeclaration> vanillaNatives = new List<NativeDeclaration>();
 
@@ -51,7 +58,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
             address = GameAddresses.InitNatives;
             Trace.Write("InitNatives: 0x" + address.ToString("X8") + " . ");
-            InternalNatives.InitNatives = Memory.InstallHook(address, new GameFunctions.InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
+            InternalNatives.InitNatives = Memory.InstallHook(address, new InitNativesPrototype(InternalNatives.InitNativesHook), true, false);
             Trace.WriteLine("hook installed!");
 
             //address = GameAddresses.JassStringHandleToString;
@@ -66,7 +73,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
             address = GameAddresses.CTriggerWar3__Execute;
             Trace.Write("CTriggerWar3__Execute: 0x" + address.ToString("X8") + " . ");
-            InternalNatives.CTriggerWar3__Execute = Memory.InstallHook(address, new GameFunctions.CTriggerWar3__ExecutePrototype(InternalNatives.CTriggerWar3__ExecuteHook), true, false);
+            InternalNatives.CTriggerWar3__Execute = Memory.InstallHook(address, new CTriggerWar3__ExecutePrototype(InternalNatives.CTriggerWar3__ExecuteHook), true, false);
             Trace.WriteLine("hook installed!");
 
             //.rdata:6F96B6C0                 dd offset aButton_0     ; "BUTTON"
@@ -206,6 +213,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static void Add(NativeDeclaration native)
         {
+            Trace.WriteLine("Native added: " + native.Name + native.Prototype);
             InternalNatives.customNatives.Add(native);
         }
 
@@ -236,7 +244,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
                 prototype += attribute.TypeString;
             }
 
-            Add(function, name, prototype);
+            InternalNatives.Add(function, name, prototype);
         }
 
         public static void Add(Delegate function)

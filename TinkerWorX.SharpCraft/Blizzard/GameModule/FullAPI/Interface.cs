@@ -16,7 +16,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.FullAPI
             get { return InternalInterface.FPS; }
         }
 
-        unsafe public static CGameUI* GameUI
+        unsafe public static CGameUIInternal* GameUI
         {
             get { return InternalInterface.GameUI; }
         }

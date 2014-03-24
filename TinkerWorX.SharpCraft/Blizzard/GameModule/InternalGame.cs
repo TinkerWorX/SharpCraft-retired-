@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
     internal static class InternalGame
     {
-        private static GameFunctions.Unknown__SetStatePrototype Unknown__SetState;
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate Int32 Unknown__SetStatePrototype(IntPtr _this, Boolean endMap, Boolean endEngine);
+
+        private static Unknown__SetStatePrototype Unknown__SetState;
 
         public static event Action EngineStart;
 
@@ -36,7 +40,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
             address = GameAddresses.Unknown__SetState;
             Trace.Write("Unknown__SetState: 0x" + address.ToString("X8") + " . ");
-            InternalGame.Unknown__SetState = Memory.InstallHook(address, new GameFunctions.Unknown__SetStatePrototype(InternalGame.Unknown__SetStateHook), true, false);
+            InternalGame.Unknown__SetState = Memory.InstallHook(address, new Unknown__SetStatePrototype(InternalGame.Unknown__SetStateHook), true, false);
             Trace.WriteLine("hook installed!");
         }
 
@@ -98,6 +102,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
         private static Int32 Unknown__SetStateHook(IntPtr @this, Boolean endMap, Boolean endEngine)
         {
+            Trace.WriteLine("Unknown__SetState @this[0]: " + Memory.Read<IntPtr>(@this).ToString("X8"));
             try
             {
                 if (endEngine)

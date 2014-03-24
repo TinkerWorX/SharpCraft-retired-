@@ -1,25 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Windows;
 using EasyHook;
-using TinkerWorX.SharpCraft.Blizzard.GameModule;
-using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft
 {
     unsafe public class EntryPoint : IEntryPoint
     {
-        public EntryPoint(RemoteHooking.IContext hookingContext, String context, Boolean isDebugging, String hackPath, String installPath)
+        private Kernel32.LoadLibraryAPrototype LoadLibraryA;
+
+        private PluginContext context;
+
+        public EntryPoint(RemoteHooking.IContext hookingContext, PluginContext context, Boolean isDebugging, String hackPath, String installPath)
         {
             try
             {
-                // I'm sure I used to do something useful here...
+                this.context = context;
             }
             catch (Exception exception)
             {
@@ -32,7 +32,7 @@ namespace TinkerWorX.SharpCraft
             }
         }
 
-        public void Run(RemoteHooking.IContext hookingContext, String context, Boolean isDebugging, String hackPath, String installPath)
+        public void Run(RemoteHooking.IContext hookingContext, PluginContext context, Boolean isDebugging, String hackPath, String installPath)
         {
             try
             {
@@ -57,43 +57,32 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("-------------------");
                 Trace.WriteLine(String.Empty);
 
-                var sw = (Stopwatch)null; 
-                
-                sw = new Stopwatch();
+                var sw = new Stopwatch();
+
                 Trace.WriteLine("Initializing plugin system . . .");
                 Trace.Indent();
-                sw.Start();
-                PluginSystem.Initialize(context, hackPath);
-                sw.Stop();
+                sw.Restart();
+                PluginSystem.LoadPlugins(hackPath);
                 Trace.Unindent();
                 Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
 
-                switch (context)
-                {
-                    case "game":
-                        sw = new Stopwatch();
-                        Trace.WriteLine("Initializing game hacks . . .");
-                        Trace.Indent();
-                        sw.Start();
-                        War3Hack.Ready += delegate() { RemoteHooking.WakeUpProcess(); };
-                        War3Hack.Initialize();
-                        sw.Stop();
-                        Trace.Unindent();
-                        Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
-                        break;
+                Trace.WriteLine("Initializing plugins . . .");
+                Trace.Indent();
+                sw.Restart();
+                PluginSystem.Initialize(PluginContext.Common);
+                PluginSystem.Initialize(context);
+                Trace.Unindent();
+                Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
 
-                    case "editor":
-                        sw = new Stopwatch();
-                        Trace.WriteLine("Initializing editor hacks . . .");
-                        Trace.Indent();
-                        sw.Start();
-                        WorldEditHack.Ready += delegate() { RemoteHooking.WakeUpProcess(); };
-                        WorldEditHack.Initialize();
-                        sw.Stop();
-                        Trace.Unindent();
-                        Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
-                        break;
-                }
+                // Prepare the OnGameLoad hook.
+                var address = LocalHook.GetProcAddress("kernel32.dll", "LoadLibraryA");
+                Trace.Write("Installing LoadLibraryA hook @ 0x" + address.ToString("X8") + " . ");
+                this.LoadLibraryA = Memory.InstallHook(address, new Kernel32.LoadLibraryAPrototype(this.LoadLibraryAHook), false, true);
+                Trace.WriteLine("installed!");
+
+                // Everyone has had their chance to inject stuff,
+                // time to wake up the process.
+                RemoteHooking.WakeUpProcess();
 
                 // Let the thread stay alive, so all hooks stay alive as well.
                 // This might need to be shutdown properly on exit.
@@ -108,6 +97,29 @@ namespace TinkerWorX.SharpCraft
                     this.GetType() + ".Run(...)", MessageBoxButton.OK, MessageBoxImage.Error);
                 Process.GetCurrentProcess().Kill();
             }
+        }
+
+        private IntPtr LoadLibraryAHook(String fileName)
+        {
+            var module = this.LoadLibraryA(fileName);
+
+            switch (fileName.ToLower())
+            {
+                case "game.dll":
+                    var sw = new Stopwatch();
+
+                    Trace.WriteLine("OnGameLoad plugins . . .");
+                    Trace.Indent();
+                    sw = Stopwatch.StartNew();
+                    PluginSystem.OnGameLoad(PluginContext.Common);
+                    PluginSystem.OnGameLoad(this.context);
+                    Trace.Unindent();
+                    Trace.WriteLine(" - Done! (" + sw.ElapsedMilliseconds + " ms)");
+
+                    break;
+            }
+
+            return module;
         }
     }
 }

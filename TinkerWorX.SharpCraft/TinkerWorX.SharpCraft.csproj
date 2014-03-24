@@ -42,17 +42,16 @@
     <Reference Include="EasyHook">
       <HintPath>..\Assemblies\EasyHook.dll</HintPath>
     </Reference>
-    <Reference Include="Fasm.NET">
-      <HintPath>..\Assemblies\Fasm.NET.dll</HintPath>
-    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\Assemblies\Ionic.Zip.dll</HintPath>
     </Reference>
-    <Reference Include="Mono.CSharp">
+    <Reference Include="Mono.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\Mono.CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -66,178 +65,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Blizzard\GameModule\FullAPI\Input.cs" />
-    <Compile Include="Blizzard\GameModule\FullAPI\Interface.cs" />
-    <Compile Include="Blizzard\GameModule\FullAPI\Natives.full.gen.cs" />
-    <Compile Include="Blizzard\GameModule\InternalGame.cs" />
-    <Compile Include="Blizzard\GameModule\GameAddresses.cs" />
-    <Compile Include="Blizzard\GameModule\GameFunctions.cs" />
-    <Compile Include="Blizzard\GameModule\InternalInput.cs" />
-    <Compile Include="Blizzard\GameModule\InternalInterface.cs" />
-    <Compile Include="Blizzard\GameModule\InternalNatives.cs" />
-    <Compile Include="Blizzard\GameModule\InternalNatives.gen.cs" />
-    <Compile Include="Blizzard\GameModule\SafeAPI\Input.cs" />
-    <Compile Include="Blizzard\GameModule\SafeAPI\Natives.safe.gen.cs" />
-    <Compile Include="Blizzard\GameModule\Types\AbilDataCacheNode.cs" />
-    <Compile Include="Blizzard\GameModule\Types\AbilityLevelData.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CAbility.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CAbilityAttack.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CAgent.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CDestructable.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CGameUI.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CItem.cs" />
-    <Compile Include="Blizzard\GameModule\Types\ClassPrototype.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CodeResult.cs" />
-    <Compile Include="Blizzard\GameModule\Types\COrderTarget.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CSimpleMessageFrame.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CTriggerWar3.cs" />
-    <Compile Include="Blizzard\GameModule\Types\CUnit.cs" />
-    <Compile Include="Blizzard\GameModule\Types\IAgent.cs" />
-    <Compile Include="Blizzard\GameModule\Types\Jass.cs" />
-    <Compile Include="Blizzard\GameModule\Types\JassString.cs" />
-    <Compile Include="Blizzard\GameModule\Types\JassStringManager.cs" />
-    <Compile Include="Blizzard\GameModule\Types\RCString.cs" />
-    <Compile Include="Blizzard\GameModule\Types\StringNode.cs" />
-    <Compile Include="Blizzard\GameModule\Types\StringPool.cs" />
-    <Compile Include="Blizzard\GameModule\Types\SymbolTable.cs" />
-    <Compile Include="Blizzard\GameModule\Types\ThreadLocalStorage.cs" />
-    <Compile Include="Blizzard\GameModule\Types\Variable.cs" />
-    <Compile Include="Blizzard\GameModule\Types\VirtualMachine.cs" />
-    <Compile Include="Blizzard\GameModule\InternalScript.cs" />
-    <Compile Include="Blizzard\Jass\JassTypeAttribute.cs" />
-    <Compile Include="Blizzard\Jass\NativeDeclaration.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassAbility.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassAgent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassAIDifficulty.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassAllianceType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassAttackType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassBlendMode.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassBooleanExpression.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassBuff.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassButton.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassCameraField.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassCameraSetup.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassConditionFunction.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassDamageType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassDefeatCondition.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassDestructable.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassDialog.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassDialogEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassEffect.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassEffectType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassEventIndex.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassFGameState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassFilterFunction.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassFogModifier.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassFogState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassForce.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameCache.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameDifficulty.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameSpeed.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGameType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassGroup.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassHashTable.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassIGameState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassImage.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassItem.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassItemPool.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassItemType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassLeaderboard.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassLightning.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassLimitOp.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassLocation.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMapControl.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMapDensity.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMapFlag.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMapSetting.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMapVisibility.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMultiboard.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassMultiboardItem.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPathingType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlacement.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayer.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerColor.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerGameResult.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerScore.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerSlotState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassPlayerUnitEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassQuest.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassQuestItem.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassRace.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassRacePreference.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassRarityControl.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassRect.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassRegion.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassSound.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassSoundType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassStartLocationPriority.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTerrainDeformation.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTextTag.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTextureMapFlags.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTimer.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTimerDialog.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTrackable.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTrigger.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTriggerAction.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassTriggerCondition.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUberSplat.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUnit.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUnitEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUnitPool.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUnitState.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassUnitType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassVersion.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassVolumeGroup.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassWeaponType.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassWeatherEffect.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassWidget.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Base\JassWidgetEvent.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassAllianceType.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassFogState.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassItem.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassItemType.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassLimitOp.gen.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassMapControl.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayer.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerColor.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerEvent.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerSlotState.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassPlayerState.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassRacePreference.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassTimer.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassTrigger.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassUnit.cs" />
-    <Compile Include="Blizzard\Jass\Objects\Extended\JassUnitState.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassBoolean.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassCode.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassHandle.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassInteger.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassObjectId.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassOrder.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassReal.cs" />
-    <Compile Include="Blizzard\Jass\Primitives\JassString.cs" />
-    <Compile Include="Blizzard\Storm.cs" />
-    <Compile Include="Blizzard\Types\Color.cs" />
-    <Compile Include="Blizzard\Types\DelegateAction.cs" />
-    <Compile Include="Blizzard\Types\ManagedActionBase.cs" />
-    <Compile Include="Blizzard\Types\ObjectIdB.cs" />
-    <Compile Include="Blizzard\Types\ObjectIdL.cs" />
-    <Compile Include="Blizzard\GameModule\FullAPI\Script.cs" />
-    <Compile Include="Blizzard\GameModule\FullAPI\Natives.cs" />
-    <Compile Include="Blizzard\GameModule\Bases\MapPluginBase.cs" />
-    <Compile Include="Blizzard\GameModule\Bases\MapScriptBase.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
       <DependentUpon>DebuggerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="Blizzard\GameModule\Bases\FullPluginBase.cs" />
-    <Compile Include="GameHack.cs" />
+    <Compile Include="PluginBase.cs" />
+    <Compile Include="PluginContext.cs" />
     <Compile Include="PluginPackage.cs" />
     <Compile Include="PluginSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -253,15 +87,28 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Blizzard\GameModule\SafeAPI\Interface.cs" />
-    <Compile Include="Blizzard\GameModule\SafeAPI\Script.cs" />
-    <Compile Include="Blizzard\GameModule\SafeAPI\Natives.cs" />
-    <Compile Include="Blizzard\GameModule\Bases\SafePluginBase.cs" />
-    <Compile Include="Types\Point2.cs" />
-    <Compile Include="Types\Vector2.cs" />
-    <Compile Include="Types\Vector3.cs" />
-    <Compile Include="War3Hack.cs" />
-    <Compile Include="WorldEditHack.cs" />
+    <Compile Include="Utilities\Assembly.cs" />
+    <Compile Include="Utilities\ConcurrentBagListener.cs" />
+    <Compile Include="Utilities\DependencySorter.cs" />
+    <Compile Include="Utilities\DynamicModule.cs" />
+    <Compile Include="Utilities\Memory.cs" />
+    <Compile Include="Utilities\UnmanagedCalls\Cdecl.cs" />
+    <Compile Include="Utilities\UnmanagedCalls\FastCall.cs" />
+    <Compile Include="Utilities\UnmanagedCalls\StdCall.cs" />
+    <Compile Include="Utilities\UnmanagedCalls\ThisCall.cs" />
+    <Compile Include="Utilities\Utility.cs" />
+    <Compile Include="Windows\ACCESS_TYPE.cs" />
+    <Compile Include="Windows\AdvancedServices.cs" />
+    <Compile Include="Windows\Kernel32.cs" />
+    <Compile Include="Windows\PROCESS.cs" />
+    <Compile Include="Windows\ProcessCreationFlags.cs" />
+    <Compile Include="Windows\ProcessMemory.cs" />
+    <Compile Include="Windows\PROCESS_INFORMATION.cs" />
+    <Compile Include="Windows\STARTUPINFO.cs" />
+    <Compile Include="Windows\TOKEN_PRIVILEGES.cs" />
+    <Compile Include="Windows\User32.cs" />
+    <Compile Include="Windows\WindowsHookId.cs" />
+    <Compile Include="Windows\WindowsMessage.cs" />
     <Compile Include="ZipEntryExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -273,20 +120,7 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Blizzard\War3Module\" />
-    <Folder Include="Blizzard\WorldEditModule\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TinkerWorX.Utilities\TinkerWorX.Utilities.csproj">
-      <Project>{018b7baf-a6d5-4fe1-b8b0-5dca727ddfb9}</Project>
-      <Name>TinkerWorX.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TinkerWorX.Windows\TinkerWorX.Windows.csproj">
-      <Project>{f60e53b3-83d4-4640-9c9f-37f4e34d87d5}</Project>
-      <Name>TinkerWorX.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Page Include="DebuggerWindow.xaml">
       <SubType>Designer</SubType>

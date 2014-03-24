@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows;
 using EasyHook;
 using Microsoft.Win32;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Launcher
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {

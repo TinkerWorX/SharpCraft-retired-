@@ -6,10 +6,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{452DE0BE
 		Notes\Editor.txt = Notes\Editor.txt
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.Utilities", "TinkerWorX.Utilities\TinkerWorX.Utilities.csproj", "{018B7BAF-A6D5-4FE1-B8B0-5DCA727DDFB9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.Windows", "TinkerWorX.Windows\TinkerWorX.Windows.csproj", "{F60E53B3-83D4-4640-9C9F-37F4E34D87D5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.SharpCraft.Launcher", "TinkerWorX.SharpCraft.Launcher\TinkerWorX.SharpCraft.Launcher.csproj", "{F304FC92-805A-487B-B47B-5C9378269E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.SharpCraft", "TinkerWorX.SharpCraft\TinkerWorX.SharpCraft.csproj", "{9D3B4267-60FA-4CDE-BECD-0B97A9F4ED7B}"
@@ -20,14 +16,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{018B7BAF-A6D5-4FE1-B8B0-5DCA727DDFB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{018B7BAF-A6D5-4FE1-B8B0-5DCA727DDFB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{018B7BAF-A6D5-4FE1-B8B0-5DCA727DDFB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{018B7BAF-A6D5-4FE1-B8B0-5DCA727DDFB9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F60E53B3-83D4-4640-9C9F-37F4E34D87D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F60E53B3-83D4-4640-9C9F-37F4E34D87D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F60E53B3-83D4-4640-9C9F-37F4E34D87D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F60E53B3-83D4-4640-9C9F-37F4E34D87D5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F304FC92-805A-487B-B47B-5C9378269E21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F304FC92-805A-487B-B47B-5C9378269E21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F304FC92-805A-487B-B47B-5C9378269E21}.Release|Any CPU.ActiveCfg = Release|Any CPU

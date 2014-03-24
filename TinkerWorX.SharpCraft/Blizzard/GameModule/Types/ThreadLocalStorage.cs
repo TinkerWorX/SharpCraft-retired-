@@ -1,11 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
-    unsafe public struct ThreadLocalStorage
+    [StructLayout(LayoutKind.Sequential, Size = 0x04)]
+    public struct ThreadLocalStorage
+    {
+        private readonly IntPtr Pointer;
+
+        unsafe public ThreadLocalStorageInternal* Internal
+        {
+            get { return (ThreadLocalStorageInternal*)this.Pointer; }
+        }
+
+        public Jass Jass
+        {
+            get { unsafe { return this.Internal->Jass; } }
+        }
+
+        public IntPtr NetProviderLOOP
+        {
+            get { unsafe { return this.Internal->NetProviderLOOP; } }
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Size = 0x50)]
+    unsafe public struct ThreadLocalStorageInternal
     {
         public IntPtr field0000;
         public IntPtr field0004;
@@ -13,7 +36,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public IntPtr field000C;
 
         public IntPtr field0010;
-        public JassPtr Jass;
+        public Jass Jass;
         public IntPtr field0018;
         public IntPtr field001C;
 

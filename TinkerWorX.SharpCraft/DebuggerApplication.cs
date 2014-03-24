@@ -12,11 +12,11 @@ namespace TinkerWorX.SharpCraft
     {
         public static Boolean IsReady { get; private set; }
 
-        private static String Context;
+        private static PluginContext Context;
 
         private static String HackPath;
 
-        public static void Start(String context, String hackPath)
+        public static void Start(PluginContext context, String hackPath)
         {
             Context = context;
             HackPath = hackPath;

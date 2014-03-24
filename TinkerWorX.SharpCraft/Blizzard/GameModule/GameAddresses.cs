@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {

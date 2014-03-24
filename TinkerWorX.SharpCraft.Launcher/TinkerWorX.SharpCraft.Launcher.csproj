@@ -75,9 +75,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="plugins\MindWorX.JassDebugger.zip\MindWorX.JassDebugger.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -96,10 +93,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="Fasm.NET-LICENSE" />
-    <None Include="Mono-License.url">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -153,33 +146,6 @@
       <Project>{9d3b4267-60fa-4cde-becd-0b97a9f4ed7b}</Project>
       <Name>TinkerWorX.SharpCraft</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TinkerWorX.Utilities\TinkerWorX.Utilities.csproj">
-      <Project>{018b7baf-a6d5-4fe1-b8b0-5dca727ddfb9}</Project>
-      <Name>TinkerWorX.Utilities</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TinkerWorX.Windows\TinkerWorX.Windows.csproj">
-      <Project>{f60e53b3-83d4-4640-9c9f-37f4e34d87d5}</Project>
-      <Name>TinkerWorX.Windows</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="plugins\MindWorX.JassDebugger.zip\contents.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="plugins\MindWorX.Lidgren.zip\contents.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="plugins\MindWorX.Lidgren.zip\Lidgren.Network.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="plugins\MindWorX.JassDebugger.zip\MindWorX.JassDebugger.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

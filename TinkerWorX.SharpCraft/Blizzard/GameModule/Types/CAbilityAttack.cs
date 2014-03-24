@@ -8,7 +8,7 @@ using TinkerWorX.SharpCraft.Blizzard.Types;
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
     [StructLayout(LayoutKind.Sequential, Size = 0x410)]
-    unsafe public struct CAbilityAttack : IAgent<CAbilityAttackPtr>
+    unsafe public struct CAbilityAttack : IAgentInternal<CAbilityAttackPtr>
     {
         public CAbility Base;
 
@@ -189,10 +189,10 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
                 return new IntPtr(pointer);
         }
 
-        public CAgent* ToBase()
+        public CAgentInternal* ToBase()
         {
             fixed (void* pointer = &this)
-                return (CAgent*)pointer;
+                return (CAgentInternal*)pointer;
         }
 
         public ObjectIdL GetClassId()

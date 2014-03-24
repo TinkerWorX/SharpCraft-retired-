@@ -8,11 +8,13 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
     unsafe public interface IAgent<T>
     {
-        T AsSafe();
         IntPtr AsIntPtr();
-        CAgent* ToBase();
+        CAgent ToBase();
+    }
 
-        ObjectIdL GetClassId(); // virtual function 7
-        String GetClassName(); // virtual function 22
+    unsafe public interface IAgentInternal<T>
+    {
+        IntPtr AsIntPtr();
+        CAgentInternal* ToBase();
     }
 }

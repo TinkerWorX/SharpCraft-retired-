@@ -6,8 +6,8 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
 using EasyHook;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft
 {

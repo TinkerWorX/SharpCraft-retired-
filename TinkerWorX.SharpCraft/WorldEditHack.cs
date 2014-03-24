@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft
 {

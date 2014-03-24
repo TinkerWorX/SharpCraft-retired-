@@ -2,22 +2,32 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
     internal static class InternalScript
     {
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate JassPtr Jass__ConstructorPrototype(JassPtr jass);
+
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate IntPtr VirtualMachine__RunFunctionPrototype(VirtualMachinePtr virtualMachine, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6);
+
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        public delegate CodeResult VirtualMachine__RunCodePrototype(VirtualMachinePtr virtualMachine, IntPtr opCode, IntPtr a3, UInt32 opLimit, IntPtr a5);
+
         private static JassPtr jass;
 
-        private static GameFunctions.Jass__ConstructorPrototype Jass__Constructor;
+        private static Jass__ConstructorPrototype Jass__Constructor;
 
-        private static GameFunctions.VirtualMachine__RunFunctionPrototype VirtualMachine__RunFunction;
+        private static VirtualMachine__RunFunctionPrototype VirtualMachine__RunFunction;
 
-        private static GameFunctions.VirtualMachine__RunCodePrototype VirtualMachine__RunCode;
+        private static VirtualMachine__RunCodePrototype VirtualMachine__RunCode;
 
         public static event Action PreConfig;
 
@@ -43,17 +53,17 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
             address = GameAddresses.Jass__Constructor;
             Trace.Write(" - Jass__Constructor: 0x" + address.ToString("X8") + " . ");
-            InternalScript.Jass__Constructor = Memory.InstallHook(address, new GameFunctions.Jass__ConstructorPrototype(InternalScript.Jass__ConstructorHook), true, false);
+            InternalScript.Jass__Constructor = Memory.InstallHook(address, new Jass__ConstructorPrototype(InternalScript.Jass__ConstructorHook), true, false);
             Trace.WriteLine("installed!");
 
             address = GameAddresses.VirtualMachine__RunFunction;
             Trace.Write(" - VirtualMachine__RunFunction: 0x" + address.ToString("X8") + " . ");
-            InternalScript.VirtualMachine__RunFunction = Memory.InstallHook(address, new GameFunctions.VirtualMachine__RunFunctionPrototype(InternalScript.VirtualMachine__RunFunctionHook), true, false);
+            InternalScript.VirtualMachine__RunFunction = Memory.InstallHook(address, new VirtualMachine__RunFunctionPrototype(InternalScript.VirtualMachine__RunFunctionHook), true, false);
             Trace.WriteLine("installed!");
 
             address = GameAddresses.VirtualMachine__RunCode;
             Trace.Write(" - VirtualMachine__RunCode: 0x" + address.ToString("X8") + " . ");
-            InternalScript.VirtualMachine__RunCode = Memory.InstallHook(address, new GameFunctions.VirtualMachine__RunCodePrototype(InternalScript.VirtualMachine__RunCodeHook), true, false);
+            InternalScript.VirtualMachine__RunCode = Memory.InstallHook(address, new VirtualMachine__RunCodePrototype(InternalScript.VirtualMachine__RunCodeHook), true, false);
             Trace.WriteLine("installed!");
         }
 

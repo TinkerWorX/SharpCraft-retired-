@@ -1,22 +1,11 @@
 ﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Mono.CSharp;
-using TinkerWorX.SharpCraft.Blizzard.GameModule;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft
 {
@@ -26,7 +15,7 @@ namespace TinkerWorX.SharpCraft
 
         private Evaluator evaluator;
 
-        public DebuggerWindow(String context, String hackPath)
+        public DebuggerWindow(PluginContext context, String hackPath)
         {
             this.InitializeComponent();
 
@@ -39,16 +28,12 @@ namespace TinkerWorX.SharpCraft
             compilerSettings.AssemblyReferences.Add("System.dll");
             compilerSettings.AssemblyReferences.Add("System.Core.dll");
             compilerSettings.AssemblyReferences.Add(typeof(MessageBox).Assembly.CodeBase); // PresentationFramework.dll
-            compilerSettings.AssemblyReferences.Add(Path.Combine(hackPath, "Windows.dll"));
-            compilerSettings.AssemblyReferences.Add(Path.Combine(hackPath, "Utilities.dll"));
             compilerSettings.AssemblyReferences.Add(Path.Combine(hackPath, "SharpCraft.dll"));
 
             var compilerContext = new CompilerContext(compilerSettings, new DebuggerReportPrinter());
 
             evaluator = new Evaluator(compilerContext);
             evaluator.Compile("using System;");
-            evaluator.Compile("using TinkerWorX.Utilities;");
-            evaluator.Compile("using TinkerWorX.Windows;");
             evaluator.Compile("using TinkerWorX.SharpCraft;");
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
@@ -83,14 +68,14 @@ namespace TinkerWorX.SharpCraft
 
     internal class DebuggerReportPrinter : ReportPrinter
     {
-        public override void Print(AbstractMessage msg, Boolean showFullPath)
+        public override void Print(AbstractMessage message, Boolean showFullPath)
         {
-            if (msg.IsWarning)
-                Trace.WriteLine("Warning: " + msg.Text);
+            if (message.IsWarning)
+                Trace.WriteLine("Warning: " + message.Text);
             else
-                Trace.WriteLine("Error: " + msg.Text);
+                Trace.WriteLine("Error: " + message.Text);
 
-            base.Print(msg, showFullPath);
+            base.Print(message, showFullPath);
         }
     }
 }

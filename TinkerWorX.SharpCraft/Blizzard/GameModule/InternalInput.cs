@@ -2,21 +2,31 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Types;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
     internal static class InternalInput
     {
-        private static GameFunctions.WndProcPrototype WndProc;
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate IntPtr WndProcPrototype(IntPtr hWnd, UInt32 msg, UInt32 wParam, UInt32 lParam);
 
-        private static GameFunctions.Unknown__UpdateMousePrototype Unknown__UpdateMouse;
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate Boolean Unknown__UpdateMousePrototype(IntPtr @this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4);
 
-        private static GameFunctions.CGameUI__DisplayChatMessagePrototype CGameUI__DisplayChatMessage;
+        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
+        private delegate IntPtr CGameUI__DisplayChatMessagePrototype(CGameUI @this, Int32 sender, String message, ChatRecipients recipients, Single duration);
+
+        private static WndProcPrototype WndProc;
+
+        private static Unknown__UpdateMousePrototype Unknown__UpdateMouse;
+
+        private static CGameUI__DisplayChatMessagePrototype CGameUI__DisplayChatMessage;
 
         public static event MouseClickEventHandler MouseClick;
 
@@ -48,17 +58,17 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 
             address = GameAddresses.WndProc;
             Trace.Write("WndProc: 0x" + address.ToString("X8") + " . ");
-            InternalInput.WndProc = Memory.InstallHook(address, new GameFunctions.WndProcPrototype(InternalInput.WndProcHook), true, false);
+            InternalInput.WndProc = Memory.InstallHook(address, new WndProcPrototype(InternalInput.WndProcHook), true, false);
             Trace.WriteLine("hook installed!");
 
             address = GameAddresses.Unknown__UpdateMouse;
             Trace.Write("Unknown__UpdateMouse: 0x" + address.ToString("X8") + " . ");
-            InternalInput.Unknown__UpdateMouse = Memory.InstallHook(address, new GameFunctions.Unknown__UpdateMousePrototype(InternalInput.Unknown__UpdateMouseHook), true, false);
+            InternalInput.Unknown__UpdateMouse = Memory.InstallHook(address, new Unknown__UpdateMousePrototype(InternalInput.Unknown__UpdateMouseHook), true, false);
             Trace.WriteLine("hook installed!");
 
             address = GameAddresses.CGameUI__DisplayChatMessage;
             Trace.Write("CGameUI__DisplayChatMessage: 0x" + address.ToString("X8") + " . ");
-            InternalInput.CGameUI__DisplayChatMessage = Memory.InstallHook(address, new GameFunctions.CGameUI__DisplayChatMessagePrototype(InternalInput.CGameUI__DisplayChatMessageHook), true, false);
+            InternalInput.CGameUI__DisplayChatMessage = Memory.InstallHook(address, new CGameUI__DisplayChatMessagePrototype(InternalInput.CGameUI__DisplayChatMessageHook), true, false);
             Trace.WriteLine("hook installed!");
         }
 
@@ -220,9 +230,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return WndProc(hWnd, msg, wParam, lParam);
         }
 
-        private static Boolean Unknown__UpdateMouseHook(IntPtr _this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4)
+        private static Boolean Unknown__UpdateMouseHook(IntPtr @this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4)
         {
-            var result = Unknown__UpdateMouse(_this, uiX, uiY, terrainPtr, a4);
+            Trace.WriteLine("Unknown__UpdateMouseHook @this[0]: " + Memory.Read<IntPtr>(@this).ToString("X8"));
+
+            var result = Unknown__UpdateMouse(@this, uiX, uiY, terrainPtr, a4);
 
             try
             {
@@ -239,7 +251,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             return result;
         }
 
-        private static IntPtr CGameUI__DisplayChatMessageHook(CGameUIPtr _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
+        private static IntPtr CGameUI__DisplayChatMessageHook(CGameUI _this, Int32 sender, String message, ChatRecipients recipients, Single duration)
         {
             try
             {

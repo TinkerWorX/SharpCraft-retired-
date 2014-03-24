@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using TinkerWorX.SharpCraft.Blizzard.Types;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {

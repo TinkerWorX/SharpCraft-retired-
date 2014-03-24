@@ -7,8 +7,9 @@ using System.Text;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.GameModule.Types;
 using TinkerWorX.SharpCraft.Blizzard.Types;
-using TinkerWorX.Utilities;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Utilities.UnmanagedCalls;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule
 {
@@ -26,29 +27,6 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
             if (!GameAddresses.IsReady)
                 throw new Exception("Attempted to initialize " + typeof(GameFunctions).Name + " before " + typeof(GameAddresses).Name + " was ready.");
 
-            GameFunctions.CUnit__GetAbility = Utility.PtrAsFunction<CUnit__GetAbilityPrototype>(GameAddresses.CUnit__GetAbility);
-            GameFunctions.GetAbilDataCacheNodeFromId = Utility.PtrAsFunction<GetAbilityFromIdPrototype>(GameAddresses.GetAbilDataCacheNodeFromId);
-            GameFunctions.CGameUI__Constructor = Utility.PtrAsFunction<CGameUI__ConstructorPrototype>(GameAddresses.CGameUI__Constructor);
-            GameFunctions.CGameUI__DisplayChatMessage = Utility.PtrAsFunction<CGameUI__DisplayChatMessagePrototype>(GameAddresses.CGameUI__DisplayChatMessage);
-            GameFunctions.Unknown__UpdateMouse = Utility.PtrAsFunction<Unknown__UpdateMousePrototype>(GameAddresses.Unknown__UpdateMouse);
-            GameFunctions.Unknown__SetState = Utility.PtrAsFunction<Unknown__SetStatePrototype>(GameAddresses.Unknown__SetState);
-            GameFunctions.GetUnitFromHandle = Utility.PtrAsFunction<GetUnitFromHandlePrototype>(GameAddresses.GetUnitFromHandle);
-            GameFunctions.GetTriggerFromHandle = Utility.PtrAsFunction<GetTriggerFromHandlePrototype>(GameAddresses.GetTriggerFromHandle);
-            GameFunctions.GetDestructableFromHandle = Utility.PtrAsFunction<GetDestructableFromHandlePrototype>(GameAddresses.GetDestructableFromHandle);
-            GameFunctions.GetItemFromHandle = Utility.PtrAsFunction<GetItemFromHandlePrototype>(GameAddresses.GetItemFromHandle);
-            GameFunctions.StringToJassStringIndexInternal = Utility.PtrAsFunction<StringToJassStringIndexPrototype>(GameAddresses.StringToJassStringIndex);
-            GameFunctions.CTriggerWar3__Execute = Utility.PtrAsFunction<CTriggerWar3__ExecutePrototype>(GameAddresses.CTriggerWar3__Execute);
-            GameFunctions.JassStringManager__Resize = Utility.PtrAsFunction<JassStringManager__ResizePrototype>(GameAddresses.JassStringManager__Resize);
-            GameFunctions.InitNatives = Utility.PtrAsFunction<InitNativesPrototype>(GameAddresses.InitNatives);
-            GameFunctions.Jass__Constructor = Utility.PtrAsFunction<Jass__ConstructorPrototype>(GameAddresses.Jass__Constructor);
-            GameFunctions.VirtualMachine__RunCode = Utility.PtrAsFunction<VirtualMachine__RunCodePrototype>(GameAddresses.VirtualMachine__RunCode);
-            GameFunctions.VirtualMachine__RunFunction = Utility.PtrAsFunction<VirtualMachine__RunFunctionPrototype>(GameAddresses.VirtualMachine__RunFunction);
-            GameFunctions.GetThreadLocalStorage = Utility.PtrAsFunction<GetThreadLocalStoragePrototype>(GameAddresses.GetThreadLocalStorage);
-            GameFunctions.JassStringHandleToStringInternal = Utility.PtrAsFunction<JassStringHandleToStringPrototype>(GameAddresses.JassStringHandleToString);
-            GameFunctions.sub_6F4786B0 = Utility.PtrAsFunction<sub_6F4786B0Prototype>(GameAddresses.sub_6F4786B0);
-            GameFunctions.WndProc = Utility.PtrAsFunction<WndProcPrototype>(GameAddresses.WndProc);
-            GameFunctions.CSimpleMessageFrame__WriteLine = Utility.PtrAsFunction<CSimpleMessageFrame__WriteLinePrototype>(GameAddresses.CSimpleMessageFrame__WriteLine);
-
             GameFunctions.IsReady = true;
             GameFunctions.OnReady();
         }
@@ -59,29 +37,15 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
                 GameFunctions.Ready();
         }
 
-        /// <summary>
-        /// Fetches a certain ability from a unit.
-        /// </summary>
-        /// <param name="unit">The unit.</param>
-        /// <param name="ability">The ability id.</param>
-        /// <param name="a3">Unknown</param>
-        /// <param name="a4">Unknown</param>
-        /// <param name="a5">Unknown</param>
-        /// <param name="a6">Unknown</param>
-        /// <returns>The ability.</returns>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CAbilityPtr CUnit__GetAbilityPrototype(CUnitPtr @this, ObjectIdL ability, Boolean a3, Boolean a4, Boolean a5, Boolean a6);
-        public static CUnit__GetAbilityPrototype CUnit__GetAbility;
+        public static AbilDataCacheNodePtr GetAbilDataCacheNodeFromId(ObjectIdL id)
+        {
+            return FastCall.Invoke<AbilDataCacheNodePtr>(GameAddresses.GetAbilDataCacheNodeFromId, id);
+        }
 
-        // int __fastcall sub_6F265ED0(int a1)
-        // We use __thiscall as a cheat for doing a fastcall with only one argument.
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate AbilDataCacheNodePtr GetAbilityFromIdPrototype(ObjectIdL id);
-        public static GetAbilityFromIdPrototype GetAbilDataCacheNodeFromId;
-
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate IntPtr CGameUI__ConstructorPrototype(CGameUIPtr @this);
-        public static CGameUI__ConstructorPrototype CGameUI__Constructor;
+        public static IntPtr CGameUI__Constructor(CGameUI @this)
+        {
+            return ThisCall.Invoke<IntPtr>(GameAddresses.CGameUI__Constructor, @this);
+        }
 
         /// <summary>
         /// Displays a chat message as sent by a player.
@@ -92,165 +56,154 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         /// <param name="recipients">The team to receive the message.</param>
         /// <param name="duration">The duration the message should be shown.</param>
         /// <returns>Unknown</returns>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate IntPtr CGameUI__DisplayChatMessagePrototype(CGameUIPtr @this, Int32 sender, String message, ChatRecipients recipients, Single duration);
-        public static CGameUI__DisplayChatMessagePrototype CGameUI__DisplayChatMessage;
+        public static IntPtr CGameUI__DisplayChatMessage(CGameUI @this, Int32 sender, String message, ChatRecipients recipients, Single duration)
+        {
+            return ThisCall.Invoke<IntPtr>(GameAddresses.CGameUI__DisplayChatMessage, @this, sender, message, recipients, duration);
+        }
 
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate Boolean Unknown__UpdateMousePrototype(IntPtr @this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4);
-        public static Unknown__UpdateMousePrototype Unknown__UpdateMouse;
+        // Constructor: 39A910 found using ".\CWorldFrameWar3.cpp", used three times in one function, initializer style function.
+        // CWorldFrameWar3, size = 0x668
+        public static Boolean Unknown__UpdateMouse(IntPtr @this, Single uiX, Single uiY, IntPtr terrainPtr, IntPtr a4)
+        {
+            return ThisCall.Invoke<Boolean>(GameAddresses.Unknown__UpdateMouse, @this, uiX, uiY, terrainPtr, a4);
+        }
 
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate Int32 Unknown__SetStatePrototype(IntPtr _this, Boolean endMap, Boolean endEngine);
-        public static Unknown__SetStatePrototype Unknown__SetState;
-
-        /// <summary>
-        /// Gets a unit from a unit jass handle.
-        /// </summary>
-        /// <param name="jassUnitHandle">The unit jass handle.</param>
-        /// <returns>The unit.</returns>
-        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CUnitPtr GetUnitFromHandlePrototype(IntPtr unitJassHandle);
-        public static GetUnitFromHandlePrototype GetUnitFromHandle;
+        // Constructor: 0074F0 found using "e:\\drive1\\temp\\buildwar3x\\war3\\source\\Data.h", 3rd result, constructor style function.
+        // Data, size = 0x408
+        public static Int32 Unknown__SetState(IntPtr @this, Boolean endMap, Boolean endEngine)
+        {
+            return ThisCall.Invoke<Int32>(GameAddresses.Unknown__SetState, @this, endMap, endEngine);
+        }
 
         /// <summary>
         /// Gets a trigger from a trigger jass handle.
         /// </summary>
-        /// <param name="triggerHandle">The trigger jass handle.</param>
+        /// <param name="destructableHandle">The trigger jass handle.</param>
         /// <returns>The trigger.</returns>
-        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CTriggerWar3Ptr GetTriggerFromHandlePrototype(JassTrigger triggerHandle);
-        public static GetTriggerFromHandlePrototype GetTriggerFromHandle;
+        public static CTriggerWar3Ptr GetTriggerFromHandle(IntPtr trigger)
+        {
+            return FastCall.Invoke<CTriggerWar3Ptr>(GameAddresses.GetTriggerFromHandle, trigger);
+        }
+
+        /// <summary>
+        /// Gets a trigger from a trigger jass handle.
+        /// </summary>
+        /// <param name="destructableHandle">The trigger jass handle.</param>
+        /// <returns>The trigger.</returns>
+        public static CTriggerWar3Ptr GetTriggerFromHandle(JassTrigger trigger)
+        {
+            return FastCall.Invoke<CTriggerWar3Ptr>(GameAddresses.GetTriggerFromHandle, trigger);
+        }
 
         /// <summary>
         /// Gets a destructable from a destructable jass handle.
         /// </summary>
         /// <param name="destructableJassHandle">The destructable jass handle.</param>
         /// <returns>The destructable.</returns>
-        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CDestructablePtr GetDestructableFromHandlePrototype(IntPtr destructableJassHandle);
-        public static GetDestructableFromHandlePrototype GetDestructableFromHandle;
+        public static CDestructablePtr GetDestructableFromHandle(IntPtr destructable)
+        {
+            return FastCall.Invoke<CDestructablePtr>(GameAddresses.GetDestructableFromHandle, destructable);
+        }
+
+        /// <summary>
+        /// Gets a destructable from a destructable jass handle.
+        /// </summary>
+        /// <param name="destructableJassHandle">The destructable jass handle.</param>
+        /// <returns>The destructable.</returns>
+        public static CDestructablePtr GetDestructableFromHandle(JassDestructable destructable)
+        {
+            return FastCall.Invoke<CDestructablePtr>(GameAddresses.GetDestructableFromHandle, destructable);
+        }
 
         /// <summary>
         /// Gets a item from a item jass handle.
         /// </summary>
         /// <param name="itemJassHandle">The item jass handle.</param>
         /// <returns>The item.</returns>
-        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CItemPtr GetItemFromHandlePrototype(IntPtr itemJassHandle);
-        public static GetItemFromHandlePrototype GetItemFromHandle;
+        public static CItemPtr GetItemFromHandle(IntPtr item)
+        {
+            return FastCall.Invoke<CItemPtr>(GameAddresses.GetItemFromHandle, item);
+        }
 
         /// <summary>
-        /// Takes a pointer to a char* and returns a JassStringIndex.
+        /// Gets a item from a item jass handle.
+        /// </summary>
+        /// <param name="itemJassHandle">The item jass handle.</param>
+        /// <returns>The item.</returns>
+        public static CItemPtr GetItemFromHandle(JassItem item)
+        {
+            return FastCall.Invoke<CItemPtr>(GameAddresses.GetItemFromHandle, item);
+        }
+
+        /// <summary>
+        /// Takes a pointer to a char* and returns a RCString reference.
         /// </summary>
         /// <param name="ansiStringPtr">The char* to convert.</param>
         /// <returns>The JassStringIndex</returns>
-        /// <remarks>We use __thiscall as a cheat for doing a fastcall with only one argument.</remarks>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate Int32 StringToJassStringIndexPrototype(IntPtr ansiStringPtr);
-        private static StringToJassStringIndexPrototype StringToJassStringIndexInternal;
-
-        public static Int32 StringToJassStringIndex(String s)
+        public static Int32 StringToJassStringIndex(String str)
         {
-            return GameFunctions.StringToJassStringIndexInternal(Marshal.StringToHGlobalAnsi(s));
+            return FastCall.Invoke<Int32>(GameAddresses.StringToJassStringIndex, Memory.StringAsPtr(str));
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate void CTriggerWar3__ExecutePrototype(CTriggerWar3Ptr @this, IntPtr a2);
-        public static CTriggerWar3__ExecutePrototype CTriggerWar3__Execute;
-
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate IntPtr JassStringManager__ResizePrototype(JassStringManager* @this, UInt32 newSize);
-        public static JassStringManager__ResizePrototype JassStringManager__Resize;
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate Int32 InitNativesPrototype();
-        public static InitNativesPrototype InitNatives;
-
-        /// <summary>
-        /// This is an argumentless __stdcall. It's used in the BindNative __fastcall workaround.
-        /// </summary>
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        private delegate void BindNativePrototype();
-        public static void BindNative(IntPtr functionPtr, String name, String prototype)
+        public static void CTriggerWar3__ExecutePrototype(CTriggerWar3Ptr @this, IntPtr a2)
         {
-            /* 
-             * Manual implementation of a __cdecl function calling a __fastcall function.
-             * 1. Allocate Executable memory.
-             * 2. Write the function.
-             * 3. Call the function.
-             * 4. Release allocated memory.
-             * TODO: Improve this to a more static function.
+            ThisCall.Invoke<IntPtr>(GameAddresses.CTriggerWar3__Execute, @this, a2);
+        }
 
-             * push, prototype string pointer
-             * mov edx, name string pointer
-             * mov ecx, function pointer
-             * call, BindNative pointer; Remember to calculate the relative offset
-             * retn
-             */
-            var code = new Byte[21];
+        public static IntPtr JassStringManager__ResizePrototype(JassStringManager* @this, UInt32 newSize)
+        {
+            return ThisCall.Invoke<IntPtr>(GameAddresses.JassStringManager__Resize, new IntPtr(@this), newSize);
+        }
 
-            using (var writer = new AssemblyWriter(new MemoryStream(code)))
-            {
-                var codePtr = Memory.Alloc(code.Length, MemoryProtection.ExecuteReadWrite);
+        public static IntPtr InitNatives()
+        {
+            return StdCall.Invoke<IntPtr>(GameAddresses.InitNatives);
+        }
 
-                writer.Write(Assembly.PushLV, prototype);
-                writer.Write(Assembly.MoveEDX, name);
-                writer.Write(Assembly.MoveECX, functionPtr);
-                writer.Write(Assembly.Call, (UInt32)GameAddresses.BindNative - (UInt32)codePtr - (UInt32)writer.BaseStream.Position - 5u); // -5u is to get back to the start of the call instruction, 5 is the size of the instruction.
-                writer.Write(Assembly.Return);
-
-                Marshal.Copy(code, 0, codePtr, code.Length);
-                var bindNative = Utility.PtrAsFunction<BindNativePrototype>(codePtr);
-                bindNative();
-                Memory.Free(codePtr);
-            }
+        public static void BindNative(IntPtr function, String name, String prototype)
+        {
+            FastCall.Invoke<IntPtr>(GameAddresses.BindNative, function, Memory.StringAsPtr(name), Memory.StringAsPtr(prototype));
         }
 
         public static void BindNative(Delegate function, String name, String prototype)
         {
-            GameFunctions.BindNative(Utility.FunctionAsPtr(function), name, prototype);
+            FastCall.Invoke<IntPtr>(GameAddresses.BindNative, Utility.FunctionAsPtr(function), Memory.StringAsPtr(name), Memory.StringAsPtr(prototype));
         }
 
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate JassPtr Jass__ConstructorPrototype(JassPtr jass);
-        public static Jass__ConstructorPrototype Jass__Constructor;
-
-        //int __thiscall sub_6F45E9D0(int this, int a2, int a3, int a4, int a5)
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate CodeResult VirtualMachine__RunCodePrototype(VirtualMachinePtr virtualMachine, IntPtr opCode, IntPtr a3, UInt32 opLimit, IntPtr a5);
-        public static VirtualMachine__RunCodePrototype VirtualMachine__RunCode;
-
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate IntPtr VirtualMachine__RunFunctionPrototype(VirtualMachinePtr virtualMachine, String functionName, Int32 a3, Int32 a4, Int32 a5, Int32 a6);
-        public static VirtualMachine__RunFunctionPrototype VirtualMachine__RunFunction;
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate ThreadLocalStorage* GetThreadLocalStoragePrototype();
-        public static GetThreadLocalStoragePrototype GetThreadLocalStorage;
-
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]  // A cheat for __fastcall when there is only one argument.
-        public delegate IntPtr JassStringHandleToStringPrototype(IntPtr stringJassHandle);
-        private static JassStringHandleToStringPrototype JassStringHandleToStringInternal;
-
-        public static String JassStringHandleToString(IntPtr stringJassHandle)
+        public static JassPtr Jass__Constructor(JassPtr @this)
         {
-            return Memory.PtrAsString(JassStringHandleToStringInternal(stringJassHandle));
+            return ThisCall.Invoke<JassPtr>(GameAddresses.Jass__Constructor, @this);
         }
 
-        // void* __fastcall sub_6F4786B0(void* a1)
-        // We use __thiscall as a cheat for doing a fastcall with only one argument.
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        unsafe public delegate IntPtr sub_6F4786B0Prototype(Int32* a1);
-        public static sub_6F4786B0Prototype sub_6F4786B0;
+        public static CodeResult VirtualMachine__RunCode(VirtualMachinePtr @this, IntPtr opCode, IntPtr a3, UInt32 opLimit, IntPtr a5)
+        {
+            return ThisCall.Invoke<CodeResult>(GameAddresses.VirtualMachine__RunCode, @this, opCode, a3, opLimit, a5);
+        }
 
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate IntPtr WndProcPrototype(IntPtr hWnd, UInt32 msg, UInt32 wParam, UInt32 lParam);
-        public static WndProcPrototype WndProc;
+        public static IntPtr VirtualMachine__RunFunction(VirtualMachinePtr @this, String functionName, IntPtr a3, IntPtr a4, IntPtr a5, IntPtr a6)
+        {
+            return ThisCall.Invoke<IntPtr>(GameAddresses.VirtualMachine__RunFunction, @this, functionName, a3, a4, a5, a6);
+        }
+
+        public static ThreadLocalStorage GetThreadLocalStorage()
+        {
+            return StdCall.Invoke<ThreadLocalStorage>(GameAddresses.GetThreadLocalStorage);
+        }
+
+        public static String JassStringHandleToString(IntPtr jassStringHandle)
+        {
+            return Memory.PtrAsString(FastCall.Invoke<IntPtr>(GameAddresses.JassStringHandleToString, jassStringHandle));
+        }
+
+        public static IntPtr sub_6F4786B0(Int32* a1)
+        {
+            return FastCall.Invoke<IntPtr>(GameAddresses.sub_6F4786B0, new IntPtr(a1));
+        }
+
+        public static IntPtr WndProc(IntPtr hWnd, UInt32 msg, UInt32 wParam, UInt32 lParam)
+        {
+            return StdCall.Invoke<IntPtr>(GameAddresses.WndProc, hWnd, msg, wParam, lParam);
+        }
 
         /// <summary>
         /// Prints a message.
@@ -261,9 +214,11 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         /// <param name="duration">The duration.</param>
         /// <param name="a5">Unknown</param>
         /// <returns>Unknown</returns>
-        [UnmanagedFunctionPointer(CallingConvention.ThisCall)]
-        public delegate IntPtr CSimpleMessageFrame__WriteLinePrototype(CSimpleMessageFramePtr @this, String message, ref Color color, Single duration, Int32 a5);
-        public static CSimpleMessageFrame__WriteLinePrototype CSimpleMessageFrame__WriteLine;
+        public static IntPtr CSimpleMessageFrame__WriteLine(CSimpleMessageFramePtr @this, String message, ref Color color, Single duration, Int32 a5)
+        {
+            fixed (Color* colorPtr = &color)
+                return ThisCall.Invoke<IntPtr>(GameAddresses.CSimpleMessageFrame__WriteLine, @this, message, new IntPtr(colorPtr), duration, a5);
+        }
 
         #region Utility Functions
 
@@ -271,7 +226,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule
         {
             unsafe
             {
-                return (IntPtr)((Int32)Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(GameFunctions.GetThreadLocalStorage()->Jass.AsIntPtr(), 0x0C)), 0x2874), 0x0008) + 0x10 * jassStringIndex);
+                return (IntPtr)((Int32)Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(Marshal.ReadIntPtr(GameFunctions.GetThreadLocalStorage().Jass.AsIntPtr(), 0x0C)), 0x2874), 0x0008) + 0x10 * jassStringIndex);
             }
             // the above code may be a bit confusing, but we're essentially doing the following, without needing to
             // find the function every patch, and avoid the convoluted class hierarchy.

@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {

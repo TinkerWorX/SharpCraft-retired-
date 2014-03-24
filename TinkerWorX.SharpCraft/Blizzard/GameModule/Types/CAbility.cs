@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using TinkerWorX.SharpCraft.Blizzard.Types;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
     [StructLayout(LayoutKind.Sequential/*, Size = unknown*/)]
-    unsafe public struct CAbility : IAgent<CAbilityPtr>
+    unsafe public struct CAbility : IAgentInternal<CAbilityPtr>
     {
         private static Dictionary<IntPtr, Boolean> isCAbilityDataUnique = new Dictionary<IntPtr, Boolean>();
 
@@ -28,7 +28,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public IntPtr field0028;
         public IntPtr field002C;
 
-        public CUnit* Owner; // - The unit that has the ability.
+        public CUnitInternal* Owner; // - The unit that has the ability.
         public ObjectIdL AbilityId; // - The ability id.
         public IntPtr field0038;
         public IntPtr field003C;
@@ -55,10 +55,10 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
                 return new IntPtr(pointer);
         }
 
-        public CAgent* ToBase()
+        public CAgentInternal* ToBase()
         {
             fixed (void* pointer = &this)
-                return (CAgent*)pointer;
+                return (CAgentInternal*)pointer;
         }
 
         public ObjectIdL GetClassId()

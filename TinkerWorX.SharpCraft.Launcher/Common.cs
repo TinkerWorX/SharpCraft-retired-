@@ -26,7 +26,7 @@ namespace TinkerWorX.SharpCraft.Launcher
         {
             if (Common.IsInitialized)
                 return;
-            
+
             var key = Registry.CurrentUser.OpenSubKey(@"Software\Blizzard Entertainment\Warcraft III");
             if (key == null)
                 throw new KeyNotFoundException("Could not find Warcraft III key in registry!" + Environment.NewLine + "To fix this, make sure you've launched Warcraft III at least once.");
@@ -95,7 +95,7 @@ namespace TinkerWorX.SharpCraft.Launcher
                 cmd += ' ' + args.Aggregate((a, b) => a + ' ' + b);
 
             Int32 processId;
-            RemoteHooking.CreateAndInject(Common.GamePath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId, "game", debug, Environment.CurrentDirectory, Common.InstallPath);
+            RemoteHooking.CreateAndInject(Common.GamePath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId, PluginContext.Game, debug, Environment.CurrentDirectory, Common.InstallPath);
             Console.WriteLine("Done!");
         }
 
@@ -149,7 +149,7 @@ namespace TinkerWorX.SharpCraft.Launcher
                 cmd += ' ' + args.Aggregate((a, b) => a + ' ' + b);
 
             Int32 processId;
-            RemoteHooking.CreateAndInject(Common.EditorPath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId,  "editor", debug, Environment.CurrentDirectory, Common.InstallPath);
+            RemoteHooking.CreateAndInject(Common.EditorPath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId, PluginContext.Editor, debug, Environment.CurrentDirectory, Common.InstallPath);
             Console.WriteLine("Done!");
         }
     }

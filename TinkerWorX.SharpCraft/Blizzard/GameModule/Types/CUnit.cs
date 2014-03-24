@@ -1,23 +1,113 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
+using TinkerWorX.SharpCraft.Blizzard.GameModule.Jass;
 using TinkerWorX.SharpCraft.Blizzard.Types;
 using TinkerWorX.SharpCraft.Types;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
+using TinkerWorX.SharpCraft.Utilities.UnmanagedCalls;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
-    [StructLayout(LayoutKind.Sequential, Size = 0x310)]
-    unsafe public struct CUnit : IAgent<CUnitPtr>
+    [StructLayout(LayoutKind.Sequential, Size = 0x04)]
+    public struct CUnit : IAgent<CUnitInternal>
     {
-        public static CUnit* FromHandle(IntPtr unitJassHandle)
+        unsafe public static CUnit FromPointer(CUnitInternal* pointer)
         {
-            return GameFunctions.GetUnitFromHandle(unitJassHandle).AsUnsafe();
+            return new CUnit(new IntPtr(pointer));
+        }
+
+        unsafe public static CUnit FromPointer(void* pointer)
+        {
+            return new CUnit(new IntPtr(pointer));
+        }
+
+        unsafe public static CUnit FromPointer(IntPtr pointer)
+        {
+            return new CUnit(pointer);
+        }
+
+        public static CUnit FromHandle(IntPtr handle)
+        {
+            return FastCall.Invoke<CUnit>(GameAddresses.GetUnitFromHandle, handle);
+        }
+
+        public static CUnit FromHandle(JassUnit unit)
+        {
+            return FastCall.Invoke<CUnit>(GameAddresses.GetUnitFromHandle, unit);
         }
 
 
 
-        public CUnitVTable* Virtual;
+        private readonly IntPtr pointer;
+
+        private CUnit(IntPtr pointer)
+        {
+            this.pointer = pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
+        }
+
+        unsafe public CUnitInternal* AsUnsafe()
+        {
+            return (CUnitInternal*)this.pointer;
+        }
+
+        public CAgent ToBase()
+        {
+            return CAgent.FromPointer(this.pointer);
+        }
+
+        public CAbilityPtr GetAbility(ObjectIdL ability)
+        {
+            unsafe { return this.AsUnsafe()->GetAbility(ability)->AsSafe(); }
+        }
+
+        public CAbilityPtr GetAttackAbility()
+        {
+            return this.GetAbility(new ObjectIdL("Aatk"));
+        }
+
+        public CAbilityPtr GetMovementAbility()
+        {
+            return this.GetAbility(new ObjectIdL("Amov"));
+        }
+
+        public CAbilityPtr GetHeroAbility()
+        {
+            return this.GetAbility(new ObjectIdL("AHer"));
+        }
+
+        public CAbilityPtr GetBuildAbility()
+        {
+            return this.GetAbility(new ObjectIdL("ANbu"));
+        }
+
+        public CAbilityPtr GetInventoryAbility()
+        {
+            return this.GetAbility(new ObjectIdL("AInv"));
+        }
+    }
+
+    [StructLayout(LayoutKind.Sequential, Size = 0x310)]
+    unsafe public struct CUnitInternal : IAgentInternal<CUnit>
+    {
+        public static CUnitInternal* FromHandle(IntPtr handle)
+        {
+            return FastCall.Invoke<CUnit>(GameAddresses.GetUnitFromHandle, handle).AsUnsafe();
+        }
+
+        public static CUnitInternal* FromHandle(JassUnit unit)
+        {
+            return FastCall.Invoke<CUnit>(GameAddresses.GetUnitFromHandle, unit).AsUnsafe();
+        }
+
+
+
+        public VTable* Virtual;
         public IntPtr field0004;
         public IntPtr field0008;
         public Int32 field000C;
@@ -276,10 +366,10 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
             }
         }
 
-        public CUnitPtr AsSafe()
+        public CUnit AsSafe()
         {
-            fixed (CUnit* pointer = &this)
-                return new CUnitPtr(pointer);
+            fixed (CUnitInternal* pointer = &this)
+                return CUnit.FromPointer(pointer);
         }
 
         public IntPtr AsIntPtr()
@@ -288,25 +378,15 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
                 return new IntPtr(pointer);
         }
 
-        public CAgent* ToBase()
+        public CAgentInternal* ToBase()
         {
             fixed (void* pointer = &this)
-                return (CAgent*)pointer;
-        }
-
-        public ObjectIdL GetClassId()
-        {
-            return this.ToBase()->GetClassId();
-        }
-
-        public String GetClassName()
-        {
-            return this.ToBase()->GetClassName();
+                return (CAgentInternal*)pointer;
         }
 
         public CAbility* GetAbility(ObjectIdL ability)
         {
-            return GameFunctions.CUnit__GetAbility(this.AsSafe(), ability, false, true, true, true).AsUnsafe();
+            return ThisCall.Invoke<CAbilityPtr>(GameAddresses.CUnit__GetAbility, ability, false, true, true, true).AsUnsafe();
         }
 
         public CAbilityAttack* GetAttackAbility()
@@ -338,7 +418,7 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         {
             var result = new List<CAbilityPtr>();
 
-            fixed (CUnit* @this = &this)
+            fixed (CUnitInternal* @this = &this)
             {
                 var v7 = @this->field01DC & @this->field01E0;
                 var v8 = &@this->field01DC;
@@ -359,68 +439,10 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 
             return result;
         }
-    }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CUnitPtr
-    {
-        public static CUnitPtr FromHandle(IntPtr unitJassHandle)
+        public struct VTable
         {
-            return GameFunctions.GetUnitFromHandle(unitJassHandle);
+            public IntPtr* Function;
         }
-
-
-
-        private IntPtr pointer;
-
-        unsafe public CUnitPtr(CUnit* pointer)
-        {
-            this.pointer = new IntPtr(pointer);
-        }
-
-        unsafe public CUnit* AsUnsafe()
-        {
-            return (CUnit*)this.pointer;
-        }
-
-        public IntPtr AsIntPtr()
-        {
-            return this.pointer;
-        }
-
-        public CAbilityPtr GetAbility(ObjectIdL ability)
-        {
-            return GameFunctions.CUnit__GetAbility(this, ability, false, true, true, true);
-        }
-
-        public CAbilityPtr GetAttackAbility()
-        {
-            return this.GetAbility(new ObjectIdL("Aatk"));
-        }
-
-        public CAbilityPtr GetMovementAbility()
-        {
-            return this.GetAbility(new ObjectIdL("Amov"));
-        }
-
-        public CAbilityPtr GetHeroAbility()
-        {
-            return this.GetAbility(new ObjectIdL("AHer"));
-        }
-
-        public CAbilityPtr GetBuildAbility()
-        {
-            return this.GetAbility(new ObjectIdL("ANbu"));
-        }
-
-        public CAbilityPtr GetInventoryAbility()
-        {
-            return this.GetAbility(new ObjectIdL("AInv"));
-        }
-    }
-
-    unsafe public struct CUnitVTable
-    {
-        public IntPtr* Function;
     }
 }

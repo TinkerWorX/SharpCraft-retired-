@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using TinkerWorX.SharpCraft.Blizzard.GameModule;
-using TinkerWorX.Windows;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft
 {

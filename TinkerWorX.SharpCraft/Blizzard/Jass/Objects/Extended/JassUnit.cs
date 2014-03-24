@@ -49,9 +49,9 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Jass
             return SafeNatives.CreateCorpse(player, unitid, x, y, facing);
         }
 
-        public CUnitPtr ToCUnit()
+        public CUnit ToCUnit()
         {
-            return CUnitPtr.FromHandle(this.Handle);
+            return CUnit.FromHandle(this.Handle);
         }
 
 

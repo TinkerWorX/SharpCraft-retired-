@@ -1,11 +1,58 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using TinkerWorX.Utilities;
+using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
 {
+    [StructLayout(LayoutKind.Sequential, Size = 0x04)]
+    public struct CGameUI
+    {
+        private IntPtr pointer;
+
+        unsafe public CGameUI(CGameUIInternal* pointer)
+        {
+            this.pointer = new IntPtr(pointer);
+        }
+
+        public CSimpleMessageFramePtr Message
+        {
+            get { unsafe { return this.AsUnsafe()->Message->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr UnitMessage
+        {
+            get { unsafe { return this.AsUnsafe()->UnitMessage->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr ChatMessage
+        {
+            get { unsafe { return this.AsUnsafe()->ChatMessage->AsSafe(); } }
+        }
+
+        public CSimpleMessageFramePtr TopMessage
+        {
+            get { unsafe { return this.AsUnsafe()->TopMessage->AsSafe(); } }
+        }
+
+        unsafe public CGameUIInternal* AsUnsafe()
+        {
+            return (CGameUIInternal*)this.pointer;
+        }
+
+        public IntPtr AsIntPtr()
+        {
+            return this.pointer;
+        }
+
+        public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
+        {
+
+            GameFunctions.CGameUI__DisplayChatMessage(this, sender, message, recipients, duration);
+        }
+    }
+
     [StructLayout(LayoutKind.Sequential, Size = 0x454)]
-    unsafe public struct CGameUI
+    unsafe public struct CGameUIInternal
     {
         public CGameUIVTable* Virtual;
         public IntPtr field0004;
@@ -285,10 +332,10 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         public IntPtr field044C;
         public IntPtr field0450;
 
-        public CGameUIPtr AsSafe()
+        public CGameUI AsSafe()
         {
-            fixed (CGameUI* pointer = &this)
-                return new CGameUIPtr(pointer);
+            fixed (CGameUIInternal* pointer = &this)
+                return new CGameUI(pointer);
         }
 
         public IntPtr AsIntPtr()
@@ -303,62 +350,8 @@ namespace TinkerWorX.SharpCraft.Blizzard.GameModule.Types
         }
     }
 
-    [StructLayout(LayoutKind.Sequential)]
-    public struct CGameUIPtr
-    {
-        private IntPtr pointer;
-
-        unsafe public CGameUIPtr(CGameUI* pointer)
-        {
-            this.pointer = new IntPtr(pointer);
-        }
-
-        public CSimpleMessageFramePtr Message
-        {
-            get { unsafe { return this.AsUnsafe()->Message->AsSafe(); } }
-        }
-
-        public CSimpleMessageFramePtr UnitMessage
-        {
-            get { unsafe { return this.AsUnsafe()->UnitMessage->AsSafe(); } }
-        }
-
-        public CSimpleMessageFramePtr ChatMessage
-        {
-            get { unsafe { return this.AsUnsafe()->ChatMessage->AsSafe(); } }
-        }
-
-        public CSimpleMessageFramePtr TopMessage
-        {
-            get { unsafe { return this.AsUnsafe()->TopMessage->AsSafe(); } }
-        }
-
-        unsafe public CGameUI* AsUnsafe()
-        {
-            return (CGameUI*)this.pointer;
-        }
-
-        public IntPtr AsIntPtr()
-        {
-            return this.pointer;
-        }
-
-        public void WriteChatMessage(Int32 sender, String message, ChatRecipients recipients, Single duration)
-        {
-            GameFunctions.CGameUI__DisplayChatMessage(this, sender, message, recipients, duration);
-        }
-    }
-
     unsafe public struct CGameUIVTable
     {
         public IntPtr* Function;
-    }
-
-    public enum ChatRecipients : int
-    {
-        All = 0,
-        Allies = 1,
-        ObserversReferees = 2,
-        Private = 3
     }
 }
