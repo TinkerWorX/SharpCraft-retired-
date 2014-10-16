@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Runtime.InteropServices;
 using System.Text;
+using TinkerWorX.SharpCraft.Windows;
 
 namespace TinkerWorX.SharpCraft.Utilities.UnmanagedCalls
 {
@@ -27,7 +28,7 @@ namespace TinkerWorX.SharpCraft.Utilities.UnmanagedCalls
             InvokeFastCallHandle = GCHandle.Alloc(InvokeFastCallCode, GCHandleType.Pinned);
             //Make the native method executable
             uint old;
-            VirtualProtect(InvokeFastCallHandle.AddrOfPinnedObject(), (IntPtr)InvokeFastCallCode.Length, 0x40, out old);
+            Kernel32.VirtualProtect(InvokeFastCallHandle.AddrOfPinnedObject(), InvokeFastCallCode.Length, 0x40, out old);
         }
 
         public static TReturned Invoke<TReturned>(IntPtr address, params Object[] parameters) where TReturned : struct
@@ -65,8 +66,5 @@ namespace TinkerWorX.SharpCraft.Utilities.UnmanagedCalls
             Array.Copy(input, 0, newArray, 1, input.Length);
             return newArray;
         }
-
-        [DllImport("kernel32.dll", SetLastError = true)]
-        static extern bool VirtualProtect(IntPtr address, IntPtr size, UInt32 protect, out UInt32 oldProtect);
     }
 }

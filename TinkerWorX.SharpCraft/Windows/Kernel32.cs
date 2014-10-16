@@ -45,6 +45,9 @@ namespace TinkerWorX.SharpCraft.Windows
         public static extern IntPtr VirtualAlloc(IntPtr address, Int32 size, AllocationType allocationType, MemoryProtection protection);
 
         [DllImport("kernel32.dll", SetLastError = true)]
+        public static extern Boolean VirtualProtect(IntPtr address, Int32 size, UInt32 protect, out UInt32 oldProtect);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
         public static extern Boolean VirtualFree(IntPtr address, Int32 size, MemoryFreeType freeType);
 
         [DllImport("kernel32.dll", SetLastError = true)]

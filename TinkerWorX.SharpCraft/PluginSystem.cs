@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using TinkerWorX.SharpCraft.Utilities;
-using Assembly = System.Reflection.Assembly;
 
 namespace TinkerWorX.SharpCraft
 {

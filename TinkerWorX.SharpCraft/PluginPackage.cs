@@ -22,7 +22,7 @@ namespace TinkerWorX.SharpCraft
             {
                 var contents = PluginPackageContentsXml.FromStream(stream);
 
-                package = new PluginPackage(contents.Id, contents.Name, contents.Version, contents.Target, contents.Type);
+                package = new PluginPackage(contents.Id, contents.Name, contents.Version, contents.Target);
 
                 foreach (var file in contents.Files)
                 {
@@ -52,7 +52,7 @@ namespace TinkerWorX.SharpCraft
             {
                 var contents = PluginPackageContentsXml.FromStream(stream);
 
-                package = new PluginPackage(contents.Id, contents.Name, contents.Version, contents.Target, contents.Type);
+                package = new PluginPackage(contents.Id, contents.Name, contents.Version, contents.Target);
                 foreach (var file in contents.Files)
                 {
                     var path = Path.Combine(directory, file.Name);
@@ -79,20 +79,17 @@ namespace TinkerWorX.SharpCraft
 
         private List<PluginPackageReference> references = new List<PluginPackageReference>();
 
-        public PluginPackage(String id, String name, Version version, Version target, PluginPackageType type)
+        public PluginPackage(String id, String name, Version version, Version target)
         {
             this.Id = id;
             this.Name = name;
             this.Version = version;
             this.Target = target;
-            this.Type = type;
         }
 
         public String Id { get; private set; }
 
         public String Name { get; private set; }
-
-        public PluginPackageType Type { get; private set; }
 
         public Version Version { get; private set; }
 
@@ -148,10 +145,6 @@ namespace TinkerWorX.SharpCraft
         [XmlAttribute("name")]
         public String Name;
 
-        [XmlAttribute("type")]
-        public String TypeValue = PluginPackageType.Safe.ToString();
-        public PluginPackageType Type { get { return (PluginPackageType)Enum.Parse(typeof(PluginPackageType), this.TypeValue, true); } }
-
         [XmlAttribute("target")]
         public String TargetValue = new Version(0, 0, 0, 0).ToString();
         public Version Target
@@ -169,12 +162,6 @@ namespace TinkerWorX.SharpCraft
 
         [XmlElement("file")]
         public List<PluginPackageFileXml> Files = new List<PluginPackageFileXml>();
-    }
-
-    public enum PluginPackageType
-    {
-        Safe,
-        Full
     }
 
     public class PluginPackageReferenceXml
