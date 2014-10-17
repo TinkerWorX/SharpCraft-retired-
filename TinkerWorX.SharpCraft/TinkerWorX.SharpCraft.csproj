@@ -87,6 +87,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="Types\Point2.cs" />
+    <Compile Include="Types\Vector2.cs" />
+    <Compile Include="Types\Vector3.cs" />
     <Compile Include="Utilities\ConcurrentBagListener.cs" />
     <Compile Include="Utilities\DependencySorter.cs" />
     <Compile Include="Utilities\DynamicModule.cs" />
