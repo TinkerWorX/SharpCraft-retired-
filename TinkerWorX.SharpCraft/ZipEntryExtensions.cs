@@ -13,6 +13,7 @@ namespace TinkerWorX.SharpCraft
         {
             var stream = new MemoryStream();
             @this.Extract(stream);
+            stream.Seek(0, SeekOrigin.Begin);
             return stream;
         }
 
