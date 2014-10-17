@@ -3,30 +3,6 @@ SharpCraft
 
 SharpCraft is a library that helps modding Warcraft III: The Frozen Throne.
 
-
-Features
-========
-
-Currently it's possible to add custom natives which are functions for the internal Warcraft III scripting language JASS. It's also possible to call existing natives to access game functionality from the plugin-side.
-
-APIs
-=======
-SharpCraft comes with three different base classes to use and a plugin system.
-
-```csharp
-abstract class FullPluginBase; // This class is for plugins that need full access, which means file writing and more.
-abstract class SafePluginBase; // This class is for plugins that only need safe access.
-abstract class MapScriptBase;  // This class is for internal war3map.cs scripts. It is similar to SafePluginBase.
-```
-
-All classes have access to the following members.
-```csharp
-interface IInputFullAPI/IInputSafeAPI Input; // Keyboard, mouse, etc.
-interface IInterfaceFullAPI/IInterfaceSafeAPI Interface; // FPS
-interface IJassFullAPI/IJassSafeAPI Jass; // Config/Main events.
-interface INativesFullAPI/INativesSafeAPI Natives; // Calling natives, adding natives, etc.
-```
-
 Credits
 =======
  * MindWorX - for all initial development of SharpCraft
