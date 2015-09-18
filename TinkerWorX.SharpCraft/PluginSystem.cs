@@ -11,56 +11,105 @@ namespace TinkerWorX.SharpCraft
 {
     internal static class PluginSystem
     {
-        private static String rootFolder;
+        private static String folder;
 
-        private static String packFolder;
+        private static PluginContext context;
 
-        private static String tempFolder;
+        private static List<IPlugin> plugins = new List<IPlugin>();
 
-        private static List<PluginPackage> packages = new List<PluginPackage>();
+        private static List<IMapPlugin> mapPlugins = new List<IMapPlugin>();
 
-        private static List<String> assemblyPaths = new List<String>();
+        private static Dictionary<String, String> assemblies = new Dictionary<String, String>();
 
-        private static List<PluginBase> plugins = new List<PluginBase>();
+        static PluginSystem() { }
 
-        public static void LoadPlugins(String folder)
+        public static void LoadPlugins(String folder, PluginContext context)
         {
             try
             {
-                Trace.Write("Preparing folders . . . ");
-                Trace.Indent();
-                PrepareFolders(folder);
-                Trace.Unindent();
-                Trace.WriteLine("done!");
+                PluginSystem.folder = folder;
+                PluginSystem.context = context;
 
-                Trace.WriteLine("Loading packages . . .");
-                Trace.Indent();
-                LoadPackages();
-                Trace.Unindent();
-                Trace.WriteLine(" - Done!");
+                Assembly.ReflectionOnlyLoadFrom(Path.Combine(folder, @"..\SharpCraft.dll"));
 
-                Trace.WriteLine("Checking references . . .");
+                var list = new DependencySorter<String>();
+                Trace.WriteLine("Locating plugins . . .");
                 Trace.Indent();
-                CheckReferences();
-                SortPackages();
+                var sw = Stopwatch.StartNew();
+                foreach (var file in Directory.GetFiles(folder, "*.dll", SearchOption.AllDirectories))
+                {
+                    try
+                    {
+                        Trace.WriteLine("File: " + Path.GetFileName(file));
+                        Trace.Indent();
+                        var assembly = Assembly.ReflectionOnlyLoadFrom(file);
+                        foreach (var type in assembly.GetTypes().Where(t => t.Implements<IPlugin>()))
+                        {
+                            try
+                            {
+                                Trace.WriteLine("Type: " + type.FullName);
+                                assemblies.Add(type.FullName, file);
+                                list.AddObjects(type.FullName);
+                                Trace.Indent();
+                                foreach (var requires in type.GetRequires())
+                                {
+                                    list.SetDependencies(type.FullName, requires);
+                                    Trace.WriteLine("Requires: " + requires);
+                                }
+                                Trace.Unindent();
+                            }
+                            catch (Exception e)
+                            {
+                                Trace.WriteLine("Exception: " + e.Message);
+                            }
+                        }
+                        Trace.Unindent();
+                    }
+                    catch (ReflectionTypeLoadException e)
+                    {
+                        Trace.WriteLine("Exception: " + e);
+                        Trace.Indent();
+                        foreach (var exception in e.LoaderExceptions)
+                        {
+                            Trace.WriteLine("LoaderException: " + exception);
+                        }
+                        Trace.Unindent();
+                    }
+                }
+                sw.Stop();
+                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
                 Trace.Unindent();
-                Trace.WriteLine(" - Done!");
 
-                Trace.WriteLine("Extracting packages . . .");
+                Trace.WriteLine("Loading plugin assemblies and instanciating types. . .");
                 Trace.Indent();
-                ExtractPackages();
-                InitializePackages();
+                sw.Restart();
+                foreach (var s in list.Sort())
+                {
+                    Trace.WriteLine("Loading assembly '" + assemblies[s] + "' for type '" + s + "'");
+                    plugins.Add((IPlugin)Activator.CreateInstance(assemblies[s], s).Unwrap());
+                }
+                sw.Stop();
+                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
                 Trace.Unindent();
-                Trace.WriteLine(" - Done!");
-            }
-            catch (CircularReferenceException)
-            {
-                MessageBox.Show(
-                    "Fatal exception!" + Environment.NewLine +
-                    "There was a circular reference issue with the plugins." + Environment.NewLine +
-                    "Aborting execution!",
-                    typeof(PluginSystem) + ".Initialize()", MessageBoxButton.OK, MessageBoxImage.Error);
-                Process.GetCurrentProcess().Kill();
+
+                Trace.WriteLine("Initializing plugins . . .");
+                Trace.Indent();
+                sw.Restart();
+                foreach (var plugin in plugins)
+                {
+                    Trace.WriteLine("Initializing " + plugin.GetType().FullName);
+                    try
+                    {
+                        plugin.Initialize(context);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine(e);
+                    }
+                }
+                sw.Stop();
+                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
+                Trace.Unindent();
             }
             catch (Exception exception)
             {
@@ -73,193 +122,71 @@ namespace TinkerWorX.SharpCraft
             }
         }
 
-        public static void Initialize(PluginContext context)
+        public static void OnGameLoad()
         {
-            foreach (var plugin in plugins)
+            try
             {
-                plugin.Initialize(context);
-            }
-        }
-
-        public static void OnGameLoad(PluginContext context)
-        {
-            foreach (var plugin in plugins)
-            {
-                plugin.OnGameLoad(context);
-            }
-        }
-
-        private static void PrepareFolders(String folder)
-        {
-            rootFolder = folder;
-
-            packFolder = Path.Combine(rootFolder, "plugins");
-            if (!Directory.Exists(packFolder))
-                Directory.CreateDirectory(packFolder);
-
-            // Clear out any previous binaries.
-            tempFolder = Path.Combine(rootFolder, "temp");
-            if (Directory.Exists(tempFolder))
-                Directory.Delete(tempFolder, true);
-            var dir = Directory.CreateDirectory(tempFolder);
-            dir.Attributes |= FileAttributes.Hidden;
-        }
-
-        private static void LoadPackages()
-        {
-            foreach (var file in Directory.GetFiles(packFolder))
-            {
-                if (!file.ToLower().EndsWith(".zip"))
-                    continue;
-
-                try
-                {
-                    packages.Add(PluginPackage.FromArchive(file));
-                    Trace.WriteLine("Loading archive '" + Path.GetFileName(file) + "'.");
-                }
-                catch (FileNotFoundException e)
-                {
-                    Trace.WriteLine("Error in: '" + Path.GetFileName(file) + "': '" + e.FileName + "' is missing from the archive.");
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("Error in: '" + Path.GetFileName(file) + "': " + e);
-                }
-            }
-
-            foreach (var directory in Directory.GetDirectories(packFolder))
-            {
-                if (!directory.ToLower().EndsWith(".zip"))
-                    continue;
-
-                try
-                {
-                    packages.Add(PluginPackage.FromDirectory(directory));
-                    Trace.WriteLine("Loading directory '" + Path.GetFileName(directory) + "'.");
-                }
-                catch (FileNotFoundException e)
-                {
-                    Trace.WriteLine("Error in: '" + Path.GetFileName(directory) + "': '" + e.FileName + "' is missing from the directory.");
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("Error in: '" + Path.GetFileName(directory) + "': " + e);
-                }
-            }
-        }
-
-        private static void CheckReferences()
-        {
-            var invalid = new List<PluginPackage>();
-            foreach (var package in packages)
-            {
-                foreach (var reference in package.References)
-                {
-                    var referencePackage = packages.FirstOrDefault(p => p.Id == reference.Id);
-                    if (referencePackage == null)
-                    {
-                        Trace.WriteLine("'" + package.Name + "' is missing reference '" + reference.Id + "'!");
-                        invalid.Add(package);
-                        continue;
-                    }
-                    if (referencePackage.Version != reference.Version)
-                    {
-                        Trace.WriteLine("'" + package.Name + "' references '" + reference.Id + "' version " + reference.Version + " but only version " + referencePackage.Version + " is available!");
-                        invalid.Add(package);
-                        continue;
-                    }
-                }
-            }
-            foreach (var package in invalid)
-                packages.Remove(package);
-
-            // Keep checking until we have no more missing references.
-            if (invalid.Count > 0)
-                CheckReferences();
-        }
-
-        private static void SortPackages()
-        {
-            var dependencySorter = new DependencySorter<PluginPackage>();
-            foreach (var package in packages)
-            {
-                Trace.WriteLine("Sorting " + package.Name);
-                dependencySorter.AddObjects(package);
-                var dependencies = new List<PluginPackage>();
-                foreach (var reference in package.References)
-                {
-                    dependencies.Add(packages.First(p => p.Id == reference.Id));
-                }
-                if (dependencies.Count > 0)
-                    dependencySorter.SetDependencies(package, dependencies.ToArray());
-            }
-            packages = dependencySorter.Sort().ToList();
-        }
-
-        private static void ExtractPackages()
-        {
-            foreach (var package in packages)
-            {
-                Trace.WriteLine("Preparing " + package.Name);
-                foreach (var packageFile in package.Files)
-                {
-                    var name = package.Id + "-" + packageFile.Name;
-
-                    // Fix invalid characters.
-                    foreach (var c in Path.GetInvalidPathChars())
-                    {
-                        name = name.Replace(c, '-');
-                    }
-                    var path = Path.Combine(tempFolder, name + ".dll");
-                    assemblyPaths.Add(path);
-                    using (var stream = File.Open(path, FileMode.CreateNew, FileAccess.Write, FileShare.Write))
-                    using (var writer = new BinaryWriter(stream))
-                    {
-                        writer.Write(packageFile.Data);
-                    }
-                }
-            }
-        }
-
-        private static void InitializePackages()
-        {
-            foreach (var package in packages)
-            {
-                Trace.WriteLine("Initializing " + package.Name + "!");
+                Trace.WriteLine("OnGameLoad plugins . . .");
                 Trace.Indent();
-                foreach (var packageFile in package.Files)
+                var sw = Stopwatch.StartNew();
+                try
                 {
-                    var name = package.Id + "-" + packageFile.Name;
-                    Trace.Write("Loading " + packageFile.Name);
-
-                    // Fix invalid characters.
-                    foreach (var c in Path.GetInvalidPathChars())
-                    {
-                        name = name.Replace(c, '-');
-                    }
-
-                    var path = Path.Combine(tempFolder, name + ".dll");
-
-                    try
-                    {
-                        var assembly = Assembly.LoadFrom(path);
-                        Trace.WriteLine(" . done!");
-                        Trace.Indent();
-                        foreach (var type in assembly.GetTypes())
-                        {
-                            if (typeof(PluginBase).IsAssignableFrom(type))
-                                plugins.Add((PluginBase)Activator.CreateInstance(type));
-                        }
-                        Trace.Unindent();
-
-                    }
-                    catch (BadImageFormatException)
-                    {
-                        Trace.WriteLine(" . invalid assembly!");
-                    }
+                    foreach (var plugin in plugins)
+                        plugin.OnGameLoad(context);
                 }
+                catch (Exception e)
+                {
+                    Trace.WriteLine("OnGameLoad: " + e);
+                }
+                sw.Stop();
+                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
                 Trace.Unindent();
             }
+            catch (Exception exception)
+            {
+                MessageBox.Show(
+                    "Fatal exception!" + Environment.NewLine +
+                    exception + Environment.NewLine +
+                    "Aborting execution!",
+                    typeof(PluginSystem) + ".OnGameLoad()", MessageBoxButton.OK, MessageBoxImage.Error);
+                Process.GetCurrentProcess().Kill();
+            }
+        }
+
+        public static void OnMapStart()
+        {
+            var file = Storm.FileOpenFileEx(IntPtr.Zero, "(listfile)", 0);
+            if (file != IntPtr.Zero)
+            {
+                Trace.WriteLine("Files");
+                var listfile = Storm.FileReadToEnd(file);
+                Storm.FileCloseFile(file);
+                var files = listfile.Replace("\r\n", "*").Replace("\r", "*").Replace("\n", "*").Split('*');
+                for (var i = 0; i < files.Length - 1; i++)
+                {
+                    Trace.WriteLine(" * '" + files[i] + "'");
+                    if (files[i].EndsWith(".dll"))
+                    {
+                        var f = Storm.FileOpenFileEx(IntPtr.Zero, files[i], 0);
+                        var d = Storm.FileReadAll(f);
+                        Storm.FileCloseFile(f);
+                        var a = Assembly.Load(d);
+                        foreach (var t in a.GetTypes())
+                            if (typeof(IMapPlugin).IsAssignableFrom(t))
+                                mapPlugins.Add((IMapPlugin)Activator.CreateInstance(t));
+                    }
+                }
+            }
+
+            foreach (var mapPlugin in mapPlugins)
+                mapPlugin.OnMapStart();
+        }
+
+        public static void OnMapEnd()
+        {
+            foreach (var mapPlugin in mapPlugins)
+                mapPlugin.OnMapEnd();
+            mapPlugins.Clear();
         }
     }
 }

@@ -5,9 +5,10 @@ using System.Text;
 
 namespace TinkerWorX.SharpCraft
 {
-    public enum PluginContext
+    public interface IMapPlugin
     {
-        Game,
-        Editor
+        void OnMapStart();
+
+        void OnMapEnd();
     }
 }

@@ -42,9 +42,6 @@
     <Reference Include="EasyHook">
       <HintPath>..\Assemblies\EasyHook.dll</HintPath>
     </Reference>
-    <Reference Include="Ionic.Zip">
-      <HintPath>..\Assemblies\Ionic.Zip.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.CSharp, Version=4.0.0.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Assemblies\Mono.CSharp.dll</HintPath>
@@ -65,14 +62,17 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Addresses.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
       <DependentUpon>DebuggerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntryPoint.cs" />
-    <Compile Include="PluginBase.cs" />
+    <Compile Include="IMapPlugin.cs" />
+    <Compile Include="RequiresAttribute.cs" />
+    <Compile Include="Storm.cs" />
+    <Compile Include="IPlugin.cs" />
     <Compile Include="PluginContext.cs" />
-    <Compile Include="PluginPackage.cs" />
     <Compile Include="PluginSystem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -87,6 +87,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="TypeExtensions.cs" />
     <Compile Include="Types\Point2.cs" />
     <Compile Include="Types\Vector2.cs" />
     <Compile Include="Types\Vector3.cs" />
@@ -111,7 +112,6 @@
     <Compile Include="Windows\User32.cs" />
     <Compile Include="Windows\WindowsHookId.cs" />
     <Compile Include="Windows\WindowsMessage.cs" />
-    <Compile Include="ZipEntryExtensions.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

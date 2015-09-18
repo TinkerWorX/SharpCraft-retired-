@@ -5,9 +5,10 @@ using System.Text;
 
 namespace TinkerWorX.SharpCraft
 {
-    public enum PluginContext
+    public interface IPlugin
     {
-        Game,
-        Editor
+        void Initialize(PluginContext context);
+
+        void OnGameLoad(PluginContext context);
     }
 }

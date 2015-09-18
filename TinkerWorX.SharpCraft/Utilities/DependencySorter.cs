@@ -177,9 +177,6 @@ namespace TinkerWorX.SharpCraft.Utilities
         /// <summary>
         /// Initializes a new instance of the <see cref="CircularReferenceException"/> class.
         /// </summary>
-        public CircularReferenceException()
-            : base("Circular reference found.")
-        {
-        }
+        public CircularReferenceException() : base("Circular reference found.") { }
     }
 }
