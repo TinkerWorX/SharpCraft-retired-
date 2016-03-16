@@ -7,7 +7,7 @@ namespace TinkerWorX.SharpCraft
 {
     internal static class Addresses
     {
-        // === INSTRUCTIONS ===
+        // === INSTRUCTIONS, FROM AN OLDER VERSION, STILL VALID ===
         // 1. Hit "Alt + B" to search for the following byte sequence, 
         //     including the quotes: ".?AUAgent2HandleReg@@". This should return one
         //     result, looking similar to this:
@@ -50,6 +50,6 @@ namespace TinkerWorX.SharpCraft
         // 8. sub_6F3A2EC0 is the game_state function.
         // 7. Using the image base, you rebase this address like this:
         //     6F3A2EC0 - 6F000000 = 003A2EC0
-        public const Int32 Unknown__SetStateOffset = 0x3A2EC0;
+        public const Int32 Unknown__SetStateOffset = 0x1C1F20;
     }
 }
