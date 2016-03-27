@@ -63,12 +63,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addresses.cs" />
+    <Compile Include="DescriptionAttribute.cs" />
+    <Compile Include="VersionAttribute.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
       <DependentUpon>DebuggerWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="EntryPoint.cs" />
     <Compile Include="IMapPlugin.cs" />
+    <Compile Include="AuthorAttribute.cs" />
+    <Compile Include="SupportAttribute.cs" />
     <Compile Include="RequiresAttribute.cs" />
     <Compile Include="Storm.cs" />
     <Compile Include="IPlugin.cs" />
