@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using EasyHook;
 using TinkerWorX.SharpCraft.Windows;
+using System.Text;
 
 namespace TinkerWorX.SharpCraft.Utilities
 {
@@ -43,7 +44,8 @@ namespace TinkerWorX.SharpCraft.Utilities
 
         public static void WriteString(IntPtr address, String data)
         {
-            Memory.Write(address, Marshal.StringToHGlobalAnsi(data));
+            Marshal.Copy(Encoding.ASCII.GetBytes(data), 0, address, Encoding.ASCII.GetByteCount(data));
+            Marshal.WriteByte(address + Encoding.ASCII.GetByteCount(data), 0x00); // null terminate
         }
 
         public static T InstallHook<T>(IntPtr address, T newFunc, Boolean inclusive, Boolean exclusive) where T : class
