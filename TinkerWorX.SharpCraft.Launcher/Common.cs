@@ -13,22 +13,17 @@ namespace TinkerWorX.SharpCraft.Launcher
 {
     internal static class Common
     {
-        public static Boolean IsInitialized
-        { get; private set; }
+        public static bool IsInitialized { get; private set; }
 
-        public static String InstallPath
-        { get; private set; }
+        public static string InstallPath { get; private set; }
 
-        public static String GamePath
-        { get; private set; }
+        public static string GamePath { get; private set; }
 
-        public static String EditorPath
-        { get; private set; }
+        public static string EditorPath { get; private set; }
 
-        public static String Version
-        { get { return FileVersionInfo.GetVersionInfo(typeof(SharpCraftApplication).Assembly.Location).FileVersion; } }
+        public static string Version { get { return FileVersionInfo.GetVersionInfo(typeof(SharpCraftApplication).Assembly.Location).FileVersion; } }
 
-        public static Boolean Initialize()
+        public static bool Initialize()
         {
             if (!Common.IsInitialized)
             {
@@ -82,7 +77,7 @@ namespace TinkerWorX.SharpCraft.Launcher
             return true;
         }
 
-        public static void StartGame(String[] args)
+        public static void StartGame(string[] args)
         {
             if (!Common.Initialize())
                 return;
@@ -128,16 +123,14 @@ namespace TinkerWorX.SharpCraft.Launcher
             }
 
             Console.Write("Creating and injecting into Warcraft III . . . ");
-            var cmd = '"' + Common.GamePath + '"';
-            if (args.Length > 0)
-                cmd += ' ' + args.Aggregate((a, b) => a + ' ' + b);
+            var cmd = args.Aggregate((a, b) => a + ' ' + b);
 
-            Int32 processId;
+            int processId;
             RemoteHooking.CreateAndInject(Common.GamePath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId, PluginContext.Game, debug, Environment.CurrentDirectory, Common.InstallPath);
             Console.WriteLine("Done!");
         }
 
-        public static void StartEditor(String[] args)
+        public static void StartEditor(string[] args)
         {
             if (!Common.Initialize())
                 return;
@@ -147,9 +140,9 @@ namespace TinkerWorX.SharpCraft.Launcher
             if (!File.Exists(Path.Combine(Environment.CurrentDirectory, "SharpCraft.dll")))
                 throw new FileNotFoundException("Could not find SharpCraft.dll!" + Environment.NewLine + "You may need to redownload SharpCraft.", "SharpCraft.dll");
 
-            Boolean kill = false;
-            Boolean debug = false;
-            Boolean valid = true;
+            bool kill = false;
+            bool debug = false;
+            bool valid = true;
             while (valid && args.Length > 0)
             {
                 switch (args[0])
@@ -183,11 +176,9 @@ namespace TinkerWorX.SharpCraft.Launcher
             }
 
             Console.Write("Creating and injecting into World Editor . . . ");
-            var cmd = '"' + Common.EditorPath + '"';
-            if (args.Length > 0)
-                cmd += ' ' + args.Aggregate((a, b) => a + ' ' + b);
+            var cmd = args.Aggregate((a, b) => a + ' ' + b);
 
-            Int32 processId;
+            int processId;
             RemoteHooking.CreateAndInject(Common.EditorPath, cmd, 0, "SharpCraft.dll", "SharpCraft.dll", out processId, PluginContext.Editor, debug, Environment.CurrentDirectory, Common.InstallPath);
             Console.WriteLine("Done!");
         }

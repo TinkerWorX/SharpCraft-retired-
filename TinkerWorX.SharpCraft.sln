@@ -1,11 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Notes", "Notes", "{452DE0BE-83F9-455D-B6CD-241E37E78CB2}"
-	ProjectSection(SolutionItems) = preProject
-		Notes\Editor.txt = Notes\Editor.txt
-	EndProjectSection
-EndProject
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.SharpCraft.Launcher", "TinkerWorX.SharpCraft.Launcher\TinkerWorX.SharpCraft.Launcher.csproj", "{F304FC92-805A-487B-B47B-5C9378269E21}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TinkerWorX.SharpCraft", "TinkerWorX.SharpCraft\TinkerWorX.SharpCraft.csproj", "{9D3B4267-60FA-4CDE-BECD-0B97A9F4ED7B}"

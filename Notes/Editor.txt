@@ -1,3 +1,0 @@
-The string "WESTRING_SAVING_MAPSCRIPT_VALIDATE" is used in the function that validates the map script. - Useful for injecting a preprocessor.
-
-http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/328263-wow-1-12-1-5875-info-dump-thread-2.html
