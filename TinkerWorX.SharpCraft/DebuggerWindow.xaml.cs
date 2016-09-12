@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -21,17 +22,23 @@ namespace TinkerWorX.SharpCraft
             CompositionTarget.Rendering += CompositionTarget_Rendering;
         }
 
-        private void CompositionTarget_Rendering(Object sender, EventArgs e)
+        private void CompositionTarget_Rendering(object sender, EventArgs e)
         {
             string message;
+            var messages = new StringBuilder();
             while (this.listener.Messages.TryTake(out message))
             {
-                this.OutputTextBox.Text += message;
-                this.OutputTextBox.ScrollToEnd();
+                messages.Append(message);
             }
+            if (messages.Length > 0)
+            {
+                this.OutputTextBox.Text += messages.ToString();
+            }
+            if (this.AutoScrollCheckBox.IsChecked ?? false)
+                this.OutputTextBox.ScrollToEnd();
         }
 
-        private void InputTextBox_PreviewKeyDown(Object sender, KeyEventArgs e)
+        private void InputTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
