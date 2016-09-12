@@ -33,9 +33,9 @@ namespace TinkerWorX.SharpCraft
             if (messages.Length > 0)
             {
                 this.OutputTextBox.Text += messages.ToString();
-                if (this.AutoScrollCheckBox.IsChecked ?? false)
-                    this.OutputTextBox.ScrollToEnd();
             }
+            if (this.AutoScrollCheckBox.IsChecked ?? false)
+                this.OutputTextBox.ScrollToEnd();
         }
 
         private void InputTextBox_PreviewKeyDown(object sender, KeyEventArgs e)
