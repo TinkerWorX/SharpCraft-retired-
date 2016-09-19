@@ -143,10 +143,7 @@ namespace TinkerWorX.SharpCraft
 
 
                 // Prepare the OnGameLoad hook.
-                var address = LocalHook.GetProcAddress("kernel32.dll", "LoadLibraryA");
-                Trace.Write("Installing LoadLibraryA hook @ 0x" + address.ToString("X8") + " . ");
-                this.LoadLibraryA = Memory.InstallHook(address, new Kernel32.LoadLibraryAPrototype(this.LoadLibraryAHook), false, true);
-                Trace.WriteLine("installed!");
+                this.LoadLibraryA = Memory.InstallHook(LocalHook.GetProcAddress("kernel32.dll", "LoadLibraryA"), new Kernel32.LoadLibraryAPrototype(this.LoadLibraryAHook), false, true);
 
                 // Everyone has had their chance to inject stuff,
                 // time to wake up the process.
@@ -179,10 +176,7 @@ namespace TinkerWorX.SharpCraft
                     PluginSystem.OnGameLoad();
 
                     // Prepare the Unknown__SetState hook.
-                    var address = module + Addresses.Unknown__SetStateOffset;
-                    Trace.Write("Installing Unknown_SetState hook @ 0x" + address.ToString("X8") + " . ");
-                    this.Unknown__SetState = Memory.InstallHook(address, new Unknown__SetStateDelegate(this.Unknown__SetStateHook), true, false);
-                    Trace.WriteLine("installed!");
+                    this.Unknown__SetState = Memory.InstallHook(module + Addresses.Unknown__SetStateOffset, new Unknown__SetStateDelegate(this.Unknown__SetStateHook), true, false);
 
                     break;
             }
