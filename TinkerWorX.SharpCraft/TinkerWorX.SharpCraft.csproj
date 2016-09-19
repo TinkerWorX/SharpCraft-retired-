@@ -62,6 +62,8 @@
   <ItemGroup>
     <Compile Include="Addresses.cs" />
     <Compile Include="DescriptionAttribute.cs" />
+    <Compile Include="Blizzard\Storm\SMem.cs" />
+    <Compile Include="Blizzard\Storm\SStr.cs" />
     <Compile Include="VersionAttribute.cs" />
     <Compile Include="DebuggerApplication.cs" />
     <Compile Include="DebuggerWindow.xaml.cs">
@@ -72,7 +74,7 @@
     <Compile Include="AuthorAttribute.cs" />
     <Compile Include="SupportAttribute.cs" />
     <Compile Include="RequiresAttribute.cs" />
-    <Compile Include="Storm.cs" />
+    <Compile Include="Blizzard\Storm\SFile.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="PluginContext.cs" />
     <Compile Include="PluginSystem.cs" />

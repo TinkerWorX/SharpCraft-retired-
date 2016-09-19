@@ -155,21 +155,21 @@ namespace TinkerWorX.SharpCraft
 
         public static void OnMapStart()
         {
-            var file = Storm.FileOpenFileEx(IntPtr.Zero, "(listfile)", 0);
+            var file = SFile.OpenFileEx(IntPtr.Zero, "(listfile)", 0);
             if (file != IntPtr.Zero)
             {
                 Trace.WriteLine("Files");
-                var listfile = Storm.FileReadToEnd(file);
-                Storm.FileCloseFile(file);
+                var listfile = SFile.ReadFileToEnd(file);
+                SFile.FileCloseFile(file);
                 var files = listfile.Replace("\r\n", "*").Replace("\r", "*").Replace("\n", "*").Split('*');
                 for (var i = 0; i < files.Length - 1; i++)
                 {
                     Trace.WriteLine(" * '" + files[i] + "'");
                     if (files[i].EndsWith(".dll"))
                     {
-                        var f = Storm.FileOpenFileEx(IntPtr.Zero, files[i], 0);
-                        var d = Storm.FileReadAll(f);
-                        Storm.FileCloseFile(f);
+                        var f = SFile.OpenFileEx(IntPtr.Zero, files[i], 0);
+                        var d = SFile.ReadFileToEnd(f);
+                        SFile.FileCloseFile(f);
                         var a = Assembly.Load(d);
                         foreach (var t in a.GetTypes())
                             if (typeof(IMapPlugin).IsAssignableFrom(t))
