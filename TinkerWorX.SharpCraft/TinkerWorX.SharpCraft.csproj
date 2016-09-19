@@ -61,6 +61,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Addresses.cs" />
+    <Compile Include="Blizzard\Storm\StormFileStream.cs" />
     <Compile Include="DescriptionAttribute.cs" />
     <Compile Include="Blizzard\Storm\SMem.cs" />
     <Compile Include="Blizzard\Storm\SStr.cs" />
