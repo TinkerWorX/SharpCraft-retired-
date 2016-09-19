@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using TinkerWorX.SharpCraft.Blizzard.Storm;
 using TinkerWorX.SharpCraft.Utilities;
 
 namespace TinkerWorX.SharpCraft
@@ -155,25 +156,26 @@ namespace TinkerWorX.SharpCraft
 
         public static void OnMapStart()
         {
-            var file = SFile.OpenFileEx(IntPtr.Zero, "(listfile)", 0);
-            if (file != IntPtr.Zero)
+            using (var listfileStream = new StormFileStream(SFile.OpenFileEx(IntPtr.Zero, "(listfile)", 0)))
+            using (var listfileReader = new StreamReader(listfileStream))
             {
                 Trace.WriteLine("Files");
-                var listfile = SFile.ReadFileToEnd(file);
-                SFile.FileCloseFile(file);
+                var listfile = listfileReader.ReadToEnd();
                 var files = listfile.Replace("\r\n", "*").Replace("\r", "*").Replace("\n", "*").Split('*');
                 for (var i = 0; i < files.Length - 1; i++)
                 {
                     Trace.WriteLine(" * '" + files[i] + "'");
                     if (files[i].EndsWith(".dll"))
                     {
-                        var f = SFile.OpenFileEx(IntPtr.Zero, files[i], 0);
-                        var d = SFile.ReadFileToEnd(f);
-                        SFile.FileCloseFile(f);
-                        var a = Assembly.Load(d);
-                        foreach (var t in a.GetTypes())
-                            if (typeof(IMapPlugin).IsAssignableFrom(t))
-                                mapPlugins.Add((IMapPlugin)Activator.CreateInstance(t));
+                        using (var pluginStream = new StormFileStream(SFile.OpenFileEx(IntPtr.Zero, files[i], 0)))
+                        {
+                            var pluginBuffer = new byte[pluginStream.Length];
+                            pluginStream.Read(pluginBuffer, 0, pluginBuffer.Length);
+                            var pluginAssembly = Assembly.Load(pluginBuffer);
+                            foreach (var t in pluginAssembly.GetTypes())
+                                if (typeof(IMapPlugin).IsAssignableFrom(t))
+                                    mapPlugins.Add((IMapPlugin)Activator.CreateInstance(t));
+                        }
                     }
                 }
             }
