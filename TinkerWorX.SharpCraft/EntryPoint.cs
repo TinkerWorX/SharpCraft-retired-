@@ -129,9 +129,6 @@ namespace TinkerWorX.SharpCraft
                 if (!Directory.Exists(this.pluginsFolder))
                     Directory.CreateDirectory(this.pluginsFolder);
                 sw.Stop();
-                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
-                Trace.Unindent();
-
                 Trace.WriteLine("Install Path: " + installPath);
                 Trace.WriteLine("Hack Path:    " + hackPath);
                 if (installPath.Equals(hackPath, StringComparison.OrdinalIgnoreCase))
@@ -140,6 +137,8 @@ namespace TinkerWorX.SharpCraft
                     Trace.WriteLine("WARNING: Launcher.exe detected in the Warcraft III folder. This is not supported.");
                 if (File.Exists(Path.Combine(installPath, "SharpCraft.dll")))
                     Trace.WriteLine("WARNING: SharpCraft.dll detected in the Warcraft III folder. This is not supported.");
+                Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
+                Trace.Unindent();
 
                 Trace.WriteLine("Loading plugins from '" + this.pluginsFolder + "' . . .");
                 Trace.Indent();
