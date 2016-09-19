@@ -60,5 +60,13 @@ namespace TinkerWorX.SharpCraft.Blizzard.Storm
         {
             throw new NotSupportedException();
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+                SFile.CloseFile(this.Handle);
+
+            base.Dispose(disposing);
+        }
     }
 }
