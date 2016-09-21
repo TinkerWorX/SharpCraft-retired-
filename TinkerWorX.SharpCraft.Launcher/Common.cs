@@ -13,20 +13,15 @@ namespace TinkerWorX.SharpCraft.Launcher
 {
     internal static class Common
     {
-        public static Boolean IsInitialized
-        { get; private set; }
+        public static Boolean IsInitialized { get; private set; }
 
-        public static String InstallPath
-        { get; private set; }
+        public static String InstallPath { get; private set; }
 
-        public static String GamePath
-        { get; private set; }
+        public static String GamePath { get; private set; }
 
-        public static String EditorPath
-        { get; private set; }
+        public static String EditorPath { get; private set; }
 
-        public static String Version
-        { get { return FileVersionInfo.GetVersionInfo(typeof(SharpCraftApplication).Assembly.Location).FileVersion; } }
+        public static String Version { get { return FileVersionInfo.GetVersionInfo(typeof(SharpCraftApplication).Assembly.Location).FileVersion; } }
 
         public static Boolean Initialize()
         {
