@@ -20,6 +20,12 @@ namespace TinkerWorX.SharpCraft.Windows
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern IntPtr LoadLibraryW(String fileName);
 
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
+
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)]
+        public static extern IntPtr GetProcAddress(IntPtr hModule, IntPtr procOrdinal);
+
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr TlsGetValue(UInt32 dwTlsIndex);
 
