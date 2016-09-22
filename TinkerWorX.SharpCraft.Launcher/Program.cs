@@ -23,7 +23,7 @@ namespace TinkerWorX.SharpCraft.Launcher
             string mapFile = ""; // Is there a loadfile arg specified?
             for (var i = 0; i < args.Length; i++)
             {
-                if (args[i] == "-loadfile")
+                if (args[i] == "-loadfile" && args.Last() != "-loadfile") // if -loadfile and there are still more args to read
                 {
                     // check the argument immediately to the right... it should be a map file (w3x or w3m) or a replay (w3g)
                     if (args[i + 1].EndsWith(".w3x") || args[i + 1].EndsWith(".w3m") || args[i + 1].EndsWith(".w3g"))
@@ -37,6 +37,10 @@ namespace TinkerWorX.SharpCraft.Launcher
                     {
                         Console.WriteLine("The -loadfile param was specified, but was not immediately followed by a valid WarCraft map to open.");
                     }
+                }
+                else
+                {
+                    Console.WriteLine("The -loadfile param was specified, but no more valid arguments follow it!");
                 }
             }
 
