@@ -31,7 +31,7 @@ namespace TinkerWorX.SharpCraft.Launcher
                         mapFile = args[i + 1];
                         // clean string and wrap in quotes because path may contain spaces
                         // note: even when passing in the arg in quotes, those will "disappear", so quotes are re-applied
-                        args[i] = "\"" + args[i].Trim() + "\"";
+                        args[i + 1] = "\"" + args[i + 1].Trim() + "\"";
                     }
                     else
                     {
