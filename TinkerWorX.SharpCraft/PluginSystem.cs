@@ -132,14 +132,16 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("OnGameLoad plugins . . .");
                 Trace.Indent();
                 var sw = Stopwatch.StartNew();
-                try
+                foreach (var plugin in plugins)
                 {
-                    foreach (var plugin in plugins)
+                    try
+                    {
                         plugin.OnGameLoad(context);
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("OnGameLoad: " + e);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine("OnGameLoad(" + plugin + "): " + e);
+                    }
                 }
                 sw.Stop();
                 Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
