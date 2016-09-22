@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using EasyHook;
 using TinkerWorX.SharpCraft.Windows;
 using System.Text;
+using System.Diagnostics;
 
 namespace TinkerWorX.SharpCraft.Utilities
 {
@@ -53,18 +54,21 @@ namespace TinkerWorX.SharpCraft.Utilities
             if (!typeof(Delegate).IsAssignableFrom(typeof(T)))
                 throw new InvalidOperationException("Generic T is not a delegate type");
 
-            var oldFunc = (T)(Object)Marshal.GetDelegateForFunctionPointer(address, typeof(T));
+            var oldFunc = Marshal.GetDelegateForFunctionPointer(address, typeof(T));
 
+            Trace.Write($"{(newFunc as Delegate).Method.Name}: 0x{address.ToString("X8")} . ");
             var hook = LocalHook.Create(address, (newFunc as Delegate), null);
+            Trace.WriteLine("hook installed!");
             if (inclusive)
                 hook.ThreadACL.SetInclusiveACL(new[] { 0 });
             if (exclusive)
                 hook.ThreadACL.SetExclusiveACL(new[] { 0 });
 
+
             // Unreferences hooks gets cleaned up, so we prevent that by keeping them referenced.
             hooks.Add(hook);
 
-            return oldFunc;
+            return (T)(Object)oldFunc;
         }
 
         public static String PtrAsString(IntPtr address)

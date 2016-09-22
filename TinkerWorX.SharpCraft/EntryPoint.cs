@@ -129,9 +129,16 @@ namespace TinkerWorX.SharpCraft
                 if (!Directory.Exists(this.pluginsFolder))
                     Directory.CreateDirectory(this.pluginsFolder);
                 sw.Stop();
+                Trace.WriteLine("Install Path: " + installPath);
+                Trace.WriteLine("Hack Path:    " + hackPath);
+                if (installPath.Equals(hackPath, StringComparison.OrdinalIgnoreCase))
+                    Trace.WriteLine("WARNING: Install Path and Hack Path are the same. This is not supported.");
+                if (File.Exists(Path.Combine(installPath, "Launcher.exe")))
+                    Trace.WriteLine("WARNING: Launcher.exe detected in the Warcraft III folder. This is not supported.");
+                if (File.Exists(Path.Combine(installPath, "SharpCraft.dll")))
+                    Trace.WriteLine("WARNING: SharpCraft.dll detected in the Warcraft III folder. This is not supported.");
                 Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
                 Trace.Unindent();
-
 
                 Trace.WriteLine("Loading plugins from '" + this.pluginsFolder + "' . . .");
                 Trace.Indent();
@@ -143,10 +150,7 @@ namespace TinkerWorX.SharpCraft
 
 
                 // Prepare the OnGameLoad hook.
-                var address = LocalHook.GetProcAddress("kernel32.dll", "LoadLibraryA");
-                Trace.Write("Installing LoadLibraryA hook @ 0x" + address.ToString("X8") + " . ");
-                this.LoadLibraryA = Memory.InstallHook(address, new Kernel32.LoadLibraryAPrototype(this.LoadLibraryAHook), false, true);
-                Trace.WriteLine("installed!");
+                this.LoadLibraryA = Memory.InstallHook(LocalHook.GetProcAddress("kernel32.dll", "LoadLibraryA"), new Kernel32.LoadLibraryAPrototype(this.LoadLibraryAHook), false, true);
 
                 // Everyone has had their chance to inject stuff,
                 // time to wake up the process.
@@ -179,10 +183,7 @@ namespace TinkerWorX.SharpCraft
                     PluginSystem.OnGameLoad();
 
                     // Prepare the Unknown__SetState hook.
-                    var address = module + Addresses.Unknown__SetStateOffset;
-                    Trace.Write("Installing Unknown_SetState hook @ 0x" + address.ToString("X8") + " . ");
-                    this.Unknown__SetState = Memory.InstallHook(address, new Unknown__SetStateDelegate(this.Unknown__SetStateHook), true, false);
-                    Trace.WriteLine("installed!");
+                    this.Unknown__SetState = Memory.InstallHook(module + Addresses.Unknown__SetStateOffset, new Unknown__SetStateDelegate(this.Unknown__SetStateHook), true, false);
 
                     break;
             }
