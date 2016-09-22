@@ -86,7 +86,7 @@ namespace TinkerWorX.SharpCraft
                 sw.Restart();
                 foreach (var s in list.Sort())
                 {
-                    Trace.WriteLine("Loading assembly '" + assemblies[s] + "' for type '" + s + "'");
+                    Trace.WriteLine("Loading assembly '" + Path.GetFileName(assemblies[s]) + "' for type '" + s + "'");
                     plugins.Add((IPlugin)Activator.CreateInstance(assemblies[s], s).Unwrap());
                 }
                 sw.Stop();
@@ -99,6 +99,7 @@ namespace TinkerWorX.SharpCraft
                 foreach (var plugin in plugins)
                 {
                     Trace.WriteLine("Initializing " + plugin.GetType().FullName);
+                    Trace.Indent();
                     try
                     {
                         plugin.Initialize(context);
@@ -107,6 +108,7 @@ namespace TinkerWorX.SharpCraft
                     {
                         Trace.WriteLine(e);
                     }
+                    Trace.Unindent();
                 }
                 sw.Stop();
                 Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
@@ -130,14 +132,16 @@ namespace TinkerWorX.SharpCraft
                 Trace.WriteLine("OnGameLoad plugins . . .");
                 Trace.Indent();
                 var sw = Stopwatch.StartNew();
-                try
+                foreach (var plugin in plugins)
                 {
-                    foreach (var plugin in plugins)
+                    try
+                    {
                         plugin.OnGameLoad(context);
-                }
-                catch (Exception e)
-                {
-                    Trace.WriteLine("OnGameLoad: " + e);
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.WriteLine("OnGameLoad(" + plugin + "): " + e);
+                    }
                 }
                 sw.Stop();
                 Trace.WriteLine("Done! (" + sw.Elapsed.TotalMilliseconds.ToString("0.00") + " ms)");
