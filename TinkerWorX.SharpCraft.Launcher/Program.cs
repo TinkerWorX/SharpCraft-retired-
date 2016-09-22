@@ -28,7 +28,7 @@ namespace TinkerWorX.SharpCraft.Launcher
                     // check the argument immediately to the right... it should be a map file (w3x or w3m) or a replay (w3g)
                     if (args[i + 1].EndsWith(".w3x") || args[i + 1].EndsWith(".w3m") || args[i + 1].EndsWith(".w3g"))
                     {
-                        mapFile = args[i];
+                        mapFile = args[i + 1];
                         // clean string and wrap in quotes because path may contain spaces
                         // note: even when passing in the arg in quotes, those will "disappear", so quotes are re-applied
                         args[i] = "\"" + args[i].Trim() + "\"";
