@@ -19,10 +19,41 @@ namespace TinkerWorX.SharpCraft.Launcher
             // This fixes the current directory in case it is run from outside the launcher path.
             Environment.CurrentDirectory = Path.GetDirectoryName(typeof(SharpCraftApplication).Assembly.Location);
 
+            // Check for optional map specified to launch
+            string mapFile = ""; // Is there a loadfile arg specified?
+            for (var i = 0; i < args.Length; i++)
+            {
+                if (args[i] == "-loadfile" && args.Last() != "-loadfile") // if -loadfile and there are still more args to read
+                {
+                    // check the argument immediately to the right... it should be a map file (w3x or w3m) or a replay (w3g)
+                    if (args[i + 1].EndsWith(".w3x") || args[i + 1].EndsWith(".w3m") || args[i + 1].EndsWith(".w3g"))
+                    {
+                        mapFile = args[i + 1];
+                        // clean string and wrap in quotes because path may contain spaces
+                        // note: even when passing in the arg in quotes, those will "disappear", so quotes are re-applied
+                        args[i + 1] = "\"" + args[i + 1].Trim() + "\"";
+                    }
+                    else
+                    {
+                        Console.WriteLine("The -loadfile param was specified, but was not immediately followed by a valid WarCraft map to open.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("The -loadfile param was specified, but no more valid arguments follow it!");
+                }
+            }
+
             if (args.Contains("-game") || args.Contains("-editor"))
+            {
+                Debug.WriteLineIf(args.Contains("-game"), args.Aggregate((a, b) => a + ' ' + b));
+                Debug.WriteLineIf(mapFile.Length > 0, "Starting game with map: " + mapFile);
                 StartDirect(args);
+            }
             else
+            {
                 StartLauncher(args);
+            }
         }
 
         private static void StartLauncher(String[] args)
